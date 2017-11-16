@@ -1,14 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.miage.projetagent.FXMLController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextArea layoutX="35.0" layoutY="34.0" prefHeight="34.0" prefWidth="200.0" />
+      <Text layoutX="235.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="€" wrappingWidth="27.0859375">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Text>
+      <Button layoutX="484.0" layoutY="38.0" mnemonicParsing="false" text="Donner" />
+      <MenuButton layoutX="300.0" layoutY="42.0" mnemonicParsing="false" text="Association">
+        <items>
+            <MenuItem mnemonicParsing="false" text="Association 1" />
+            <MenuItem mnemonicParsing="false" text="Association 2" />
+        </items>
+      </MenuButton>
+      <Accordion layoutX="71.0" layoutY="173.0" />
+      <BorderPane layoutX="73.0" layoutY="136.0" prefHeight="200.0" prefWidth="446.0">
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <CheckBox layoutX="53.0" layoutY="40.0" mnemonicParsing="false" text="Pays">
+                     <graphic>
+                        <MenuButton mnemonicParsing="false" text="MenuButton">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Pays 1" />
+                            <MenuItem mnemonicParsing="false" text="Pays 2" />
+                          </items>
+                        </MenuButton>
+                     </graphic>
+                  </CheckBox>
+                  <CheckBox layoutX="52.0" layoutY="90.0" mnemonicParsing="false" text="Le plus de monde" />
+                  <CheckBox layoutX="52.0" layoutY="139.0" mnemonicParsing="false" text="Maladie">
+                     <graphic>
+                        <MenuButton mnemonicParsing="false" text="MenuButton">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Maladie 1" />
+                            <MenuItem mnemonicParsing="false" text="Maladie 2" />
+                          </items>
+                        </MenuButton>
+                     </graphic>
+                  </CheckBox>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
 </AnchorPane>
