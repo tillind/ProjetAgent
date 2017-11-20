@@ -5,11 +5,24 @@
  */
 package fr.miage.projetagent.entity;
 
-/**
- *
- * @author alex
- */
-public class Pays {
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Pays implements Serializable {
+
+    @Id
     private String nom;
+
+    public Pays() {
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 }

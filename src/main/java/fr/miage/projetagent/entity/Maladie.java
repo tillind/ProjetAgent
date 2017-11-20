@@ -5,10 +5,15 @@
  */
 package fr.miage.projetagent.entity;
 
-/**
- *
- * @author alex
- */
-public class Maladie {
+
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Maladie implements Serializable {
+
+    @Id
+    private String nom;
     
 }
