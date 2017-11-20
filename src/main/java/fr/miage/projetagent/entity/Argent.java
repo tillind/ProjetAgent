@@ -5,31 +5,23 @@
  */
 package fr.miage.projetagent.entity;
 
-/**
- *
- * @author alex
- */
+
 public class Argent {
 
-    /**
-     * @return the Somme
-     */
+    private int Somme;
+
+    public Argent(){
+        this.Somme=0;
+    }
+
     public int getSomme() {
         return Somme;
     }
 
-    /**
-     * @param Somme the Somme to set
-     */
+
     public void setSomme(int Somme) {
         this.Somme = Somme;
     }
-    
-    
-    private int Somme;
-    
-    public Argent(){
-        this.Somme=0;
-    }
+
     
 }

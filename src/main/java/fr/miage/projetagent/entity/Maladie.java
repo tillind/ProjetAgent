@@ -5,10 +5,14 @@
  */
 package fr.miage.projetagent.entity;
 
-/**
- *
- * @author alex
- */
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Maladie {
+
+    @Id
+    private String nom;
     
 }

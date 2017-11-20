@@ -5,21 +5,62 @@
  */
 package fr.miage.projetagent.entity;
 
-import jade.core.Agent;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- * @author alex
- */
-public abstract class Association extends Agent{
+@Entity
+public class Association {
+
+    @Id
     private String nom;
     private Argent tresorerie;
-    private Set<Lot> lot;
-    
-    public Association(){
-        lot = new HashSet<>();
+    private Set<Vaccin> vaccins;
+    private Set<Vol> vols;
+    private Set<Envoi> envois;
+    private Metrics metrics;
+
+    public Association() {
     }
-    
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public Argent getTresorerie() {
+        return tresorerie;
+    }
+
+    public void setTresorerie(Argent tresorerie) {
+        this.tresorerie = tresorerie;
+    }
+
+    public Set<Vaccin> getVaccins() {
+        return vaccins;
+    }
+
+    public void setVaccins(Set<Vaccin> vaccins) {
+        this.vaccins = vaccins;
+    }
+
+    public Set<Vol> getVols() {
+        return vols;
+    }
+
+    public void setVols(Set<Vol> vols) {
+        this.vols = vols;
+    }
+
+    public Set<Envoi> getEnvois() {
+        return envois;
+    }
+
+    public void setEnvois(Set<Envoi> envois) {
+        this.envois = envois;
+    }
 }

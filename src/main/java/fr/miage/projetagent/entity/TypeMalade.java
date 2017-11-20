@@ -5,13 +5,10 @@
  */
 package fr.miage.projetagent.entity;
 
-/**
- *
- * @author alex
- */
+
 public enum TypeMalade {
     Soignable,
     Non_soignable,
-    Soigner,
-    Mort;
+    Soigné;
+    //Mort : rajoute complexité pour pas grand chose
 }
