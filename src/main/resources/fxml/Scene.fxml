@@ -3,8 +3,7 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -14,52 +13,41 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="828.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.miage.projetagent.SceneController">
-   <children>
-      <TextArea fx:id="somme" layoutX="35.0" layoutY="34.0" prefHeight="34.0" prefWidth="200.0" />
-      <Text layoutX="235.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="€" wrappingWidth="27.0859375">
-         <font>
-            <Font size="39.0" />
-         </font>
-      </Text>
-      <Button fx:id="giveButton" layoutX="484.0" layoutY="38.0" mnemonicParsing="false" onAction="#moreMoney" text="Donner" />
-      <Accordion layoutX="71.0" layoutY="173.0" />
-      <BorderPane layoutY="139.0" prefHeight="200.0" prefWidth="282.0">
-         <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <CheckBox layoutX="53.0" layoutY="40.0" mnemonicParsing="false" text="Pays">
-                     <graphic>
-                        <MenuButton mnemonicParsing="false" text="Pays">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Pays 1" />
-                            <MenuItem mnemonicParsing="false" text="Pays 2" />
-                          </items>
-                        </MenuButton>
-                     </graphic>
-                  </CheckBox>
-                  <CheckBox layoutX="52.0" layoutY="90.0" mnemonicParsing="false" text="Le plus de monde" />
-                  <CheckBox layoutX="52.0" layoutY="139.0" mnemonicParsing="false" text="Maladie">
-                     <graphic>
-                        <MenuButton mnemonicParsing="false" text="Maladie">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Maladie 1" />
-                            <MenuItem mnemonicParsing="false" text="Maladie 2" />
-                          </items>
-                        </MenuButton>
-                     </graphic>
-                  </CheckBox>
-               </children>
-            </AnchorPane>
-         </center>
-      </BorderPane>
-      <TableView layoutX="342.0" layoutY="166.0" prefHeight="357.0" prefWidth="468.0">
-        <columns>
-          <TableColumn prefWidth="137.0" text="Maladie" />
-          <TableColumn prefWidth="178.0" text="Nombre de malades" />
-            <TableColumn prefWidth="152.0" text="Pays" />
-        </columns>
-      </TableView>
-      <CheckBox fx:id ="assoc1" layoutX="321.0" layoutY="24.0" mnemonicParsing="false" text="Association 1" />
-      <CheckBox fx:id ="assoc2" layoutX="321.0" layoutY="69.0" mnemonicParsing="false" text="Association 2" />
-   </children>
+    <children>
+        <TextArea fx:id="somme" layoutX="35.0" layoutY="34.0" prefHeight="34.0" prefWidth="200.0" />
+        <Text layoutX="235.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="€" wrappingWidth="27.0859375">
+            <font>
+                <Font size="39.0" />
+            </font>
+        </Text>
+        <Button fx:id="giveButton" layoutX="484.0" layoutY="38.0" mnemonicParsing="false" onAction="#moreMoney" text="Donner" />
+        <Accordion layoutX="71.0" layoutY="173.0" />
+        <BorderPane layoutY="139.0" prefHeight="200.0" prefWidth="282.0">
+            <center>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <CheckBox layoutX="53.0" layoutY="40.0" mnemonicParsing="false" text="Pays">
+                            <graphic>
+                                <ChoiceBox fx:id="cbPays" prefWidth="150.0" />
+                            </graphic>
+                        </CheckBox>
+                        <CheckBox layoutX="53.0" layoutY="100.0" mnemonicParsing="false" text="Maladie">
+                            <graphic>
+                                <ChoiceBox fx:id="cbMaladie" prefWidth="150.0" />
+                            </graphic>
+                        </CheckBox>
+                    </children>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+        <TableView layoutX="342.0" layoutY="166.0" prefHeight="357.0" prefWidth="468.0">
+            <columns>
+                <TableColumn prefWidth="137.0" text="Maladie" />
+                <TableColumn prefWidth="178.0" text="Nombre de malades" />
+                <TableColumn prefWidth="152.0" text="Pays" />
+            </columns>
+        </TableView>
+        <CheckBox fx:id="assoc1" layoutX="321.0" layoutY="24.0" mnemonicParsing="false" text="Association 1" />
+        <CheckBox fx:id="assoc2" layoutX="321.0" layoutY="69.0" mnemonicParsing="false" text="Association 2" />
+    </children>
 </AnchorPane>
