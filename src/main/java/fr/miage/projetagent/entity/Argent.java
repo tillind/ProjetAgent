@@ -5,14 +5,19 @@
  */
 package fr.miage.projetagent.entity;
 
+
 import java.io.Serializable;
+import java.util.UUID;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Argent implements Serializable {
     
 
     private int Somme;
+    @Id
+    private String id =UUID.randomUUID().toString();
 
     public Argent(){
         this.Somme=0;
@@ -25,6 +30,14 @@ public class Argent implements Serializable {
 
     public void setSomme(int Somme) {
         this.Somme = Somme;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     

@@ -6,6 +6,7 @@
 package fr.miage.projetagent.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Association implements Serializable {
+
 
     @Id
     private String nom;
@@ -27,6 +29,7 @@ public class Association implements Serializable {
     @OneToMany
     private Set<Envoi> envois;
     
+
     private Metrics metrics;
 
     public Association() {

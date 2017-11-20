@@ -5,6 +5,7 @@
  */
 package fr.miage.projetagent.entity;
 
+<<<<<<< HEAD
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
