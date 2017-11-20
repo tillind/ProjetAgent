@@ -38,14 +38,14 @@ public class BDDAgent extends Agent{
     
     public void majBdd(){
         
-        //intervalle de temps régulier
+        //intervalle de temps rï¿½gulier
         Date aujourdhui = new Date();
         Random r = new Random();
         int rd = r.nextInt(102-1) + 1;
         Malade tmp;
         
         for (int i = 0; i < rd; i++) {
-            //créer des malades
+            //crï¿½er des malades
             int rM = r.nextInt(maladies.size()-0) + 0;
             int rP = r.nextInt(pays.size()-0) + 0;
             tmp = new Malade();
@@ -60,31 +60,31 @@ public class BDDAgent extends Agent{
         }
         
         
-        //supprimer les malades non guérissables
+        //supprimer les malades non guï¿½rissables
         Query q1 = em.createNamedQuery("Malade.deleteMort");
         q1.getResultList();
         
-        //supprimer vaccins dépassé ==> mettre à jour metrics
-        //supprimer vols non utilisé
+        //supprimer vaccins dï¿½passï¿½ ==> mettre ï¿½ jour metrics
+        //supprimer vols non utilisï¿½
 
     }
 
 
-    //idée metrics
-    //nombre de vaccin non utlisé jete
+    //idï¿½e metrics
+    //nombre de vaccin non utlisï¿½ jete
     //nombre de vaccin envoye
-    //nombre nombre d'envoi réalisé
-    //volume envoyé
-    //volume réservé
+    //nombre nombre d'envoi rï¿½alisï¿½
+    //volume envoyï¿½
+    //volume rï¿½servï¿½
 
 
     //quand ajoute un envoi
     //supprime les vaccins et le vol,
-    //guérit des malades
-    //mets à jour nb envoyé et volume
+    //guï¿½rit des malades
+    //mets ï¿½ jour nb envoyï¿½ et volume
 
     //quand ajoute un vol
-    //mettre à jour volume réservé
+    //mettre ï¿½ jour volume rï¿½servï¿½
     
     @Override
     protected void takeDown(){
@@ -94,3 +94,4 @@ public class BDDAgent extends Agent{
    
         
     }
+}
