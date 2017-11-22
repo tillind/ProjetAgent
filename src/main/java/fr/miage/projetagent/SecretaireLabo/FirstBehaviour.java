@@ -15,7 +15,7 @@ public class FirstBehaviour extends Behaviour{
     @Override
     public void action() {
 
-        Message1 messsage = new Message1("",0,new Date());
+        CFP messsage = new CFP("",0,new Date());
 
         ACLMessage aclMessage = new ACLMessage(ACLMessage.REQUEST);
         aclMessage.setSender(super.myAgent.getAID());
