@@ -24,10 +24,16 @@ public class ReceiverBehaviour extends CyclicBehaviour {
 		if (aclMessage != null) {
 	        String sender = aclMessage.getSender().toString();
 	        System.out.println("Message de "+sender+" : ");
-	        //System.out.println(aclMessage.getContent());
+			System.out.println(aclMessage.getContent());
+			//System.out.println(aclMessage.getContent());
 	        try {
 	        	String message = aclMessage.getContent();
-	        } catch (Exception e) {
+				System.out.println(message);
+				System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+				ACLMessage response = aclMessage.createReply();
+				System.out.println(response.getAllReceiver());
+				myAgent.send(response);
+			} catch (Exception e) {
 	        	e.printStackTrace();
 	        }
 	        
