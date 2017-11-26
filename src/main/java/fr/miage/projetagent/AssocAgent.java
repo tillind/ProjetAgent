@@ -15,6 +15,7 @@ import java.util.Set;
 public class AssocAgent extends Agent {
 
     public final String labosType = "labo";
+    public final String compagnieType = "compagnie";
 
     public String pays;
     public String maladie;
@@ -49,5 +50,26 @@ public class AssocAgent extends Agent {
         return labos;
     }
 
+    public Set<AID> getCompagnies() {
+        Set<AID> compagnies = new HashSet<>();
+        DFAgentDescription dfd = new DFAgentDescription();
+        try {
+            DFAgentDescription[] result = DFService.search(this, dfd);
+            for (int i = 0; i < result.length; i++) {
+                DFAgentDescription desc = result[i];
+                Iterator iter = desc.getAllServices();
+                while (iter.hasNext()) {
+                    ServiceDescription sd = (ServiceDescription) iter.next();
+                    if (sd.getType().equals(compagnieType)) {
+                        compagnies.add(desc.getName());
+                    }
+                }
+            }
+        } catch (FIPAException e) {
+            e.printStackTrace();
+        }
+        System.out.println("--------There are " + compagnies.size() + " compagnies");
+        return compagnies;
+    }
 
 }
