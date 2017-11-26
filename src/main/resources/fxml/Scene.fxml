@@ -32,7 +32,7 @@
                                 <ChoiceBox fx:id="cbPays" prefWidth="150.0" />
                      </graphic>
                   </RadioButton>
-                  <RadioButton fx:id="choiceMaladie" layoutX="14.0" layoutY="147.0" mnemonicParsing="false" text="Maladie">
+                  <RadioButton fx:id="choiceMaladie" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" text="Maladie">
                      <graphic>
                                 <ChoiceBox fx:id="cbMaladie" prefWidth="150.0" />
                      </graphic>
