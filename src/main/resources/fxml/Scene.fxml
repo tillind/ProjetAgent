@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -26,16 +27,16 @@
             <center>
                 <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <children>
-                        <CheckBox layoutX="53.0" layoutY="40.0" mnemonicParsing="false" text="Pays">
-                            <graphic>
+                  <RadioButton fx:id="choicePays" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" text="Pays">
+                     <graphic>
                                 <ChoiceBox fx:id="cbPays" prefWidth="150.0" />
-                            </graphic>
-                        </CheckBox>
-                        <CheckBox layoutX="53.0" layoutY="100.0" mnemonicParsing="false" text="Maladie">
-                            <graphic>
+                     </graphic>
+                  </RadioButton>
+                  <RadioButton fx:id="choiceMaladie" layoutX="14.0" layoutY="147.0" mnemonicParsing="false" text="Maladie">
+                     <graphic>
                                 <ChoiceBox fx:id="cbMaladie" prefWidth="150.0" />
-                            </graphic>
-                        </CheckBox>
+                     </graphic>
+                  </RadioButton>
                     </children>
                 </AnchorPane>
             </center>
@@ -49,5 +50,6 @@
         </TableView>
         <CheckBox fx:id="assoc1" layoutX="321.0" layoutY="24.0" mnemonicParsing="false" text="Association 1" />
         <CheckBox fx:id="assoc2" layoutX="321.0" layoutY="69.0" mnemonicParsing="false" text="Association 2" />
+      <Button fx:id="sendPrio" layoutX="54.0" layoutY="407.0" mnemonicParsing="false" onAction="#sendPrio" text="envoyer les prioritées" />
     </children>
 </AnchorPane>
