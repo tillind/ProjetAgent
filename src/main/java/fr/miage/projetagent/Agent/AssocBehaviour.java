@@ -23,6 +23,7 @@ public class AssocBehaviour extends SequentialBehaviour {
         super(a);
         this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
         this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
+        //TODO troisième behaviour qui envoie et qui reinit
     }
 
 
@@ -44,7 +45,10 @@ public class AssocBehaviour extends SequentialBehaviour {
         message.setReplyByDate(new Date(System.currentTimeMillis() + 10000));
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
 
-        CFP content = new CFP(objectif.getVaccin(), objectif.getNombre(), objectif.getDateSouhaite());
+        //CFP content = new CFP(objectif.getVaccin(), objectif.getNombre(), objectif.getDateSouhaite());
+        CFP content = new CFP("grippe", 2, new Date());
+
+
         message.setContent(gson.toJson(content));
 
         AssocAgent agent = (AssocAgent) this.myAgent;

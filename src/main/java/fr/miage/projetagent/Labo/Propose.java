@@ -8,16 +8,19 @@ public class Propose {
     private Integer prix;
     private Date dateDebut;
     private Date dateFin;
+    private int volume;
 
     public Propose() {
     }
 
-    public Propose(Integer nb, Integer prix, Date dateDebut, Date dateFin) {
+    public Propose(Integer nb, Integer prix, Date dateDebut, Date dateFin, int volume) {
         this.nb = nb;
         this.prix = prix;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
+        this.volume = volume;
     }
+
 
     public Integer getNb() {
         return nb;
@@ -49,5 +52,13 @@ public class Propose {
 
     public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 }

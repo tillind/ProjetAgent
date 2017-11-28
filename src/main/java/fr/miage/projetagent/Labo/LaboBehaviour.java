@@ -132,6 +132,7 @@ public class LaboBehaviour extends ContractNetInitiator {
     /**
      * Traite une liste de messages triés
      * Accpte si a suffisament d'argent et pas suffisement de médicament
+     *
      * @param list
      * @return
      */
@@ -147,6 +148,8 @@ public class LaboBehaviour extends ContractNetInitiator {
                 achete += propose.getNb();
                 depense += (propose.getNb() * propose.getPrix());
                 sendSomething = true;
+                getDataStore().put(message.getConversationId() + "propose", propose);
+                System.out.println("-------- Accept Proposal sended");
             } else {
                 ACLMessage agree = message.createReply();
                 agree.setPerformative(ACLMessage.REJECT_PROPOSAL);
@@ -154,6 +157,22 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
         return sendSomething;
+    }
+
+
+    //TODO ajouter ce que je recup, terminer la méthode pour passer aux compagnies
+    @Override
+    protected void handleAllResultNotifications(Vector resultNotifications) {
+        System.out.println("--------" + resultNotifications.size() + "inform/refuse");
+        List<ACLMessage> informList = new ArrayList<>();
+        for (Object response : resultNotifications) {
+            ACLMessage reponseMessage = (ACLMessage) response;
+            if (reponseMessage.getPerformative() == ACLMessage.INFORM) {
+                informList.add(reponseMessage);
+                Propose propose = (Propose) getDataStore().get(reponseMessage.getConversationId());
+            }
+        }
+
     }
 
 }
