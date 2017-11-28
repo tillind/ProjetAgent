@@ -18,6 +18,10 @@ public class AssocAgent extends Agent {
     public final String labosType = "labo";
     public final String compagnieType = "compagnie";
 
+
+    //TODO mettre argent de l'assoc
+    public int argent;
+
     public String pays;
     public String maladie;
     public int nb;
