@@ -1,4 +1,4 @@
-package fr.miage.projetagent.SecretaireLabo;
+package fr.miage.projetagent.Labo;
 
 import java.io.Serializable;
 import java.util.Date;

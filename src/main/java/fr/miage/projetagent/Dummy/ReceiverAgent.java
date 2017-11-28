@@ -1,8 +1,7 @@
 package fr.miage.projetagent.Dummy;
 
-import fr.miage.projetagent.EnregistrerService;
+import fr.miage.projetagent.Common.EnregistrerService;
 import jade.core.Agent;
-import jade.core.behaviours.SequentialBehaviour;
 
 public class ReceiverAgent extends Agent {
 

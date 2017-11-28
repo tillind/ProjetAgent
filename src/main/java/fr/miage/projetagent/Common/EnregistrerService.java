@@ -1,4 +1,4 @@
-package fr.miage.projetagent;
+package fr.miage.projetagent.Common;
 
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;

@@ -1,8 +1,8 @@
-package fr.miage.projetagent.SecretaireLabo;
+package fr.miage.projetagent.Labo;
 
 import java.util.Date;
 
-public class Message2 {
+public class Propose {
 
     private int nb;
     private int prix;

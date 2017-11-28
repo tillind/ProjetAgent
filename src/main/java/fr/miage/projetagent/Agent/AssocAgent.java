@@ -1,5 +1,6 @@
-package fr.miage.projetagent;
+package fr.miage.projetagent.Agent;
 
+import fr.miage.projetagent.Common.EnregistrerService;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -19,8 +20,10 @@ public class AssocAgent extends Agent {
 
     public String pays;
     public String maladie;
-    public String nb;
+    public int nb;
     public Date date;
+
+    public Objectif enCours = new Objectif();
 
     @Override
     protected void setup() {

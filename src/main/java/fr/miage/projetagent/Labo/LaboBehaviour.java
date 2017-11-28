@@ -1,6 +1,6 @@
-package fr.miage.projetagent.SecretaireLabo;
+package fr.miage.projetagent.Labo;
 
-import fr.miage.projetagent.AssocBehaviour;
+import fr.miage.projetagent.Agent.AssocBehaviour;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
