@@ -46,7 +46,7 @@ public class AssocBehaviour extends SequentialBehaviour {
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
 
         //CFP content = new CFP(objectif.getVaccin(), objectif.getNombre(), objectif.getDateSouhaite());
-        CFP content = new CFP("grippe", 2, new Date());
+        CFP content = new CFP("rage", 2, new Date());
 
 
         message.setContent(gson.toJson(content));

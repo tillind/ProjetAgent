@@ -97,7 +97,8 @@ public class LaboBehaviour extends ContractNetInitiator {
         for (ACLMessage message : list) {
             String content = message.getContent();
             Propose propose = gson.fromJson(content, Propose.class);
-            if (propose.getDateFin().before(date) || propose.getDateFin().equals(date)) {
+            System.out.println(propose.toString());
+            if (propose.getDatePeremption().before(new Date()) || propose.getDatePeremption().equals(new Date())) {
                 listBefore.add(message);
             } else {
                 listAfter.add(message);
@@ -145,15 +146,16 @@ public class LaboBehaviour extends ContractNetInitiator {
                 myAgent.send(agree);
                 String content = message.getContent();
                 Propose propose = gson.fromJson(content, Propose.class);
-                achete += propose.getNb();
-                depense += (propose.getNb() * propose.getPrix());
+                achete += propose.getNombre();
+                depense += (propose.getNombre() * propose.getPrix());
                 sendSomething = true;
                 getDataStore().put(message.getConversationId() + "propose", propose);
-                System.out.println("-------- Accept Proposal sended");
+                System.out.println("-------- ACCEPT Proposal sended");
             } else {
-                ACLMessage agree = message.createReply();
-                agree.setPerformative(ACLMessage.REJECT_PROPOSAL);
-                myAgent.send(agree);
+                ACLMessage reject = message.createReply();
+                reject.setPerformative(ACLMessage.REJECT_PROPOSAL);
+                myAgent.send(reject);
+                System.out.println("-------- REJECT Proposal sended");
             }
         }
         return sendSomething;

@@ -14,6 +14,15 @@ public class Objectif {
     public Objectif() {
     }
 
+    public Objectif(String pays, String vaccin, int nombre, Date dateSouhaite, int volume, Date arrivee) {
+        this.pays = pays;
+        this.vaccin = vaccin;
+        this.nombre = nombre;
+        this.dateSouhaite = dateSouhaite;
+        this.volume = volume;
+        this.arrivee = arrivee;
+    }
+
     public String getPays() {
         return pays;
     }
