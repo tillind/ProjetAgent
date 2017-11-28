@@ -16,6 +16,11 @@ public class LaboBehaviour extends ContractNetInitiator {
     final Gson gson = new GsonBuilder().create();
 
 
+    Objectif objectif = ((AssocAgent) myAgent).enCours;
+    int argent = ((AssocAgent) myAgent).argent;
+    int depense = 0;
+    int achete = 0;
+
     public LaboBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);
         System.out.println("--------Message is send to all labos");
@@ -64,44 +69,16 @@ public class LaboBehaviour extends ContractNetInitiator {
             return false;
         }
 
-        Objectif objectif = ((AssocAgent) myAgent).enCours;
-        int argent = ((AssocAgent) myAgent).argent;
-        int depense = 0;
-        int achete = 0;
-
-        boolean envoye = false;
-
         List<ACLMessage> listBefore = getListDate(list, true);
         List<ACLMessage> listAfter = getListDate(list, false);
         sort(listBefore);
+        sort(listAfter);
 
-        for (ACLMessage message : listBefore) {
-            if (depense < argent && achete < objectif.getNombre()) {
-                ACLMessage agree = message.createReply();
-                agree.setPerformative(ACLMessage.AGREE);
-                myAgent.send(agree);
-                String content = message.getContent();
-                Propose propose = gson.fromJson(content, Propose.class);
-                achete += propose.getNb();
-                depense += (propose.getNb() * propose.getPrix());
-                envoye = true;
-            }
-        }
+        boolean send1 = sendResponse(listBefore);
+        boolean send2 = sendResponse(listAfter);
 
-        for (ACLMessage message : listAfter) {
-            if (depense < argent && achete < objectif.getNombre()) {
-                ACLMessage agree = message.createReply();
-                agree.setPerformative(ACLMessage.AGREE);
-                myAgent.send(agree);
-                String content = message.getContent();
-                Propose propose = gson.fromJson(content, Propose.class);
-                achete += propose.getNb();
-                depense += (propose.getNb() * propose.getPrix());
-                envoye=true;
-            }
-        }
 
-        return envoye;
+        return (send1 || send2);
     }
 
 
@@ -118,7 +95,7 @@ public class LaboBehaviour extends ContractNetInitiator {
         List<ACLMessage> listAfter = new ArrayList<>();
 
         for (ACLMessage message : list) {
-            String content = ((ACLMessage) message).getContent();
+            String content = message.getContent();
             Propose propose = gson.fromJson(content, Propose.class);
             if (propose.getDateFin().before(date) || propose.getDateFin().equals(date)) {
                 listBefore.add(message);
@@ -143,13 +120,40 @@ public class LaboBehaviour extends ContractNetInitiator {
         Collections.sort(list, new Comparator<ACLMessage>() {
             @Override
             public int compare(ACLMessage message1, ACLMessage message2) {
-                String content1 = ((ACLMessage) message1).getContent();
-                String content2 = ((ACLMessage) message2).getContent();
+                String content1 = message1.getContent();
+                String content2 = message2.getContent();
                 Propose propose1 = gson.fromJson(content1, Propose.class);
                 Propose propose2 = gson.fromJson(content2, Propose.class);
                 return propose1.getPrix().compareTo(propose2.getPrix());
             }
         });
+    }
+
+    /**
+     * Traite une liste de messages triés
+     * Accpte si a suffisament d'argent et pas suffisement de médicament
+     * @param list
+     * @return
+     */
+    private boolean sendResponse(List<ACLMessage> list) {
+        boolean sendSomething = false;
+        for (ACLMessage message : list) {
+            if (depense < argent && achete < objectif.getNombre()) {
+                ACLMessage agree = message.createReply();
+                agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+                myAgent.send(agree);
+                String content = message.getContent();
+                Propose propose = gson.fromJson(content, Propose.class);
+                achete += propose.getNb();
+                depense += (propose.getNb() * propose.getPrix());
+                sendSomething = true;
+            } else {
+                ACLMessage agree = message.createReply();
+                agree.setPerformative(ACLMessage.REJECT_PROPOSAL);
+                myAgent.send(agree);
+            }
+        }
+        return sendSomething;
     }
 
 }
