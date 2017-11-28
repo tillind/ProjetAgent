@@ -33,7 +33,7 @@ public class BDDAgent extends Agent{
         Query queryMaladies = em.createQuery(lesMaladies);
         maladies = queryMaladies.getResultList();
         Query queryPays = em.createQuery(lesPays);
-        pays = queryPays.getResultList();
+        maladies = queryMaladies.getResultList();
     }
     
     public void majBdd(){
