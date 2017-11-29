@@ -1,11 +1,12 @@
 package fr.miage.projetagent;
 
+import fr.miage.projetagent.BDD.BddAgent;
+import jade.core.ProfileImpl;
+import jade.core.Runtime;
 import javafx.application.Application;
+
 import static javafx.application.Application.launch;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+
 import javafx.stage.Stage;
 
 
@@ -13,14 +14,33 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
+
         
-        AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+      /*  AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         
-        Scene scene = new Scene(root);
+       Scene scene = new Scene(root);
         
-        stage.setTitle("Eradique 1.0");
-        stage.setScene(scene);
+     stage.setTitle("Eradique 1.0");
+       stage.setScene(scene);
         stage.show();
+
+*/
+
+        String agents = "bdd:fr.miage.projetagent.BDD.BddAgent;";
+        for (String assos : BddAgent.getAllAssosName()) {
+            agents += assos + ":fr.miage.projetagent.Agent.AssosAgent;";
+        }
+
+        ProfileImpl profile = new ProfileImpl();
+        profile.setParameter("host", "192.168.0.45");
+        profile.setParameter("main", "false");
+        profile.setParameter("no-display", "true");
+        profile.setParameter("agents", agents);
+
+        Runtime rt = Runtime.instance();
+
+        jade.wrapper.AgentContainer cont = rt.createAgentContainer(profile);
     }
 
     /**

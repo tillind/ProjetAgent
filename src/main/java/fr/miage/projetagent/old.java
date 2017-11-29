@@ -15,7 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-public class BDDAgent extends Agent{
+public class old extends Agent{
     
     private EntityManager em;
     private EntityManagerFactory emf;

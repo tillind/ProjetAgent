@@ -2,8 +2,8 @@ package fr.miage.projetagent.Labo;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import fr.miage.projetagent.Agent.AssocAgent;
-import fr.miage.projetagent.Agent.AssocBehaviour;
+import fr.miage.projetagent.Agent.AssosAgent;
+import fr.miage.projetagent.Agent.CommunicationBehaviour;
 import fr.miage.projetagent.Agent.Objectif;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
@@ -16,8 +16,8 @@ public class LaboBehaviour extends ContractNetInitiator {
     final Gson gson = new GsonBuilder().create();
 
 
-    private Objectif objectif = ((AssocAgent) myAgent).enCours;
-    private int argent = ((AssocAgent) myAgent).argent;
+    private Objectif objectif = ((AssosAgent) myAgent).enCours;
+    private int argent = ((AssosAgent) myAgent).getStatut().getArgent();
 
 
     public LaboBehaviour(Agent a, ACLMessage cfp) {
@@ -26,9 +26,12 @@ public class LaboBehaviour extends ContractNetInitiator {
     }
 
 
+    /**
+     * Reset cette behaviour
+     */
     private void resetBehaviour() {
         System.out.println("--------Labo behaviour is reseted");
-        AssocBehaviour parent = (AssocBehaviour) this.parent;
+        CommunicationBehaviour parent = (CommunicationBehaviour) this.parent;
         parent.init();
         this.reset(parent.startLabo());
     }
@@ -36,7 +39,7 @@ public class LaboBehaviour extends ContractNetInitiator {
 
     /**
      * Recoit toutes les réponses
-     * Si aucune proposition a été faite, refait une demande
+     * Si aucune proposition a été faite, reset
      * Envoie des acceptations
      *
      * @param responses
@@ -54,7 +57,8 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
 
-        boolean out = choosePropose(proposeResponse);
+        boolean out = false;
+        //boolean out = choosePropose(proposeResponse);
 
         if (!out) {
             resetBehaviour();
@@ -96,7 +100,7 @@ public class LaboBehaviour extends ContractNetInitiator {
      * @return
      */
     private List<ACLMessage> getListDate(List<ACLMessage> list, boolean before) {
-        Date date = ((AssocAgent) myAgent).enCours.getDateMort();
+        Date date = ((AssosAgent) myAgent).enCours.getDateMort();
         List<ACLMessage> listBefore = new ArrayList<>();
         List<ACLMessage> listAfter = new ArrayList<>();
 
@@ -212,7 +216,7 @@ public class LaboBehaviour extends ContractNetInitiator {
      */
     private void handleInform(List<Propose> list){
 
-        Objectif objectif = ((AssocAgent) myAgent).enCours;
+        Objectif objectif = ((AssosAgent) myAgent).enCours;
         List<Propose> beforeDeath = new ArrayList<>();
         List<Propose> afterDeath = new ArrayList<>();
 
