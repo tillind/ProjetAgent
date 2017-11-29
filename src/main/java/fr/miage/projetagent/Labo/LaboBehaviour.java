@@ -18,8 +18,7 @@ public class LaboBehaviour extends ContractNetInitiator {
 
     private Objectif objectif = ((AssocAgent) myAgent).enCours;
     private int argent = ((AssocAgent) myAgent).argent;
-    private int depense = 0;
-    private int achete = 0;
+
 
     public LaboBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);
@@ -104,8 +103,7 @@ public class LaboBehaviour extends ContractNetInitiator {
         for (ACLMessage message : list) {
             String content = message.getContent();
             Propose propose = gson.fromJson(content, Propose.class);
-            System.out.println(propose.toString());
-            if (propose.getDatePeremption().before(new Date()) || propose.getDatePeremption().equals(new Date())) {
+            if (propose.getDatePeremption().before(date) || propose.getDatePeremption().equals(date)) {
                 listBefore.add(message);
             } else {
                 listAfter.add(message);
@@ -146,18 +144,24 @@ public class LaboBehaviour extends ContractNetInitiator {
      */
     private boolean sendResponse(List<ACLMessage> list) {
         boolean sendSomething = false;
+        int depense = 0;
+        int achete = 0;
+
         for (ACLMessage message : list) {
+            //s'il y a encore besoin de vaccins et qu'il reste de l'argent
             if (depense < argent && achete < objectif.getNombre()) {
                 ACLMessage agree = message.createReply();
                 agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                myAgent.send(agree);
+                myAgent.send(agree); //on accepte la propostion
+                sendSomething = true;
+                System.out.println("-------- ACCEPT Proposal sended");
+
                 String content = message.getContent();
                 Propose propose = gson.fromJson(content, Propose.class);
                 achete += propose.getNombre();
                 depense += (propose.getNombre() * propose.getPrix());
-                sendSomething = true;
                 getDataStore().put(message.getConversationId() + "propose", propose);
-                System.out.println("-------- ACCEPT Proposal sended");
+
             } else {
                 ACLMessage reject = message.createReply();
                 reject.setPerformative(ACLMessage.REJECT_PROPOSAL);
@@ -169,6 +173,10 @@ public class LaboBehaviour extends ContractNetInitiator {
     }
 
 
+    /**
+     * Attend tous les messages inform/refuse
+     * @param resultNotifications
+     */
     @Override
     protected void handleAllResultNotifications(Vector resultNotifications) {
 
@@ -191,12 +199,17 @@ public class LaboBehaviour extends ContractNetInitiator {
         if (atLeastOneInform) {
             this.done(); //si on a reçu une confirmation, cette behaviour est terminée
         } else {
-            resetBehaviour();
+            resetBehaviour(); //sinon on recherche encore des médicaments
         }
 
     }
 
 
+    /**
+     * Recoit toutes les informations des commandes de médicaments validées
+     * Met à jour les autres informations
+     * @param list
+     */
     private void handleInform(List<Propose> list){
 
         Objectif objectif = ((AssocAgent) myAgent).enCours;
@@ -218,7 +231,7 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
 
-
+        //commande qui se périme le plus tôt
         Propose firstPeremption = list.stream()
                 .min(Comparator.comparing(Propose::getDatePeremption))
                 .orElseThrow(NoSuchElementException::new);
@@ -238,13 +251,14 @@ public class LaboBehaviour extends ContractNetInitiator {
                         .min(Comparator.comparing(Propose::getDateLivraison))
                         .orElseThrow(NoSuchElementException::new);
                 objectif.setDateSouhaitee(firstOneAfterDeath.getDatePeremption());
-
             }
         }
 
 
+
+        objectif.setVolume(volumTotal);
+        objectif.setNombre(nbTotal);
         //TODO diminuer l'argent
-        //TODO ajouter le volume à l'objectif
         //TODO ajouter les médicaments achetés à la base
 
 
