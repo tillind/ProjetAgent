@@ -1,4 +1,4 @@
-package fr.miage.projetagent.secretairecompagnie;
+package fr.miage.projetagent.compagnie;
 
 import fr.miage.projetagent.entity.Pays;
 
