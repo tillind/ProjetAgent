@@ -2,7 +2,6 @@ package fr.miage.projetagent.Labo;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.java.swing.plaf.windows.TMSchema;
 import fr.miage.projetagent.Agent.AssosAgent;
 import fr.miage.projetagent.Agent.CommunicationBehaviour;
 import fr.miage.projetagent.Agent.Objectif;

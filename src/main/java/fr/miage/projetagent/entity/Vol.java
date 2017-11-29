@@ -1,10 +1,10 @@
 package fr.miage.projetagent.entity;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Date;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class Vol implements Serializable {

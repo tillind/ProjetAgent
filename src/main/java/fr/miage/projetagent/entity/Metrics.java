@@ -1,9 +1,9 @@
 package fr.miage.projetagent.entity;
 
-import java.io.Serializable;
-import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 public class Metrics implements Serializable  {

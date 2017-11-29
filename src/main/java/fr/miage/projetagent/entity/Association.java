@@ -5,14 +5,12 @@
  */
 package fr.miage.projetagent.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class Association implements Serializable {

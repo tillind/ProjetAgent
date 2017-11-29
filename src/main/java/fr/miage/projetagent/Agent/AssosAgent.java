@@ -2,16 +2,7 @@ package fr.miage.projetagent.Agent;
 
 import fr.miage.projetagent.BDD.BddAgent;
 import fr.miage.projetagent.Common.EnregistrerService;
-import jade.core.AID;
 import jade.core.Agent;
-import jade.domain.DFService;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.domain.FIPAException;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 public class AssosAgent extends Agent {
 

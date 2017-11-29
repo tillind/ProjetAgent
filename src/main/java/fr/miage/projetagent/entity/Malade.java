@@ -5,21 +5,14 @@
  */
 package fr.miage.projetagent.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.Date;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
 
 @NamedQueries({
     @NamedQuery(
         name="Malade.deleteMort",
-        query="DELTE FROM Malade m WHERE m.etat = 'Non_soignable' "),
+        query="DELETE FROM Malade m WHERE m.etat = 'Non_soignable' "),
 })
 @Entity
 public class Malade implements Serializable {
