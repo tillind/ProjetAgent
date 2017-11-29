@@ -2,9 +2,11 @@ package fr.miage.projetagent.Labo;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.java.swing.plaf.windows.TMSchema;
 import fr.miage.projetagent.Agent.AssosAgent;
 import fr.miage.projetagent.Agent.CommunicationBehaviour;
 import fr.miage.projetagent.Agent.Objectif;
+import fr.miage.projetagent.entity.Vaccin;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
@@ -260,10 +262,21 @@ public class LaboBehaviour extends ContractNetInitiator {
 
 
 
-        objectif.setVolume(volumTotal);
-        objectif.setNombre(nbTotal);
+        objectif.setVolume(objectif.getVolume()+volumTotal);
+        objectif.setNombre(objectif.getNombre()+nbTotal);
+
+        List<Vaccin> vaccins = new ArrayList<>();
+        for (Propose propose : list){
+            for (int i = 0 ; i<propose.getNombre() ; i++){
+                Vaccin vaccin = new Vaccin();
+                vaccin.setDateDebut(list.get(i).getDateLivraison());
+                vaccin.setDateFin(list.get(i).getDatePeremption());
+                vaccin.setVolume(list.get(i).getVolume());
+                //vaccin.setNom(objectif.getVaccin());
+            }
+        }
         //TODO diminuer l'argent
-        //TODO ajouter les médicaments achetés à la base
+        //TODO ajouter les médicaments achetés à la base : vaccins
 
 
     }

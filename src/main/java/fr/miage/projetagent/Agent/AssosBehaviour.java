@@ -10,6 +10,6 @@ public class AssosBehaviour  extends ParallelBehaviour{
 
 
         //envoi de vaccin
-        //TODO troisième subbehaviour
+        //TODO troisième sugstbbehaviour
     }
 }

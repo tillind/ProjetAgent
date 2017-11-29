@@ -23,7 +23,7 @@ public class Vaccin implements Serializable {
     private Date dateDebut;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateFin;
-    private int volume;
+    private double volume;
 
     public Vaccin() {
     }
@@ -60,11 +60,11 @@ public class Vaccin implements Serializable {
         this.dateFin = dateFin;
     }
 
-    public int getVolume() {
+    public double getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(double volume) {
         this.volume = volume;
     }
 }
