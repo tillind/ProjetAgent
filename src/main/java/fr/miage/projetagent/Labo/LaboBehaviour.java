@@ -16,14 +16,22 @@ public class LaboBehaviour extends ContractNetInitiator {
     final Gson gson = new GsonBuilder().create();
 
 
-    Objectif objectif = ((AssocAgent) myAgent).enCours;
-    int argent = ((AssocAgent) myAgent).argent;
-    int depense = 0;
-    int achete = 0;
+    private Objectif objectif = ((AssocAgent) myAgent).enCours;
+    private int argent = ((AssocAgent) myAgent).argent;
+    private int depense = 0;
+    private int achete = 0;
 
     public LaboBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);
-        System.out.println("--------Message is send to all labos");
+        System.out.println("--------Message is sent to all labos");
+    }
+
+
+    private void resetBehaviour() {
+        System.out.println("--------Labo behaviour is reseted");
+        AssocBehaviour parent = (AssocBehaviour) this.parent;
+        parent.init();
+        this.reset(parent.startLabo());
     }
 
 
@@ -50,8 +58,7 @@ public class LaboBehaviour extends ContractNetInitiator {
         boolean out = choosePropose(proposeResponse);
 
         if (!out) {
-            AssocBehaviour parent = (AssocBehaviour) this.parent;
-            this.reset(parent.startLabo());
+            resetBehaviour();
         }
 
     }
@@ -90,7 +97,7 @@ public class LaboBehaviour extends ContractNetInitiator {
      * @return
      */
     private List<ACLMessage> getListDate(List<ACLMessage> list, boolean before) {
-        Date date = ((AssocAgent) myAgent).enCours.getDateSouhaite();
+        Date date = ((AssocAgent) myAgent).enCours.getDateMort();
         List<ACLMessage> listBefore = new ArrayList<>();
         List<ACLMessage> listAfter = new ArrayList<>();
 
@@ -162,18 +169,84 @@ public class LaboBehaviour extends ContractNetInitiator {
     }
 
 
-    //TODO ajouter ce que je recup, terminer la méthode pour passer aux compagnies
     @Override
     protected void handleAllResultNotifications(Vector resultNotifications) {
+
+        boolean atLeastOneInform = false;
+
         System.out.println("--------" + resultNotifications.size() + "inform/refuse");
-        List<ACLMessage> informList = new ArrayList<>();
+        List<Propose> informList = new ArrayList<>();
+
         for (Object response : resultNotifications) {
             ACLMessage reponseMessage = (ACLMessage) response;
             if (reponseMessage.getPerformative() == ACLMessage.INFORM) {
-                informList.add(reponseMessage);
-                Propose propose = (Propose) getDataStore().get(reponseMessage.getConversationId());
+                atLeastOneInform = true;
+                Propose propose = (Propose) getDataStore().get(reponseMessage.getConversationId() + "propose");
+                informList.add(propose);
             }
         }
+
+        handleInform(informList);
+
+        if (atLeastOneInform) {
+            this.done(); //si on a reçu une confirmation, cette behaviour est terminée
+        } else {
+            resetBehaviour();
+        }
+
+    }
+
+
+    private void handleInform(List<Propose> list){
+
+        Objectif objectif = ((AssocAgent) myAgent).enCours;
+        List<Propose> beforeDeath = new ArrayList<>();
+        List<Propose> afterDeath = new ArrayList<>();
+
+        int nbTotal = 0;
+        int sumTotal = 0;
+        int volumTotal = 0;
+
+        for (Propose propose : list) {
+            nbTotal += propose.getNombre();
+            sumTotal += propose.getPrix()*propose.getNombre();
+            volumTotal += propose.getVolume()*propose.getNombre();
+            if (propose.getDateLivraison().before(objectif.getDateMort())){
+                beforeDeath.add(propose);
+            }else{
+                afterDeath.add(propose);
+            }
+        }
+
+
+        Propose firstPeremption = list.stream()
+                .min(Comparator.comparing(Propose::getDatePeremption))
+                .orElseThrow(NoSuchElementException::new);
+
+        //si des vaccins se périment avant, on l'envoie avant qu'ils ne soient périmés
+        if (firstPeremption.getDatePeremption().before(objectif.getDateMort())){
+            objectif.setDateSouhaitee(firstPeremption.getDatePeremption());
+        }else{
+            //si tous les vaccins se périment après
+            if(beforeDeath.size()>0){ //si certains vaccins sont livrés avant la date limite, on prend le dernier
+                Propose lastOneBeforeDeath = list.stream()
+                        .max(Comparator.comparing(Propose::getDateLivraison))
+                        .orElseThrow(NoSuchElementException::new);
+                objectif.setDateSouhaitee(lastOneBeforeDeath.getDatePeremption());
+            }else{ //si les vaccins sont livrés après la date limite, on envoie dès que le premier arrive
+                Propose firstOneAfterDeath = list.stream()
+                        .min(Comparator.comparing(Propose::getDateLivraison))
+                        .orElseThrow(NoSuchElementException::new);
+                objectif.setDateSouhaitee(firstOneAfterDeath.getDatePeremption());
+
+            }
+        }
+
+
+        //TODO diminuer l'argent
+        //TODO ajouter le volume à l'objectif
+        //TODO ajouter les médicaments achetés à la base
+
 
     }
 

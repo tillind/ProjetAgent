@@ -79,4 +79,9 @@ public class AssocAgent extends Agent {
         return compagnies;
     }
 
+    @Override
+    protected void takeDown() {
+        EnregistrerService.unregisterService(this, "assos", "assos");
+        super.takeDown();
+    }
 }

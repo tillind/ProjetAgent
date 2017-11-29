@@ -21,21 +21,21 @@ public class AssocBehaviour extends SequentialBehaviour {
 
     public AssocBehaviour(Agent a) {
         super(a);
+        init();
         this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
         this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
         //TODO troisième behaviour qui envoie et qui reinit
     }
 
 
-    public void start(){
+    public void init() {
+        System.out.println("-------- The priorities have been fetched");
         AssocAgent assocAgent = (AssocAgent) this.myAgent;
         assocAgent.enCours.setPays(assocAgent.pays);
-        assocAgent.enCours.setDateSouhaite(assocAgent.date);
+        assocAgent.enCours.setDateMort(assocAgent.date);
         assocAgent.enCours.setNombre(assocAgent.nb);
         assocAgent.enCours.setVaccin(assocAgent.maladie);
     }
-
-
 
     public ACLMessage startLabo() {
         AssocAgent assocAgent = (AssocAgent) this.myAgent;

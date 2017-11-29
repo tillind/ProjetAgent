@@ -27,5 +27,24 @@ public class EnregistrerService {
         }
 
     }
+
+    public static void unregisterService(Agent agent, String type, String name) {
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(agent.getAID());
+
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType(type);
+        sd.setName(name);
+
+        dfd.addServices(sd);
+        try {
+            DFService.deregister(agent, dfd);
+            System.out.println("--------" + agent + " is unregistered for " + type + "/" + name);
+        } catch (FIPAException e) {
+            System.err.println(agent.getLocalName() + " registration with DF unsucceeded. Reason: " + e.getMessage());
+            agent.doDelete();
+        }
+
+    }
 }
 

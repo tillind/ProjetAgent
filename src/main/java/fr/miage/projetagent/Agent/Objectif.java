@@ -7,21 +7,24 @@ public class Objectif {
     private String pays;
     private String vaccin;
     private int nombre;
-    private Date dateSouhaite;
+    private Date dateMort;
     private int volume;
     private Date arrivee;
+    private Date dateSouhaitee;
 
     public Objectif() {
     }
 
-    public Objectif(String pays, String vaccin, int nombre, Date dateSouhaite, int volume, Date arrivee) {
+    public Objectif(String pays, String vaccin, int nombre, Date dateMort, int volume, Date arrivee, Date dateSouhaitee) {
         this.pays = pays;
         this.vaccin = vaccin;
         this.nombre = nombre;
-        this.dateSouhaite = dateSouhaite;
+        this.dateMort = dateMort;
         this.volume = volume;
         this.arrivee = arrivee;
+        this.dateSouhaitee = dateSouhaitee;
     }
+
 
     public String getPays() {
         return pays;
@@ -47,12 +50,12 @@ public class Objectif {
         this.nombre = nombre;
     }
 
-    public Date getDateSouhaite() {
-        return dateSouhaite;
+    public Date getDateMort() {
+        return dateMort;
     }
 
-    public void setDateSouhaite(Date dateSouhaite) {
-        this.dateSouhaite = dateSouhaite;
+    public void setDateMort(Date dateMort) {
+        this.dateMort = dateMort;
     }
 
     public int getVolume() {
@@ -69,5 +72,13 @@ public class Objectif {
 
     public void setArrivee(Date arrivee) {
         this.arrivee = arrivee;
+    }
+
+    public Date getDateSouhaitee() {
+        return dateSouhaitee;
+    }
+
+    public void setDateSouhaitee(Date dateSouhaitee) {
+        this.dateSouhaitee = dateSouhaitee;
     }
 }
