@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import fr.miage.projetagent.Agent.AssosAgent;
 import fr.miage.projetagent.Agent.CommunicationBehaviour;
 import fr.miage.projetagent.Agent.Objectif;
+import fr.miage.projetagent.BDD.BddAgent;
 import fr.miage.projetagent.entity.Vaccin;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
@@ -58,8 +59,8 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
 
-        boolean out = false;
-        //boolean out = choosePropose(proposeResponse);
+        //boolean out = false;
+        boolean out = choosePropose(proposeResponse);
 
         if (!out) {
             resetBehaviour();
@@ -199,9 +200,9 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
 
-        handleInform(informList);
 
         if (atLeastOneInform) {
+            handleInform(informList);
             this.done(); //si on a reçu une confirmation, cette behaviour est terminée
         } else {
             resetBehaviour(); //sinon on recherche encore des médicaments
@@ -225,6 +226,7 @@ public class LaboBehaviour extends ContractNetInitiator {
         int sumTotal = 0;
         int volumTotal = 0;
 
+        //calcule nombre acheté, argent dépensé, volume acheté
         for (Propose propose : list) {
             nbTotal += propose.getNombre();
             sumTotal += propose.getPrix()*propose.getNombre();
@@ -260,9 +262,9 @@ public class LaboBehaviour extends ContractNetInitiator {
         }
 
 
-
+        //mise à jour de l'objectif
         objectif.setVolume(objectif.getVolume()+volumTotal);
-        objectif.setNombre(objectif.getNombre()+nbTotal);
+        objectif.setNombre(nbTotal);
 
         List<Vaccin> vaccins = new ArrayList<>();
         for (Propose propose : list){
@@ -271,11 +273,13 @@ public class LaboBehaviour extends ContractNetInitiator {
                 vaccin.setDateDebut(list.get(i).getDateLivraison());
                 vaccin.setDateFin(list.get(i).getDatePeremption());
                 vaccin.setVolume(list.get(i).getVolume());
-                //vaccin.setNom(objectif.getVaccin());
+                //J'ajoute les vaccins
+                //BddAgent.addVaccin(objectif.getVaccin(), vaccin);
             }
         }
+
+        BddAgent.decreaseMoney(myAgent.getLocalName(), sumTotal);
         //TODO diminuer l'argent
-        //TODO ajouter les médicaments achetés à la base : vaccins
 
 
     }
