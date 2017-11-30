@@ -49,12 +49,12 @@ public class BddAgent extends Agent {
     }
 
     //TODO GADEAU
-    public static void addVaccin(String vaccin, List<Vaccin> list){
+    public static void addVaccin(String nom, Vaccin vaccin){
         //TODO ajouter vaccin pour la maladie
     }
 
     //TODO GADEAU
-    public static void setArgent(String assosName, int argent){
+    public static void decreaseMoney(String assosName, int argent){
 
     }
 
