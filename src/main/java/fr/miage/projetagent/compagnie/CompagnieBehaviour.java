@@ -5,6 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import fr.miage.projetagent.Agent.AssosAgent;
 import fr.miage.projetagent.Agent.Objectif;
+import fr.miage.projetagent.BDD.BddAgent;
+import fr.miage.projetagent.entity.Pays;
+import fr.miage.projetagent.entity.Vol;
 import jade.core.Agent;
 import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
@@ -87,18 +90,17 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         boolean atLeastOneInform = false;
 
         System.out.println("--------" + resultNotifications.size() + "inform/refuse");
-        List<VolPropose> informList = new ArrayList<>();
+        VolPropose propose = new VolPropose();
 
         for (Object response : resultNotifications) {
             ACLMessage reponseMessage = (ACLMessage) response;
             if (reponseMessage.getPerformative() == ACLMessage.INFORM) {
                 atLeastOneInform = true;
-                VolPropose propose = (VolPropose) getDataStore().get(reponseMessage.getConversationId() + "vol");
-                informList.add(propose);
+                propose = (VolPropose) getDataStore().get(reponseMessage.getConversationId() + "vol");
             }
         }
 
-        handleInform(informList);
+        handleInform(propose);
 
         if (atLeastOneInform) {
             this.done();
@@ -107,8 +109,18 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         }
     }
 
-    private void handleInform(List<VolPropose> informList) {
-        // TODO diminuer l'argent
+    private void handleInform(VolPropose volPropose) {
+        // mise à jour de l'argent
+        BddAgent.decreaseMoney(myAgent.getLocalName(), volPropose.getPrix());
+
         // TODO ajouter le vol à la BD
+        Vol vol = new Vol();
+        vol.setDate(volPropose.getDateArrivee());
+        Pays p = new Pays();
+        p.setNom(volPropose.getPays());
+        vol.setDestination(p);
+        vol.setId(volPropose.getIdVol());
+        vol.setVolumeMax(volPropose.getVolume());
+        //BddAgent.addVol(Vol vol);
     }
 }
