@@ -7,6 +7,9 @@ import javafx.application.Application;
 
 import static javafx.application.Application.launch;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 
@@ -16,16 +19,14 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        
-      /*  AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        
-       Scene scene = new Scene(root);
-        
-     stage.setTitle("Eradique 1.0");
-       stage.setScene(scene);
+        AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+
+        Scene scene = new Scene(root);
+
+        stage.setTitle("Eradique 1.0");
+        stage.setScene(scene);
         stage.show();
 
-*/
 
         String agents = "bdd:fr.miage.projetagent.BDD.BddAgent;";
         for (String assos : BddAgent.getAllAssosName()) {
@@ -33,7 +34,7 @@ public class MainApp extends Application {
         }
 
         ProfileImpl profile = new ProfileImpl();
-        profile.setParameter("host", "192.168.0.45");
+        profile.setParameter("host", "192.168.43.79");
         profile.setParameter("main", "false");
         profile.setParameter("no-display", "true");
         profile.setParameter("agents", agents);
