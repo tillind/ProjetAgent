@@ -3,20 +3,40 @@ package fr.miage.projetagent.compagnie;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import fr.miage.projetagent.Agent.AssosAgent;
+import fr.miage.projetagent.Agent.Objectif;
 import jade.core.Agent;
+import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class CompagnieBehaviour extends ContractNetInitiator {
 
     private final Gson gson = new GsonBuilder().create();
 
+    private Objectif objectif = ((AssosAgent) myAgent).enCours;
+
     public CompagnieBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);
         System.out.println("--------Message is send to all compagnies");
+    }
+
+    /**
+     * Reset la behaviour en augmentant la date d'un jour
+     */
+    private void resetBehaviour() {
+        ACLMessage newMessage = new ACLMessage(ACLMessage.CFP);
+        newMessage.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
+        newMessage.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
+        Date dt = new Date();
+        LocalDateTime.from(dt.toInstant()).plusDays(1);
+        CompagnieMessage content = new CompagnieMessage(objectif.getVolume(), dt, objectif.getPays());
+        newMessage.setContent(gson.toJson(content));
+        this.reset(newMessage);
     }
 
     @Override
@@ -32,9 +52,8 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         }
 
         if (proposeResponse.size() == 0) {
-
-            // TODO Renvoyer la proposition avec date+1
-
+            // Si pas de réponse des compagnies, renvoie du message avec une nouvelle date
+            this.resetBehaviour();
         } else {
             for (ACLMessage message : proposeResponse) {
                 String content = message.getContent();
@@ -84,7 +103,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         if (atLeastOneInform) {
             this.done();
         } else {
-            // TODO renvoyer avec date+A
+            this.resetBehaviour();
         }
     }
 

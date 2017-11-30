@@ -110,7 +110,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         ACLMessage message = new ACLMessage(ACLMessage.CFP);
         message.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
-        CompagnieMessage content = new CompagnieMessage(0, new Date(), new Pays());
+        CompagnieMessage content = new CompagnieMessage(10, new Date(), "Guinee");
         message.setContent(gson.toJson(content));
         for (AID aid : getAID(compagnieType)) {
             message.addReceiver(aid);
