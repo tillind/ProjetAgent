@@ -54,7 +54,7 @@ public class BddAgent extends Agent {
     }
 
     //TODO GADEAU
-    public static void decreaseMoney(String assosName, int argent){
+    public static void decreaseMoney(String assosName, double argent){
 
     }
 

@@ -48,6 +48,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         assocAgent.getStatut().setDate(new Date());
         assocAgent.getStatut().setPays("pays");
         assocAgent.getStatut().setVolume(100);
+        assocAgent.getStatut().setArgent(1000000000);
 
         assocAgent.enCours.setPays(assocAgent.getStatut().getPays());
         assocAgent.enCours.setDateMort(assocAgent.getStatut().getDate());

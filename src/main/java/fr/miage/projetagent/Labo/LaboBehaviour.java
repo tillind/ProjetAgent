@@ -19,7 +19,7 @@ public class LaboBehaviour extends ContractNetInitiator {
 
 
     private Objectif objectif = ((AssosAgent) myAgent).enCours;
-    private int argent = ((AssosAgent) myAgent).getStatut().getArgent();
+    private double argent = ((AssosAgent) myAgent).getStatut().getArgent();
 
 
     public LaboBehaviour(Agent a, ACLMessage cfp) {
@@ -155,6 +155,7 @@ public class LaboBehaviour extends ContractNetInitiator {
 
         for (ACLMessage message : list) {
             //s'il y a encore besoin de vaccins et qu'il reste de l'argent
+            System.out.println("$$$$$$$$$"+argent+" "+objectif.getNombre()+"$$$$$$$$$$$");
             if (depense < argent && achete < objectif.getNombre()) {
                 ACLMessage agree = message.createReply();
                 agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);

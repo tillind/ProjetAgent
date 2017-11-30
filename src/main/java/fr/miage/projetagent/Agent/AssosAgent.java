@@ -17,6 +17,7 @@ public class AssosAgent extends Agent {
         return statut;
     }
 
+
     public void setStatut(Statut statut) {
         this.statut = statut;
     }
