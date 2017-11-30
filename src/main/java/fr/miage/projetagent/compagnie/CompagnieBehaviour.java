@@ -14,7 +14,6 @@ import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
 
 import java.lang.reflect.Type;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class CompagnieBehaviour extends ContractNetInitiator {
@@ -36,7 +35,10 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         newMessage.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
         newMessage.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
         Date dt = new Date();
-        LocalDateTime.from(dt.toInstant()).plusDays(1);
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 1);
+        dt = c.getTime();
         CompagnieMessage content = new CompagnieMessage(objectif.getVolume(), dt, objectif.getPays());
         newMessage.setContent(gson.toJson(content));
         this.reset(newMessage);
@@ -77,12 +79,12 @@ public class CompagnieBehaviour extends ContractNetInitiator {
                 ACLMessage agree = message.createReply();
                 agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                 agree.setContent(gson.toJson(volMoinsCher));
-                myAgent.send(agree);
+                acceptances.add(agree);
                 System.out.println("-------- ACCEPT_PROPOSAL Vol sended");
                 getDataStore().put(message.getConversationId() + "vol", volMoinsCher);
             }
+            moreAcceptances(acceptances);
         }
-
     }
 
     @Override
