@@ -9,9 +9,9 @@ public class CompagnieMessage implements Serializable {
 
     private int volume;
     private Date date;
-    private Pays pays;
+    private String pays;
 
-    public CompagnieMessage(int volume, Date date, Pays pays) {
+    public CompagnieMessage(int volume, Date date, String pays) {
         this.volume = volume;
         this.date = date;
         this.pays = pays;

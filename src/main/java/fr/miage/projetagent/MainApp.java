@@ -10,6 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -18,6 +21,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
 
         AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+
 
         Scene scene = new Scene(root);
 
@@ -31,7 +35,7 @@ public class MainApp extends Application {
         }
 
         ProfileImpl profile = new ProfileImpl();
-        profile.setParameter("host", "192.168.56.1");
+        profile.setParameter("host", "192.168.43.79");
         profile.setParameter("main", "false");
         profile.setParameter("no-display", "true");
         profile.setParameter("agents", agents);

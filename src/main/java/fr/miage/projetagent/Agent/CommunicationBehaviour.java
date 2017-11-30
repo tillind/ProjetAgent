@@ -42,6 +42,14 @@ public class CommunicationBehaviour extends SequentialBehaviour {
      */
     public void init() {
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
+
+        assocAgent.getStatut().setNombre(100);
+        assocAgent.getStatut().setMaladie("rage");
+        assocAgent.getStatut().setDate(new Date());
+        assocAgent.getStatut().setPays("pays");
+        assocAgent.getStatut().setVolume(100);
+        assocAgent.getStatut().setArgent(1000000000);
+
         assocAgent.enCours.setPays(assocAgent.getStatut().getPays());
         assocAgent.enCours.setDateMort(assocAgent.getStatut().getDate());
         assocAgent.enCours.setNombre(assocAgent.getStatut().getNombre());
@@ -90,8 +98,8 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         message.setReplyByDate(new Date(System.currentTimeMillis() + 10000));
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
 
-        //CFP content = new CFP(objectif.getVaccin(), objectif.getNombre(), objectif.getDateSouhaite());
-        CFP content = new CFP("rage", 2, new Date());
+        CFP content = new CFP(objectif.getVaccin(), objectif.getNombre(), objectif.getDateMort());
+        //CFP content = new CFP("rage", 2, new Date());
 
 
         message.setContent(gson.toJson(content));
@@ -110,7 +118,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         ACLMessage message = new ACLMessage(ACLMessage.CFP);
         message.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
-        CompagnieMessage content = new CompagnieMessage(0, new Date(), new Pays());
+        CompagnieMessage content = new CompagnieMessage(10, new Date(), "Guinee");
         message.setContent(gson.toJson(content));
         for (AID aid : getAID(compagnieType)) {
             message.addReceiver(aid);

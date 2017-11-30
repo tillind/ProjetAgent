@@ -3,20 +3,43 @@ package fr.miage.projetagent.compagnie;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import fr.miage.projetagent.Agent.AssosAgent;
+import fr.miage.projetagent.Agent.Objectif;
+import fr.miage.projetagent.BDD.BddAgent;
+import fr.miage.projetagent.entity.Pays;
+import fr.miage.projetagent.entity.Vol;
 import jade.core.Agent;
+import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
 
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class CompagnieBehaviour extends ContractNetInitiator {
 
     private final Gson gson = new GsonBuilder().create();
 
+    private Objectif objectif = ((AssosAgent) myAgent).enCours;
+
     public CompagnieBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);
         System.out.println("--------Message is send to all compagnies");
+    }
+
+    /**
+     * Reset la behaviour en augmentant la date d'un jour
+     */
+    private void resetBehaviour() {
+        ACLMessage newMessage = new ACLMessage(ACLMessage.CFP);
+        newMessage.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
+        newMessage.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
+        Date dt = new Date();
+        LocalDateTime.from(dt.toInstant()).plusDays(1);
+        CompagnieMessage content = new CompagnieMessage(objectif.getVolume(), dt, objectif.getPays());
+        newMessage.setContent(gson.toJson(content));
+        this.reset(newMessage);
     }
 
     @Override
@@ -32,9 +55,8 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         }
 
         if (proposeResponse.size() == 0) {
-
-            // TODO Renvoyer la proposition avec date+1
-
+            // Si pas de réponse des compagnies, renvoie du message avec une nouvelle date
+            this.resetBehaviour();
         } else {
             for (ACLMessage message : proposeResponse) {
                 String content = message.getContent();
@@ -68,28 +90,36 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         boolean atLeastOneInform = false;
 
         System.out.println("--------" + resultNotifications.size() + "inform/refuse");
-        List<VolPropose> informList = new ArrayList<>();
+        VolPropose propose = new VolPropose();
 
         for (Object response : resultNotifications) {
             ACLMessage reponseMessage = (ACLMessage) response;
             if (reponseMessage.getPerformative() == ACLMessage.INFORM) {
                 atLeastOneInform = true;
-                VolPropose propose = (VolPropose) getDataStore().get(reponseMessage.getConversationId() + "vol");
-                informList.add(propose);
+                propose = (VolPropose) getDataStore().get(reponseMessage.getConversationId() + "vol");
             }
         }
 
-        handleInform(informList);
+        handleInform(propose);
 
         if (atLeastOneInform) {
             this.done();
         } else {
-            // TODO renvoyer avec date+A
+            this.resetBehaviour();
         }
     }
 
-    private void handleInform(List<VolPropose> informList) {
-        // TODO diminuer l'argent
+    private void handleInform(VolPropose volPropose) {
+        // mise à jour de l'argent
+        BddAgent.decreaseMoney(myAgent.getLocalName(), volPropose.getPrix());
+
         // TODO ajouter le vol à la BD
+        Vol vol = new Vol();
+        vol.setDate(volPropose.getDateArrivee());
+        Pays p = new Pays();
+        p.setNom(volPropose.getPays());
+        vol.setDestination(p);
+        vol.setVolumeMax(volPropose.getVolume());
+        //BddAgent.addVol(Vol vol);
     }
 }
