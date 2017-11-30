@@ -12,6 +12,7 @@ public class ReceiverBehaviour extends CyclicBehaviour {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final static MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.CFP);
+	private final static MessageTemplate other = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
 
 	public ReceiverBehaviour(Agent a) {
 		super(a);
@@ -30,12 +31,18 @@ public class ReceiverBehaviour extends CyclicBehaviour {
 				System.out.println(message);
 				System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 				ACLMessage response = aclMessage.createReply();
+				response.setPerformative(ACLMessage.PROPOSE);
 				System.out.println(response.getAllReceiver());
 				myAgent.send(response);
+				System.out.println("its sent");
 			} catch (Exception e) {
 	        	e.printStackTrace();
 	        }
 	        
+		}
+		ACLMessage newf = super.myAgent.blockingReceive(other);
+		if (newf != null) {
+			System.out.println("i got an accept ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ");
 		}
 	}
 }

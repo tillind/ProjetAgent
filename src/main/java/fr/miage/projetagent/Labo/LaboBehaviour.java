@@ -50,7 +50,7 @@ public class LaboBehaviour extends ContractNetInitiator {
     @Override
     protected void handleAllResponses(Vector responses, Vector acceptances) {
         System.out.println("--------" + responses.size() + "responses");
-        System.out.println("--------" + acceptances.size() + "acceptances");
+        //System.out.println("--------" + acceptances.size() + "acceptances");
         List<ACLMessage> proposeResponse = new ArrayList<>();
         for (Object response : responses) {
             ACLMessage reponseMessage = (ACLMessage) response;
@@ -59,11 +59,17 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
 
-        //boolean out = false;
-        boolean out = choosePropose(proposeResponse);
+        acceptances=choosePropose(proposeResponse);
+        moreAcceptances(acceptances);
+        boolean atLeastOne = false;
+        for (Object response : acceptances){
+            if (((ACLMessage)response).getPerformative() == ACLMessage.ACCEPT_PROPOSAL){
+                atLeastOne = true;
+            }
+        }
 
-        if (!out) {
-            resetBehaviour();
+        if (!atLeastOne) {
+           resetBehaviour();
         }
 
     }
@@ -76,9 +82,9 @@ public class LaboBehaviour extends ContractNetInitiator {
      * @param list
      * @return
      */
-    private boolean choosePropose(List<ACLMessage> list) {
+    private Vector<ACLMessage> choosePropose(List<ACLMessage> list) {
         if (list.size() == 0) {
-            return false;
+            return new Vector<>();
         }
 
         List<ACLMessage> listBefore = getListDate(list, true);
@@ -86,11 +92,11 @@ public class LaboBehaviour extends ContractNetInitiator {
         sort(listBefore);
         sort(listAfter);
 
-        boolean send1 = sendResponse(listBefore);
-        boolean send2 = sendResponse(listAfter);
+        listBefore.addAll(listAfter);
 
+        Vector<ACLMessage> send1 = sendResponse(listBefore);
 
-        return (send1 || send2);
+        return (send1);
     }
 
 
@@ -109,6 +115,7 @@ public class LaboBehaviour extends ContractNetInitiator {
         for (ACLMessage message : list) {
             String content = message.getContent();
             Propose propose = gson.fromJson(content, Propose.class);
+            System.out.println(propose.toString());
             if (propose.getDatePeremption().before(date) || propose.getDatePeremption().equals(date)) {
                 listBefore.add(message);
             } else {
@@ -148,19 +155,18 @@ public class LaboBehaviour extends ContractNetInitiator {
      * @param list
      * @return
      */
-    private boolean sendResponse(List<ACLMessage> list) {
-        boolean sendSomething = false;
+    private Vector<ACLMessage> sendResponse(List<ACLMessage> list) {
         int depense = 0;
         int achete = 0;
 
+        Vector<ACLMessage> reponse = new Vector<>();
+
         for (ACLMessage message : list) {
             //s'il y a encore besoin de vaccins et qu'il reste de l'argent
-            System.out.println("$$$$$$$$$"+argent+" "+objectif.getNombre()+"$$$$$$$$$$$");
             if (depense < argent && achete < objectif.getNombre()) {
                 ACLMessage agree = message.createReply();
                 agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                myAgent.send(agree); //on accepte la propostion
-                sendSomething = true;
+                reponse.add(agree);
                 System.out.println("-------- ACCEPT Proposal sended");
 
                 String content = message.getContent();
@@ -172,11 +178,11 @@ public class LaboBehaviour extends ContractNetInitiator {
             } else {
                 ACLMessage reject = message.createReply();
                 reject.setPerformative(ACLMessage.REJECT_PROPOSAL);
-                myAgent.send(reject);
+                reponse.add(reject);
                 System.out.println("-------- REJECT Proposal sended");
             }
         }
-        return sendSomething;
+        return reponse;
     }
 
 
@@ -271,9 +277,9 @@ public class LaboBehaviour extends ContractNetInitiator {
         for (Propose propose : list){
             for (int i = 0 ; i<propose.getNombre() ; i++){
                 Vaccin vaccin = new Vaccin();
-                vaccin.setDateDebut(list.get(i).getDateLivraison());
-                vaccin.setDateFin(list.get(i).getDatePeremption());
-                vaccin.setVolume(list.get(i).getVolume());
+                vaccin.setDateDebut(propose.getDateLivraison());
+                vaccin.setDateFin(propose.getDatePeremption());
+                vaccin.setVolume(propose.getVolume());
                 //J'ajoute les vaccins
                 //BddAgent.addVaccin(objectif.getVaccin(), vaccin);
             }

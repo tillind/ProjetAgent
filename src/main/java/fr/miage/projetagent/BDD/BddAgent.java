@@ -20,7 +20,7 @@ public class BddAgent extends Agent {
 
     //TODO GADEAU get the real assos name
     public static String[] getAllAssosName(){
-        String[] result = {"assoc1","assoc2"};
+        String[] result = {"assoc1"};
         return result;
     }
 
