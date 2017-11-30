@@ -38,6 +38,8 @@ public class SceneController implements Initializable {
     private ChoiceBox<String> cbPays, cbMaladie;
     final ToggleGroup radioGroupAssoc = new ToggleGroup();
     final ToggleGroup radioGroup = new ToggleGroup();
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("agentBdd");
+//        EntityManager em = emf.createEntityManager();
 
     /**
      * Initializes the controller class.
@@ -50,8 +52,6 @@ public class SceneController implements Initializable {
 
         assoc1.setToggleGroup(radioGroupAssoc);
         assoc2.setToggleGroup(radioGroupAssoc);
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("agentBdd");
-//        EntityManager em = emf.createEntityManager();
 //        String lesMaladies = "SELECT m FROM Maladie m";
 //        String lesPays = "SELECT m FROM Pays m";
 //        Query queryMaladies = em.createQuery(lesMaladies);
@@ -88,12 +88,8 @@ public class SceneController implements Initializable {
         /**
          * TO DO modifier le compte de l'association
          */
-        if (assoc1.isSelected()) {
-            System.out.println(assoc1.getText() + ": " + somme.getText());
-        }
-        if (assoc2.isSelected()) {
-            System.out.println(assoc2.getText() + ": " + somme.getText());
-        }
+//        String updateMoney ="UPDATE table SET col ="+somme.getText()+"WHERE nomEtreprise ='"+radioGroupAssoc.selectedToggleProperty().getValue().toString()+"'";
+//        Query money = em.creatQuery(updateMoney);
     }
 
     public ArrayList<String> sendPrio() {
