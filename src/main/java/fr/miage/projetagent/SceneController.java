@@ -117,5 +117,11 @@ public class SceneController implements Initializable {
         return (prio);
 
     }
+    public String getPays(){
+        return cbPays.getValue();
+    }
+    public String getMaladie(){
+        return cbMaladie.getValue();
+    }
 
 }
