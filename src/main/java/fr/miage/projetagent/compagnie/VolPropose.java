@@ -7,26 +7,46 @@ public class VolPropose {
     private String pays;
     private Date dateArrivee;
     private Integer volume;
-    private Integer prix;
+    private Double prix;
     private String idVol;
 
     public String getPays() {
         return pays;
     }
 
+    public void setPays(String pays) {
+        this.pays = pays;
+    }
+
     public Date getDateArrivee() {
         return dateArrivee;
+    }
+
+    public void setDateArrivee(Date dateArrivee) {
+        this.dateArrivee = dateArrivee;
     }
 
     public Integer getVolume() {
         return volume;
     }
 
-    public Integer getPrix() {
+    public void setVolume(Integer volume) {
+        this.volume = volume;
+    }
+
+    public Double getPrix() {
         return prix;
+    }
+
+    public void setPrix(Double prix) {
+        this.prix = prix;
     }
 
     public String getIdVol() {
         return idVol;
+    }
+
+    public void setIdVol(String idVol) {
+        this.idVol = idVol;
     }
 }
