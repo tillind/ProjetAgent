@@ -33,9 +33,11 @@ public class SceneController implements Initializable {
     @FXML
     private TextArea somme;
     @FXML
-    private RadioButton choicePays, choiceMaladie, assoc1, assoc2;
+    private RadioButton choicePays, choiceMaladie;
     @FXML
     private ChoiceBox<String> cbPays, cbMaladie;
+    @FXML
+    private CheckBox assoc1, assoc2;
     final ToggleGroup radioGroupAssoc = new ToggleGroup();
     final ToggleGroup radioGroup = new ToggleGroup();
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("agentBdd");
@@ -49,9 +51,6 @@ public class SceneController implements Initializable {
 
         choicePays.setToggleGroup(radioGroup);
         choiceMaladie.setToggleGroup(radioGroup);
-
-        assoc1.setToggleGroup(radioGroupAssoc);
-        assoc2.setToggleGroup(radioGroupAssoc);
 //        String lesMaladies = "SELECT m FROM Maladie m";
 //        String lesPays = "SELECT m FROM Pays m";
 //        Query queryMaladies = em.createQuery(lesMaladies);
@@ -97,12 +96,22 @@ public class SceneController implements Initializable {
         if (choicePays.isSelected()) {
             prio.add(cbPays.getValue());
             prio.add(cbMaladie.getValue());
-            prio.add(radioGroupAssoc.selectedToggleProperty().getValue().toString());
+            if (assoc1.isSelected()) {
+                prio.add(assoc1.getText());
+            }
+            if (assoc2.isSelected()) {
+                prio.add(assoc2.getText());
+            }
         }
         if (choiceMaladie.isSelected()) {
             prio.add(cbMaladie.getValue());
             prio.add(cbPays.getValue());
-            prio.add(radioGroupAssoc.selectedToggleProperty().getValue().toString());
+            if (assoc1.isSelected()) {
+                prio.add(assoc1.getText());
+            }
+            if (assoc2.isSelected()) {
+                prio.add(assoc2.getText());
+            }
         }
         System.out.println(prio);
         return (prio);
