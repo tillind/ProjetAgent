@@ -4,8 +4,11 @@ import java.util.Date;
 
 public class Priority {
 
+    //date where a patient will die
     private Date date;
+    //volume of vaccine we already have for this disease and this date
     private int volume;
+    //number of people to cure, minus the number of vaccine we already have for this disease and this date
     private int nombre;
     private String pays;
     private String maladie;

@@ -1,6 +1,7 @@
 package fr.miage.projetagent.send;
 
 import fr.miage.projetagent.agent.AssosAgent;
+import fr.miage.projetagent.agent.Objectif;
 import fr.miage.projetagent.agent.Priority;
 import fr.miage.projetagent.bdd.BddAgent;
 import fr.miage.projetagent.entity.Envoi;
@@ -64,18 +65,17 @@ public class SendBehaviour extends CyclicBehaviour {
 
 
     private List<Maladie> getDiseaseToCureSorted(String pays) {
-        //TODO get priorities from agent
-        List<Priority> priorities = new ArrayList<>();
+
         List<Maladie> maladiesToCure = new ArrayList<>();
 
         //get all priorities for this country
-        priorities = ((AssosAgent) this.myAgent).getPriorities().stream()
+        List<Objectif> objectifs = ((AssosAgent) this.myAgent).getPrioritiesDone().stream()
                 .filter(p -> p.getPays().equals(pays)).collect(
                         Collectors.toList());
 
         //for each priority choosen, add it to the diseases to cure
-        for (Priority priority : priorities) {
-            maladiesToCure.add(BddAgent.getMaladie(priority.getMaladie()));
+        for (Objectif objectif : objectifs) {
+            maladiesToCure.add(BddAgent.getMaladie(objectif.getVaccin()));
         }
 
         //each disease not in priority is added

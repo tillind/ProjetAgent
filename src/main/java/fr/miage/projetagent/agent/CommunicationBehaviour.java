@@ -41,20 +41,19 @@ public class CommunicationBehaviour extends SequentialBehaviour {
      */
     public void init() {
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
-        assocAgent.getPriorities().add(new Priority());
-        assocAgent.getPriorities().get(0).setNombre(100);
-        assocAgent.getPriorities().get(0).setMaladie("rage");
-        assocAgent.getPriorities().get(0).setDate(new Date());
-        assocAgent.getPriorities().get(0).setPays("pays");
-        assocAgent.getPriorities().get(0).setVolume(100);
+        assocAgent.getPriority().setNombre(100);
+        assocAgent.getPriority().setMaladie("rage");
+        assocAgent.getPriority().setDate(new Date());
+        assocAgent.getPriority().setPays("pays");
+        assocAgent.getPriority().setVolume(100);
         assocAgent.setArgent(1000000000);
 
-        assocAgent.getEnCours().setPays(assocAgent.getPriorities().get(0).getPays());
-        assocAgent.getEnCours().setDateMort(assocAgent.getPriorities().get(0).getDate());
-        assocAgent.getEnCours().setNombre(assocAgent.getPriorities().get(0).getNombre());
-        assocAgent.getEnCours().setVaccin(assocAgent.getPriorities().get(0).getMaladie());
-        assocAgent.getEnCours().setVolume(assocAgent.getPriorities().get(0).getVolume());
-        System.out.println("prioriu = "+assocAgent.getPriorities().get(0).getNombre());
+        assocAgent.getEnCours().setPays(assocAgent.getPriority().getPays());
+        assocAgent.getEnCours().setDateMort(assocAgent.getPriority().getDate());
+        assocAgent.getEnCours().setNombre(assocAgent.getPriority().getNombre());
+        assocAgent.getEnCours().setVaccin(assocAgent.getPriority().getMaladie());
+        assocAgent.getEnCours().setVolume(assocAgent.getPriority().getVolume());
+        System.out.println("prioriu = "+assocAgent.getPriority().getNombre());
     }
 
 

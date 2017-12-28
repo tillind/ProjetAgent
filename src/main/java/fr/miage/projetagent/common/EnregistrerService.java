@@ -23,7 +23,7 @@ public class EnregistrerService {
         dfd.addServices(sd);
         try {
             DFService.register(agent, dfd);
-            LOGGER.info("--------" + agent + " is registered for " + type + "/" + name);
+            LOGGER.info(agent + " is registered for " + type + "/" + name);
         } catch (FIPAException e) {
             LOGGER.error(agent.getLocalName() + " registration with DF unsucceeded. Reason: " + e.getMessage());
             agent.doDelete();

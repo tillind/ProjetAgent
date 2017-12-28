@@ -28,9 +28,9 @@ public class BddAgent extends Agent {
     }
 
     public static void addAssosAgent(AssosAgent a){
-        System.out.println("BDD : There is a new agent");
         assosAgent.add(a);
-        a.getPriorities().add(BddAgent.getStatut(a.getLocalName()));
+        a.setPriority(getStatut(a.getLocalName()));
+        a.setArgent(getArgent(a.getLocalName()));
     }
 
     public static void removeAssosAgent(AssosAgent a){

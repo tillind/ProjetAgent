@@ -123,5 +123,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         vol.setDestination(p);
         vol.setVolumeMax(volPropose.getVolume());
         //BddAgent.addVol(Vol vol);
+
+        //TODO mettre l'objectif dans prioritiesDone
     }
 }

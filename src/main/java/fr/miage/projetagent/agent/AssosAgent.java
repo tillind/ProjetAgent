@@ -9,8 +9,11 @@ import java.util.List;
 public class AssosAgent extends Agent {
 
 
-    //liste des status, ajouté en queue, lu en tête
-    private List<Priority> priorities = new ArrayList<>();
+    //priorité à traiter
+    private Priority priority = new Priority();
+
+    //liste des objectifs réalisés
+    private List<Objectif> prioritiesDone = new ArrayList<>();
 
     //ce que l'association est actuellement en train de traiter
     private Objectif enCours = new Objectif();
@@ -25,12 +28,20 @@ public class AssosAgent extends Agent {
         this.enCours = enCours;
     }
 
-    public List<Priority> getPriorities() {
-        return priorities;
+    public Priority getPriority() {
+        return priority;
     }
 
-    public void setPriorities(List<Priority> priorities) {
-        this.priorities = priorities;
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public List<Objectif> getPrioritiesDone() {
+        return prioritiesDone;
+    }
+
+    public void setPrioritiesDone(List<Objectif> prioritiesDone) {
+        this.prioritiesDone = prioritiesDone;
     }
 
     public double getArgent() {
@@ -44,11 +55,9 @@ public class AssosAgent extends Agent {
     @Override
     protected void setup() {
         EnregistrerService.registerService(this, "assos", this.getLocalName());
-        //BddAgent.addAssosAgent(this); //s'enregsitre auprès de la bdd aussi
+        BddAgent.addAssosAgent(this); //s'enregsitre auprès de la bdd aussi
         this.addBehaviour(new AssosBehaviour(this));
     }
-
-
 
     @Override
     protected void takeDown() {

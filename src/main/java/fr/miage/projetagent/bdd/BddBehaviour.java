@@ -15,7 +15,7 @@ public class BddBehaviour extends TickerBehaviour{
     protected void onTick() {
         BddAgent bdd = (BddAgent) myAgent;
         for (AssosAgent a : bdd.assosAgent){
-            a.getPriorities().add(BddAgent.getStatut(a.getLocalName()));
+            a.setPriority(BddAgent.getStatut(a.getLocalName()));
             a.setArgent(BddAgent.getArgent(a.getLocalName()));
             //TODO GADEAU
             //supprime malades mort, vaccins périmés, vol dépassé, créer malade
