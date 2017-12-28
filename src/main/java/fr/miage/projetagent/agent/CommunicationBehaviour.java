@@ -34,13 +34,14 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
     }
 
+
     /**
      * Copie l'état actuel de l'association
      * C'est l'objectif à résoudre
      */
     public void init() {
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
-
+        assocAgent.getPriorities().add(new Priority());
         assocAgent.getPriorities().get(0).setNombre(100);
         assocAgent.getPriorities().get(0).setMaladie("rage");
         assocAgent.getPriorities().get(0).setDate(new Date());

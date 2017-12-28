@@ -5,8 +5,12 @@ import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EnregistrerService {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(EnregistrerService.class);
 
     public static void registerService(Agent agent, String type, String name) {
         DFAgentDescription dfd = new DFAgentDescription();
@@ -19,9 +23,9 @@ public class EnregistrerService {
         dfd.addServices(sd);
         try {
             DFService.register(agent, dfd);
-            System.out.println("--------" + agent + " is registered for " + type + "/" + name);
+            LOGGER.info("--------" + agent + " is registered for " + type + "/" + name);
         } catch (FIPAException e) {
-            System.err.println(agent.getLocalName() + " registration with DF unsucceeded. Reason: " + e.getMessage());
+            LOGGER.error(agent.getLocalName() + " registration with DF unsucceeded. Reason: " + e.getMessage());
             agent.doDelete();
         }
 

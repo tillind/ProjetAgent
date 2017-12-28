@@ -26,9 +26,9 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
 
-        String agents = "bdd:fr.miage.projetagent.BDD.BddAgent;";
+        String agents = "bdd:fr.miage.projetagent.bdd.BddAgent;";
         for (String assos : BddAgent.getAllAssosName()) {
-            agents += assos + ":fr.miage.projetagent.Agent.AssosAgent;";
+            agents += assos + ":fr.miage.projetagent.agent.AssosAgent;";
         }
 
         ProfileImpl profile = new ProfileImpl();

@@ -45,7 +45,7 @@ public class AssosAgent extends Agent {
     protected void setup() {
         EnregistrerService.registerService(this, "assos", this.getLocalName());
         //BddAgent.addAssosAgent(this); //s'enregsitre auprès de la bdd aussi
-        this.addBehaviour(new AssosBehaviour());
+        this.addBehaviour(new AssosBehaviour(this));
     }
 
 
