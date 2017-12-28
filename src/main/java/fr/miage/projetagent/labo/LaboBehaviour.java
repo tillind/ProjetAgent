@@ -1,11 +1,11 @@
-package fr.miage.projetagent.Labo;
+package fr.miage.projetagent.labo;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import fr.miage.projetagent.Agent.AssosAgent;
-import fr.miage.projetagent.Agent.CommunicationBehaviour;
-import fr.miage.projetagent.Agent.Objectif;
-import fr.miage.projetagent.BDD.BddAgent;
+import fr.miage.projetagent.agent.AssosAgent;
+import fr.miage.projetagent.agent.CommunicationBehaviour;
+import fr.miage.projetagent.agent.Objectif;
+import fr.miage.projetagent.bdd.BddAgent;
 import fr.miage.projetagent.entity.Vaccin;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
@@ -18,8 +18,8 @@ public class LaboBehaviour extends ContractNetInitiator {
     final Gson gson = new GsonBuilder().create();
 
 
-    private Objectif objectif = ((AssosAgent) myAgent).enCours;
-    private double argent = ((AssosAgent) myAgent).getStatut().getArgent();
+    private Objectif objectif = ((AssosAgent) myAgent).getEnCours();
+    private double argent = ((AssosAgent) myAgent).getArgent();
 
 
     public LaboBehaviour(Agent a, ACLMessage cfp) {
@@ -108,7 +108,7 @@ public class LaboBehaviour extends ContractNetInitiator {
      * @return
      */
     private List<ACLMessage> getListDate(List<ACLMessage> list, boolean before) {
-        Date date = ((AssosAgent) myAgent).enCours.getDateMort();
+        Date date = ((AssosAgent) myAgent).getEnCours().getDateMort();
         List<ACLMessage> listBefore = new ArrayList<>();
         List<ACLMessage> listAfter = new ArrayList<>();
 
@@ -225,7 +225,7 @@ public class LaboBehaviour extends ContractNetInitiator {
      */
     private void handleInform(List<Propose> list){
 
-        Objectif objectif = ((AssosAgent) myAgent).enCours;
+        Objectif objectif = ((AssosAgent) myAgent).getEnCours();
         List<Propose> beforeDeath = new ArrayList<>();
         List<Propose> afterDeath = new ArrayList<>();
 
@@ -281,7 +281,7 @@ public class LaboBehaviour extends ContractNetInitiator {
                 vaccin.setDateFin(propose.getDatePeremption());
                 vaccin.setVolume(propose.getVolume());
                 //J'ajoute les vaccins
-                //BddAgent.addVaccin(objectif.getVaccin(), vaccin);
+                BddAgent.addVaccin(objectif.getVaccin(), vaccin);
             }
         }
 

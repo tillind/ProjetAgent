@@ -1,12 +1,10 @@
-package fr.miage.projetagent.Agent;
+package fr.miage.projetagent.agent;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import fr.miage.projetagent.Labo.CFP;
-import fr.miage.projetagent.Labo.LaboBehaviour;
+import fr.miage.projetagent.labo.CFP;
 import fr.miage.projetagent.compagnie.CompagnieBehaviour;
 import fr.miage.projetagent.compagnie.CompagnieMessage;
-import fr.miage.projetagent.entity.Pays;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.SequentialBehaviour;
@@ -32,7 +30,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
     public CommunicationBehaviour(Agent a) {
         super(a);
         init();
-        this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
+        //this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
         this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
     }
 
@@ -43,19 +41,19 @@ public class CommunicationBehaviour extends SequentialBehaviour {
     public void init() {
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
 
-        assocAgent.getStatut().setNombre(100);
-        assocAgent.getStatut().setMaladie("rage");
-        assocAgent.getStatut().setDate(new Date());
-        assocAgent.getStatut().setPays("pays");
-        assocAgent.getStatut().setVolume(100);
-        assocAgent.getStatut().setArgent(1000000000);
+        assocAgent.getPriorities().get(0).setNombre(100);
+        assocAgent.getPriorities().get(0).setMaladie("rage");
+        assocAgent.getPriorities().get(0).setDate(new Date());
+        assocAgent.getPriorities().get(0).setPays("pays");
+        assocAgent.getPriorities().get(0).setVolume(100);
+        assocAgent.setArgent(1000000000);
 
-        assocAgent.enCours.setPays(assocAgent.getStatut().getPays());
-        assocAgent.enCours.setDateMort(assocAgent.getStatut().getDate());
-        assocAgent.enCours.setNombre(assocAgent.getStatut().getNombre());
-        assocAgent.enCours.setVaccin(assocAgent.getStatut().getMaladie());
-        assocAgent.enCours.setVolume(assocAgent.getStatut().getVolume());
-        System.out.println("prioriu = "+assocAgent.getStatut().getNombre());
+        assocAgent.getEnCours().setPays(assocAgent.getPriorities().get(0).getPays());
+        assocAgent.getEnCours().setDateMort(assocAgent.getPriorities().get(0).getDate());
+        assocAgent.getEnCours().setNombre(assocAgent.getPriorities().get(0).getNombre());
+        assocAgent.getEnCours().setVaccin(assocAgent.getPriorities().get(0).getMaladie());
+        assocAgent.getEnCours().setVolume(assocAgent.getPriorities().get(0).getVolume());
+        System.out.println("prioriu = "+assocAgent.getPriorities().get(0).getNombre());
     }
 
 
@@ -92,7 +90,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
      */
     public ACLMessage startLabo() {
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
-        Objectif objectif = assocAgent.enCours;
+        Objectif objectif = assocAgent.getEnCours();
 
         ACLMessage message = new ACLMessage(ACLMessage.CFP);
         message.setReplyByDate(new Date(System.currentTimeMillis() + 10000));

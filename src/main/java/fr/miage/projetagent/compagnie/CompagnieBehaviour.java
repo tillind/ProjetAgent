@@ -3,9 +3,9 @@ package fr.miage.projetagent.compagnie;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import fr.miage.projetagent.Agent.AssosAgent;
-import fr.miage.projetagent.Agent.Objectif;
-import fr.miage.projetagent.BDD.BddAgent;
+import fr.miage.projetagent.agent.AssosAgent;
+import fr.miage.projetagent.agent.Objectif;
+import fr.miage.projetagent.bdd.BddAgent;
 import fr.miage.projetagent.entity.Pays;
 import fr.miage.projetagent.entity.Vol;
 import jade.core.Agent;
@@ -20,7 +20,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
 
     private final Gson gson = new GsonBuilder().create();
 
-    private Objectif objectif = ((AssosAgent) myAgent).enCours;
+    private Objectif objectif = ((AssosAgent) myAgent).getEnCours();
 
     public CompagnieBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);

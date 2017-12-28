@@ -1,4 +1,4 @@
-package fr.miage.projetagent.Common;
+package fr.miage.projetagent.common;
 
 import jade.core.Agent;
 import jade.domain.DFService;

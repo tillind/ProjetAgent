@@ -1,4 +1,4 @@
-package fr.miage.projetagent.Agent;
+package fr.miage.projetagent.agent;
 
 import java.util.Date;
 

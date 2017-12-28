@@ -1,26 +1,24 @@
-package fr.miage.projetagent.Agent;
+package fr.miage.projetagent.agent;
 
 import java.util.Date;
 
-public class Statut {
+public class Priority {
 
     private Date date;
     private int volume;
     private int nombre;
     private String pays;
     private String maladie;
-    private int argent;
 
-    public Statut() {
+    public Priority() {
     }
 
-    public Statut(Date date, int volume, int nombre, String pays, String maladie, int argent) {
+    public Priority(Date date, int volume, int nombre, String pays, String maladie, int argent) {
         this.date = date;
         this.volume = volume;
         this.nombre = nombre;
         this.pays = pays;
         this.maladie = maladie;
-        this.argent = argent;
     }
 
     public Date getDate() {
@@ -63,11 +61,4 @@ public class Statut {
         this.maladie = maladie;
     }
 
-    public int getArgent() {
-        return argent;
-    }
-
-    public void setArgent(int argent) {
-        this.argent = argent;
-    }
 }

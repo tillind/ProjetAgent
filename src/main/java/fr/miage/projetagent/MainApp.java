@@ -1,6 +1,6 @@
 package fr.miage.projetagent;
 
-import fr.miage.projetagent.BDD.BddAgent;
+import fr.miage.projetagent.bdd.BddAgent;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import javafx.application.Application;
@@ -10,9 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -35,7 +32,7 @@ public class MainApp extends Application {
         }
 
         ProfileImpl profile = new ProfileImpl();
-        profile.setParameter("host", "192.168.56.1");
+        profile.setParameter("host", "192.168.1.98");
         profile.setParameter("main", "false");
         profile.setParameter("no-display", "true");
         profile.setParameter("agents", agents);

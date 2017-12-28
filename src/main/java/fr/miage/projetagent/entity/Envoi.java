@@ -1,10 +1,12 @@
 package fr.miage.projetagent.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Envoi implements Serializable {
@@ -13,9 +15,8 @@ public class Envoi implements Serializable {
     private String id;
     private Pays pays;
     private Date date;
-    @OneToOne
-    private Maladie vaccin;
-    private int nombre;
+    @ManyToMany
+    private Map<Maladie, Integer> vaccins;
 
     public Envoi() {
     }
@@ -44,19 +45,11 @@ public class Envoi implements Serializable {
         this.date = date;
     }
 
-    public Maladie getVaccin() {
-        return vaccin;
+    public Map<Maladie, Integer> getVaccins() {
+        return vaccins;
     }
 
-    public void setVaccin(Maladie vaccin) {
-        this.vaccin = vaccin;
-    }
-
-    public int getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(int nombre) {
-        this.nombre = nombre;
+    public void setVaccins(Map<Maladie, Integer> vaccins) {
+        this.vaccins = vaccins;
     }
 }
