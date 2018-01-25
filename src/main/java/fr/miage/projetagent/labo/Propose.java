@@ -3,7 +3,7 @@ package fr.miage.projetagent.labo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Propose implements Serializable{
+public class  Propose implements Serializable{
 
     private Integer nombre;
     private Double prix;

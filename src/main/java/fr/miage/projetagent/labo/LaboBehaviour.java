@@ -156,7 +156,7 @@ public class LaboBehaviour extends ContractNetInitiator {
      * @return
      */
     private Vector<ACLMessage> sendResponse(List<ACLMessage> list) {
-        int depense = 0;
+        double depense = 0;
         int achete = 0;
 
         Vector<ACLMessage> reponse = new Vector<>();

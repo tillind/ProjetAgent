@@ -5,6 +5,7 @@
  */
 package fr.miage.projetagent;
 
+import fr.miage.projetagent.entity.Association;
 import fr.miage.projetagent.entity.Maladie;
 import fr.miage.projetagent.entity.Pays;
 import java.net.URL;
@@ -37,7 +38,7 @@ public class SceneController implements Initializable {
     @FXML
     private ChoiceBox<String> cbPays, cbMaladie;
     @FXML
-    private CheckBox assoc1, assoc2;
+    private ChoiceBox<String> assoc;
     final ToggleGroup radioGroupAssoc = new ToggleGroup();
     final ToggleGroup radioGroup = new ToggleGroup();
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("agentBdd");
@@ -61,6 +62,10 @@ public class SceneController implements Initializable {
 //        pays=queryPays.getResultList();
         Pays p1 = new Pays();
         Pays p2 = new Pays();
+        Association assoc1 =new Association();
+        Association assoc2 =new Association();
+        assoc1.setNom("machots du coeur");
+        assoc2.setNom("unijambistes anonymes");
         Maladie m1 = new Maladie();
         Maladie m2 = new Maladie();
         p1.setNom("Guinée");
@@ -93,25 +98,14 @@ public class SceneController implements Initializable {
 
     public ArrayList<String> sendPrio() {
         ArrayList<String> prio = new ArrayList<>();
+        prio.add(assoc.getValue());
         if (choicePays.isSelected()) {
             prio.add(cbPays.getValue());
             prio.add(cbMaladie.getValue());
-            if (assoc1.isSelected()) {
-                prio.add(assoc1.getText());
-            }
-            if (assoc2.isSelected()) {
-                prio.add(assoc2.getText());
-            }
         }
         if (choiceMaladie.isSelected()) {
             prio.add(cbMaladie.getValue());
             prio.add(cbPays.getValue());
-            if (assoc1.isSelected()) {
-                prio.add(assoc1.getText());
-            }
-            if (assoc2.isSelected()) {
-                prio.add(assoc2.getText());
-            }
         }
         System.out.println(prio);
         return (prio);

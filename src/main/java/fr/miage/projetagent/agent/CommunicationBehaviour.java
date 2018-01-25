@@ -53,6 +53,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         assocAgent.getEnCours().setNombre(assocAgent.getPriority().getNombre());
         assocAgent.getEnCours().setVaccin(assocAgent.getPriority().getMaladie());
         assocAgent.getEnCours().setVolume(assocAgent.getPriority().getVolume());
+        //assocAgent.getEnCours().set
         System.out.println("prioriu = "+assocAgent.getPriority().getNombre());
     }
 
