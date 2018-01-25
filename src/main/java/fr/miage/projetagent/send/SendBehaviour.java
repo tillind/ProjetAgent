@@ -5,6 +5,7 @@ import fr.miage.projetagent.agent.Objectif;
 import fr.miage.projetagent.agent.Priority;
 import fr.miage.projetagent.bdd.BddAgent;
 import fr.miage.projetagent.entity.Envoi;
+import fr.miage.projetagent.entity.EnvoiVaccin;
 import fr.miage.projetagent.entity.Maladie;
 import fr.miage.projetagent.entity.Vaccin;
 import fr.miage.projetagent.entity.Vol;
@@ -33,7 +34,7 @@ public class SendBehaviour extends CyclicBehaviour {
                 Envoi envoi = new Envoi();
                 envoi.setDate(vol.getDate());
                 envoi.setPays(vol.getDestination());
-                envoi.setVaccins(new HashMap<>());
+                
 
                 List<Maladie> maladiesToCure = getDiseaseToCureSorted(vol.getDestination().getNom());
 
@@ -45,14 +46,17 @@ public class SendBehaviour extends CyclicBehaviour {
                     List<Vaccin> vaccinsInStock = BddAgent.getVaccins(maladie.getNom());
 
                     for (Vaccin vaccin : vaccinsInStock) {
-                        int nbSendedForThisDease =
+                      /*  int nbSendedForThisDease =
                                 envoi.getVaccins().get(vaccin.getNom()) == null ? 0
                                         : envoi.getVaccins().get(vaccin.getNom());
                         if (nbSendedForThisDease < sickPeople && volumeToSend + vaccin.getVolume() < vol
                                 .getVolumeMax()) {
-                            envoi.getVaccins().put(vaccin.getNom(), nbSendedForThisDease + 1);
+                            EnvoiVaccin tmp = new EnvoiVaccin();
+                            tmp.setNb(nbSendedForThisDease + 1);
+                            tmp.getLesVaccins().add(vaccin);
+                            envoi.getVaccins().add(tmp );
                             //BddAgent.deleteVaccin(vaccin);
-                        }
+                        }*/
                     }
                 }
 
