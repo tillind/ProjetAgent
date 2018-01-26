@@ -20,6 +20,7 @@ public class Envoi implements Serializable {
 
     @Id
     private String id;
+    @ManyToOne
     private Pays pays;
     private Date date;
 

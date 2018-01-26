@@ -5,32 +5,23 @@
  */
 package fr.miage.projetagent.entity;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.UUID;
 
-/**
- *
- * @author alex
- */
 @Entity
-public class EnvoiVaccin implements Serializable  {
+public class EnvoiVaccin implements Serializable {
 
 
     @Id
-    private String id = UUID.randomUUID().toString();
-    
+    protected String id = UUID.randomUUID().toString();
     @ManyToOne
     protected Vaccin lesVaccins;
     @ManyToOne
     protected Envoi envoi;
     protected Integer nb ;    
-
     public String getId() {
         return id;
     }
@@ -42,7 +33,7 @@ public class EnvoiVaccin implements Serializable  {
     /**
      * @return the lesVaccins
      */
-    public  Vaccin getLesVaccins() {
+    public Vaccin getLesVaccins() {
         return lesVaccins;
     }
 
@@ -51,6 +42,20 @@ public class EnvoiVaccin implements Serializable  {
      */
     public void setLesVaccins(Vaccin lesVaccins) {
         this.lesVaccins = lesVaccins;
+    }
+
+    /**
+     * @return the envoi
+     */
+    public Envoi getEnvoi() {
+        return envoi;
+    }
+
+    /**
+     * @param envoi the envoi to set
+     */
+    public void setEnvoi(Envoi envoi) {
+        this.envoi = envoi;
     }
 
     /**
@@ -66,18 +71,4 @@ public class EnvoiVaccin implements Serializable  {
     public void setNb(Integer nb) {
         this.nb = nb;
     }
-        /**
-     * @return the envoi
-     */
-    public Envoi getEnvoi() {
-        return envoi;
-    }
-
-    /**
-     * @param envoi the envoi to set
-     */
-    public void setEnvoi(Envoi envoi) {
-        this.envoi = envoi;
-    }
-
 }

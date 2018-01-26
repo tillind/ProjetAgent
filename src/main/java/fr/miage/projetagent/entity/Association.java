@@ -18,7 +18,7 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
     @NamedQuery(name="Association.findAll",
                 query="SELECT a FROM Association a"),
-}) 
+})
 public class Association implements Serializable {
 
 
@@ -32,8 +32,7 @@ public class Association implements Serializable {
     private Set<Vol> vols;
     @OneToMany
     private Set<Envoi> envois;
-    
-
+    @OneToOne
     private Metrics metrics;
 
     public Association() {
