@@ -17,10 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 /**
  * FXML Controller class
@@ -46,6 +42,8 @@ public class SceneController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -58,6 +56,7 @@ public class SceneController implements Initializable {
 //        Query queryPays = em.createQuery(lesPays);
         List<Maladie> maladies = new ArrayList<>();
         List<Pays> pays = new ArrayList<>();
+        List<Association> associations=new ArrayList<>();
 //        maladies = queryMaladies.getResultList();
 //        pays=queryPays.getResultList();
         Pays p1 = new Pays();
@@ -66,6 +65,8 @@ public class SceneController implements Initializable {
         Association assoc2 =new Association();
         assoc1.setNom("machots du coeur");
         assoc2.setNom("unijambistes anonymes");
+        associations.add(assoc1);
+        associations.add(assoc2);
         Maladie m1 = new Maladie();
         Maladie m2 = new Maladie();
         p1.setNom("Guinée");
@@ -76,15 +77,20 @@ public class SceneController implements Initializable {
         maladies.add(m2);
         // TODO
         ObservableList<String> itemsPays = FXCollections.observableArrayList();
-        for (Pays p : pays) {
+        pays.forEach((p) -> {
             itemsPays.add(p.getNom());
-        }
+        });
         cbPays.setItems(itemsPays);
         ObservableList<String> itemsMaladie = FXCollections.observableArrayList();
-        for (Maladie m : maladies) {
+        maladies.forEach((m) -> {
             itemsMaladie.add(m.getNom());
-        }
+        });
         cbMaladie.setItems(itemsMaladie);
+        ObservableList<String>itemsAssoc =FXCollections.observableArrayList();
+        associations.forEach((a)->{
+            itemsAssoc.add(a.getNom());
+        });
+        assoc.setItems(itemsAssoc);
 
     }
 
