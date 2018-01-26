@@ -21,12 +21,14 @@ import javax.persistence.OneToMany;
 @Entity
 public class EnvoiVaccin implements Serializable  {
 
+
     @Id
     private String id = UUID.randomUUID().toString();
     
-    @OneToMany
-    protected Set<Vaccin> lesVaccins = new HashSet<>();
-    
+    @ManyToOne
+    protected Vaccin lesVaccins;
+    @ManyToOne
+    protected Envoi envoi;
     protected Integer nb ;    
 
     public String getId() {
@@ -40,14 +42,14 @@ public class EnvoiVaccin implements Serializable  {
     /**
      * @return the lesVaccins
      */
-    public  Set<Vaccin> getLesVaccins() {
+    public  Vaccin getLesVaccins() {
         return lesVaccins;
     }
 
     /**
      * @param lesVaccins the lesVaccins to set
      */
-    public void setLesVaccins(Set<Vaccin> lesVaccins) {
+    public void setLesVaccins(Vaccin lesVaccins) {
         this.lesVaccins = lesVaccins;
     }
 
@@ -64,4 +66,18 @@ public class EnvoiVaccin implements Serializable  {
     public void setNb(Integer nb) {
         this.nb = nb;
     }
+        /**
+     * @return the envoi
+     */
+    public Envoi getEnvoi() {
+        return envoi;
+    }
+
+    /**
+     * @param envoi the envoi to set
+     */
+    public void setEnvoi(Envoi envoi) {
+        this.envoi = envoi;
+    }
+
 }
