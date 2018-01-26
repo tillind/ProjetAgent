@@ -35,13 +35,16 @@ public class SceneController implements Initializable {
     private ChoiceBox<String> cbPays, cbMaladie;
     @FXML
     private ChoiceBox<String> assoc;
+    @FXML
+    private TableView<DataTable> tableData;
+    @FXML
+    private TableColumn<DataTable, String> c1, c2, c3;
     final ToggleGroup radioGroupAssoc = new ToggleGroup();
     final ToggleGroup radioGroup = new ToggleGroup();
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("agentBdd");
-//        EntityManager em = emf.createEntityManager();
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -56,13 +59,13 @@ public class SceneController implements Initializable {
 //        Query queryPays = em.createQuery(lesPays);
         List<Maladie> maladies = new ArrayList<>();
         List<Pays> pays = new ArrayList<>();
-        List<Association> associations=new ArrayList<>();
+        List<Association> associations = new ArrayList<>();
 //        maladies = queryMaladies.getResultList();
 //        pays=queryPays.getResultList();
         Pays p1 = new Pays();
         Pays p2 = new Pays();
-        Association assoc1 =new Association();
-        Association assoc2 =new Association();
+        Association assoc1 = new Association();
+        Association assoc2 = new Association();
         assoc1.setNom("machots du coeur");
         assoc2.setNom("unijambistes anonymes");
         associations.add(assoc1);
@@ -86,11 +89,19 @@ public class SceneController implements Initializable {
             itemsMaladie.add(m.getNom());
         });
         cbMaladie.setItems(itemsMaladie);
-        ObservableList<String>itemsAssoc =FXCollections.observableArrayList();
-        associations.forEach((a)->{
+        ObservableList<String> itemsAssoc = FXCollections.observableArrayList();
+        associations.forEach((a) -> {
             itemsAssoc.add(a.getNom());
         });
         assoc.setItems(itemsAssoc);
+
+        // table
+        tableData.setEditable(true);
+        c1.setCellValueFactory(cellData -> cellData.getValue().paysProperty());
+        c2.setCellValueFactory(cellData -> cellData.getValue().maladieProperty());
+        c3.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());
+        ObservableList<DataTable> data = FXCollections.observableArrayList(new DataTable("somalie", "rhume", "100"));
+        tableData.setItems(data);
 
     }
 
@@ -102,25 +113,27 @@ public class SceneController implements Initializable {
 //        Query money = em.creatQuery(updateMoney);
     }
 
-    public ArrayList<String> sendPrio() {
+    public ArrayList<String> getPrio() {
         ArrayList<String> prio = new ArrayList<>();
         prio.add(assoc.getValue());
         if (choicePays.isSelected()) {
-            prio.add(cbPays.getValue());
-            prio.add(cbMaladie.getValue());
+            prio.add(getPays());
+            prio.add(getMaladie());
         }
         if (choiceMaladie.isSelected()) {
-            prio.add(cbMaladie.getValue());
-            prio.add(cbPays.getValue());
+            prio.add(getMaladie());
+            prio.add(getPays());
         }
         System.out.println(prio);
         return (prio);
 
     }
-    public String getPays(){
+
+    public String getPays() {
         return cbPays.getValue();
     }
-    public String getMaladie(){
+
+    public String getMaladie() {
         return cbMaladie.getValue();
     }
 
