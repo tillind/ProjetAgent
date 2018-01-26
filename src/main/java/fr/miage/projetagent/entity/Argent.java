@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Argent implements Serializable {
     
 
-    private int Somme;
+    private double Somme;
     @Id
     private String id =UUID.randomUUID().toString();
 
@@ -23,12 +23,12 @@ public class Argent implements Serializable {
         this.Somme=0;
     }
 
-    public int getSomme() {
+    public double getSomme() {
         return Somme;
     }
 
 
-    public void setSomme(int Somme) {
+    public void setSomme(double Somme) {
         this.Somme = Somme;
     }
 

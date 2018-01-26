@@ -8,6 +8,7 @@ package fr.miage.projetagent.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 @NamedQueries({
     @NamedQuery(
@@ -19,6 +20,7 @@ import java.util.Date;
     @NamedQuery(
         name="Malade.getMaladiesForCountry",
         query="SELECT DISTINCT m.maladie FROM Malade m JOIN m.pays p WHERE  p.nom = :nompays"), 
+
 })
 
 @Entity
@@ -36,6 +38,7 @@ public class Malade implements Serializable {
     private Date dateContamination;
 
     public Malade() {
+        this.id = UUID.randomUUID().toString();
     }
 
     public String getId() {

@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -19,13 +20,16 @@ import javax.persistence.NamedQuery;
     @NamedQuery(
         name="Vaccin.getVaccinWhereMaladie",
         query="SELECT v FROM Vaccin v JOIN v.nom n WHERE n.nom = :nom"), 
+    @NamedQuery(
+        name="Vaccin.deleteVaccinPerimer",
+        query="DELETE FROM Vaccin v WHERE v.dateFin =  current_date() "), 
 })
 
 @Entity
 public class Vaccin implements Serializable {
 
     @Id
-    private String id;
+    private String id = UUID.randomUUID().toString();
     @OneToOne
     private Maladie nom;
     @Temporal(javax.persistence.TemporalType.DATE)

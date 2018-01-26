@@ -5,6 +5,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+@NamedQueries({
+    @NamedQuery(
+        name="Vaccin.deleteVol",
+        query="DELETE FROM Vol v WHERE v.date >= current_date() "), 
+})
 
 @Entity
 public class Vol implements Serializable {

@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -19,12 +20,12 @@ public class Envoi implements Serializable {
 
     @Id
     private String id;
+    @ManyToOne
     private Pays pays;
     private Date date;
-    @OneToMany
-    private Set<EnvoiVaccin> vaccins = new HashSet<>();
 
     public Envoi() {
+        this.id=UUID.randomUUID().toString();
     }
 
     public String getId() {
@@ -49,13 +50,5 @@ public class Envoi implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Set<EnvoiVaccin> getVaccins() {
-        return vaccins;
-    }
-
-    public void setVaccins(Set<EnvoiVaccin> vaccins) {
-        this.vaccins = vaccins;
     }
 }
