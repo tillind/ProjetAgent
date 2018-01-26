@@ -11,6 +11,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+@NamedQueries({
+
+    @NamedQuery(
+        name="Vaccin.getVaccinWhereMaladie",
+        query="SELECT v FROM Vaccin v JOIN v.nom n WHERE n.nom = :nom"), 
+})
 
 @Entity
 public class Vaccin implements Serializable {

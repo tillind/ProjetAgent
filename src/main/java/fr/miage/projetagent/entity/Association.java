@@ -11,8 +11,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Set;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name="Association.findAll",
+                query="SELECT a FROM Association a"),
+}) 
 public class Association implements Serializable {
 
 

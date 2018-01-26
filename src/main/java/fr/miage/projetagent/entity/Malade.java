@@ -13,7 +13,14 @@ import java.util.Date;
     @NamedQuery(
         name="Malade.deleteMort",
         query="DELETE FROM Malade m WHERE m.etat = 'Non_soignable' "),
+    @NamedQuery(
+        name="Malade.nombreMaladeMaladie",
+        query="SELECT count(m.id) FROM Malade m JOIN m.pays p JOIN m.maladie ma WHERE ma.nom = :nomMa AND p.nom = :nompays"), 
+    @NamedQuery(
+        name="Malade.getMaladiesForCountry",
+        query="SELECT DISTINCT m.maladie FROM Malade m JOIN m.pays p WHERE  p.nom = :nompays"), 
 })
+
 @Entity
 public class Malade implements Serializable {
 

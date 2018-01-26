@@ -112,8 +112,9 @@ public class CompagnieBehaviour extends ContractNetInitiator {
     }
 
     private void handleInform(VolPropose volPropose) {
+        int tmp = (int) (double) volPropose.getPrix();
         // mise à jour de l'argent
-        BddAgent.decreaseMoney(myAgent.getLocalName(), volPropose.getPrix());
+        BddAgent.decreaseMoney(myAgent.getLocalName(),tmp);
 
         // TODO ajouter le vol à la BD
         Vol vol = new Vol();
