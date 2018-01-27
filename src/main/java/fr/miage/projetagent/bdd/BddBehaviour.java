@@ -29,22 +29,22 @@ public class BddBehaviour extends TickerBehaviour {
 
     @Override
     protected void onTick() {
-        BddAgent bdd = (BddAgent) myAgent;
-        Iterator<AssosAgent> iter = bdd.assosAgent.iterator();
+        // BddAgent bdd = (BddAgent) myAgent;
+        //Iterator<AssosAgent> iter = bdd.assosAgent.iterator();
 
 
-        while (iter.hasNext()) {
-            //  AssosAgent a = iter.next();
-            // a.setPriority(BddAgent.getStatut(a.getLocalName()));
-            //a.setArgent(BddAgent.getArgent(a.getLocalName()));
+        // while (iter.hasNext()) {
+        //  AssosAgent a = iter.next();
+        // a.setPriority(BddAgent.getStatut(a.getLocalName()));
+        //a.setArgent(BddAgent.getArgent(a.getLocalName()));
 
-            //supprime malades mort, vaccins périmés, vol dépassé, créer malade
+        //supprime malades mort, vaccins périmés, vol dépassé, créer malade
 
-            this.deleteMadaladeMort();
-            this.deleteVaccinPerimer();
-            this.deleteVolDepasser();
-            this.createRandomMalade();
-        }
+        this.deleteMadaladeMort();
+        this.deleteVaccinPerimer();
+        this.deleteVolDepasser();
+        this.createRandomMalade();
+        // }
     }
 
     public void deleteMadaladeMort() {
