@@ -19,7 +19,11 @@ import java.util.UUID;
         query="SELECT count(m.id) FROM Malade m JOIN m.pays p JOIN m.maladie ma WHERE ma.nom = :nomMa AND p.nom = :nompays"), 
     @NamedQuery(
         name="Malade.getMaladiesForCountry",
-        query="SELECT DISTINCT m.maladie FROM Malade m JOIN m.pays p WHERE  p.nom = :nompays"), 
+        query="SELECT DISTINCT m.maladie FROM Malade m JOIN m.pays p WHERE  p.nom = :nompays"),
+    @NamedQuery(
+            name="Malade.getCountryAndDiseaseOrderByNumberOfSick",
+            query = "SELECT m.maladie.nom, m.pays.nom, count(m.id) FROM Malade m GROUP BY m.maladie, m.pays ORDER BY count(m.id) DESC"
+    )
 
 })
 

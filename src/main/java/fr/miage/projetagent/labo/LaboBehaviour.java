@@ -196,7 +196,7 @@ public class LaboBehaviour extends ContractNetInitiator {
     @Override
     protected void handleAllResultNotifications(Vector resultNotifications) {
 
-        System.out.println(myAgent.getLocalName() + "*Labo  --------" + resultNotifications.size() + "refuse/inform");
+        System.out.println(myAgent.getLocalName() + "*Labo  --------" + resultNotifications.size() + "ref/inform");
 
 
         boolean atLeastOneInform = false;

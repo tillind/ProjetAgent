@@ -10,8 +10,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class BddAgent extends Agent {
@@ -66,56 +64,96 @@ public class BddAgent extends Agent {
 
     public static Priority getStatut(String assosName) {
 
-        Priority tmp = new Priority();
-        tmp.setPays("Senegal");
-        tmp.setMaladie("sida");
-        lesprio.put(assosName, tmp);
+        if (lesprio.get(assosName) == null) {
+            lesprio.put(assosName, new Priority());
+        }
 
         Priority p = lesprio.get(assosName);
 
-        //get number of sick people and date for the selected country for the selected disease
-        Query q = em.createNativeQuery("SELECT count(m.id), min(m.datecontamination +  (INTERVAL '1m')*desease.delaiincub) AS date, maladie_nom, pays_nom" +
-                " FROM malade m, maladie desease" +
-                " WHERE desease.nom=m.maladie_nom" +
-                " AND m.pays_nom= :pays" +
-                " AND m.maladie_nom= :maladie" +
-                " GROUP BY m.maladie_nom, m.pays_nom");
-        q.setParameter("pays", p.getPays());
-        q.setParameter("maladie", p.getMaladie());
-        List<Object[]> prio = q.getResultList();
+        int indice = 0;
 
-        BigInteger nb = (BigInteger) prio.get(0)[0];
-        if (prio.get(0) != null && nb != null
-                && (nb).compareTo(BigInteger.valueOf(0l)) > 0) {
-            p.setNombre(nb.intValue());
-            DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
-            p.setDate((Date) prio.get(0)[1]);
+        Query all = em.createNamedQuery("Malade.getCountryAndDiseaseOrderByNumberOfSick");
+        List<Object[]> maladiePays = all.getResultList();
 
+        //if a disease was choosen but not a country
+        if (p.getPays() == null && p.getMaladie() != null) {
+            boolean found = false;
+            for (Object[] tuple : maladiePays) {
+                if (tuple[0].toString().equals(p.getMaladie()) && !found) {
+                    p.setPays(maladiePays.get(indice)[1].toString());
+                    found = true;
+                }
+            }
         }
 
-
-        Query q2 = em.createNativeQuery("SELECT COUNT(v.id) as nb, SUM(v.volume) as volume, v.nom_nom" +
-                " FROM  vaccin v WHERE v.nom_nom = :maladie" +
-                " GROUP BY v.nom_nom");
-        q2.setParameter("maladie", p.getMaladie());
-        List<Object[]> vol = q2.getResultList();
-        if (vol.size() > 0){
-            tmp.setNbVaccin((int)vol.get(0)[0]);
-            tmp.setVolume((double)vol.get(0)[1]);
+        //if a country was choosen but not a disease
+        if (p.getPays() != null && p.getMaladie() == null) {
+            boolean found = false;
+            for (Object[] tuple : maladiePays) {
+                if (tuple[1].toString().equals(p.getPays()) && !found) {
+                    p.setMaladie(maladiePays.get(indice)[0].toString());
+                    found = true;
+                }
+            }
         }
 
+        //if none was choosen
+        if (p.getPays() == null && p.getMaladie() == null) {
+            p.setMaladie(maladiePays.get(indice)[0].toString());
+            p.setPays(maladiePays.get(indice)[1].toString());
+            indice += 1;
+        }
 
-     /*   SELECT count(*), maladie_nom, pays_nom ,min(m.datecontamination +  (interval '1m')*desease.delaiincub) as date
-        from malade m, maladie desease
-        WHERE desease.nom=m.maladie_nom
-        AND m.pays_nom='Senegal'
-        AND m.maladie_nom='sida'
-        GROUP BY m.maladie_nom, m.pays_nom*/
-       // p.setMaladie("sida");
-     //   p.setDate(new Date());
-      //  p.setVolume(100);
-      //  p.setPays("Senegal");
-      //  p.setNombre(100);
+        int people = 0;
+        int vaccine = 1;
+        System.out.println(p.getMaladie());
+        System.out.println(p.getPays());
+        //while there are no people to cure, we are changing priorities
+        while (people < vaccine && indice < maladiePays.size()) {
+
+            //get number of sick people and date for the selected country for the selected disease
+            Query q = em.createNativeQuery("SELECT count(m.id), min(m.datecontamination +  (INTERVAL '1m')*desease.delaiincub) AS date, maladie_nom, pays_nom" +
+                    " FROM malade m, maladie desease" +
+                    " WHERE desease.nom=m.maladie_nom" +
+                    " AND m.pays_nom= :pays" +
+                    " AND m.maladie_nom= :maladie" +
+                    " GROUP BY m.maladie_nom, m.pays_nom");
+            q.setParameter("pays", p.getPays());
+            q.setParameter("maladie", p.getMaladie());
+            List<Object[]> prio = q.getResultList();
+
+            BigInteger nb = (BigInteger) prio.get(0)[0];
+            if (prio.get(0) != null && nb != null
+                    && (nb).compareTo(BigInteger.valueOf(0l)) > 0) {
+                p.setNombre(nb.intValue());
+                p.setDate((Date) prio.get(0)[1]);
+                people = p.getNombre();
+            } else {
+                people = 0;
+            }
+
+            //get number of vaccine we already have and total volume
+            Query q2 = em.createNativeQuery("SELECT COUNT(v.id) AS nb, SUM(v.volume) AS volume, v.nom_nom" +
+                    " FROM  vaccin v WHERE v.nom_nom = :maladie" +
+                    " GROUP BY v.nom_nom");
+            q2.setParameter("maladie", p.getMaladie());
+            List<Object[]> vol = q2.getResultList();
+            if (vol.size() > 0) {
+                p.setNbVaccin((int) vol.get(0)[0]);
+                p.setVolume((double) vol.get(0)[1]);
+                vaccine = p.getNbVaccin();
+            } else {
+                vaccine = 0;
+            }
+
+            if (people < vaccine) {
+                p.setMaladie(maladiePays.get(indice)[0].toString());
+                p.setPays(maladiePays.get(indice)[1].toString());
+            }
+            indice += 1;
+            
+        }
+
         return p;
 
     }
@@ -204,8 +242,7 @@ public class BddAgent extends Agent {
     }
 
     public static List<Maladie> getMaladiesForCountry(String pays) {
-        Query q = em.createNamedQuery("Malade.getMaladiesForCountry")
-                .setParameter("nom", pays);
+        Query q = em.createNamedQuery("Malade.getMaladiesForCountry");
 
         List<Maladie> results = q.getResultList();
         return results;

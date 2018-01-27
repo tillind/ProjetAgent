@@ -12,20 +12,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.ResourceBundle;
 
-/**
- * FXML Controller class
- *
- * @author Arthur
- */
 public class SceneController implements Initializable {
 
     @FXML
@@ -44,9 +37,9 @@ public class SceneController implements Initializable {
     private TableColumn<DataTable, String> c1, c2, c3;
     final ToggleGroup radioGroupAssoc = new ToggleGroup();
     final ToggleGroup radioGroup = new ToggleGroup();
-    static final String[] pays = {"Guinee", "Maraoc", "Tunisie", "Gambie", "Botsawana", "Cameroun", "Senegal"};
-    static final String[] associations = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
-    static final String[] maladie = {"Grippe", "sida", "bronchite", "choléra", "coqueluche", "diphtérie", "encéphalite", "fièvre", "hépatite A", "hépatite B", "Rage", "rubéole", "varicelle", "variole", "tétanos", "oreillons", "zona", "fièvre jaune", "rotavirus"};
+    static final String[] pays = BddAgent.lesPays;
+    static final String[] associations = BddAgent.lesAssos;
+    static final String[] maladie = BddAgent.lesMaladies;
 
 
     /**
@@ -57,9 +50,9 @@ public class SceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-                try {
+        try {
             Thread.sleep(45000);
-        } catch(InterruptedException e) {
+        } catch (InterruptedException e) {
             System.out.println("got interrupted!");
         }
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
@@ -117,20 +110,8 @@ public class SceneController implements Initializable {
 //        Query money = em.creatQuery(updateMoney);
     }
 
-    public ArrayList<String> getPrio() {
-        ArrayList<String> prio = new ArrayList<>();
-        prio.add(assoc.getValue());
-        if (choicePays.isSelected()) {
-            prio.add(getPays());
-            prio.add(getMaladie());
-        }
-        if (choiceMaladie.isSelected()) {
-            prio.add(getMaladie());
-            prio.add(getPays());
-        }
-        System.out.println(prio);
-        return (prio);
-
+    public void getPrio() {
+        BddAgent.getStatut(assoc.getValue(), getPays(), getMaladie());
     }
 
     public String getPays() {

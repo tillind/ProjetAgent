@@ -35,7 +35,7 @@
                 </AnchorPane>
             </center>
         </BorderPane>
-        <Button fx:id="sendPrio" layoutX="216.0" layoutY="257.0" mnemonicParsing="false" onAction="#getPrio" text="envoyer les prioritées" />
+        <Button fx:id="sendPrio" layoutX="216.0" layoutY="257.0" mnemonicParsing="false" onAction="#getPrio" text="Envoyer les priorités" />
         <RadioButton fx:id="choiceMaladie" layoutX="347.0" layoutY="174.0" mnemonicParsing="false" text="Maladie">
             <graphic>
                 <ChoiceBox fx:id="cbMaladie" prefWidth="150.0" />

@@ -1,5 +1,8 @@
 package fr.miage.projetagent.Dummy;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import fr.miage.projetagent.labo.Propose;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -10,6 +13,8 @@ public class ReceiverBehaviour extends CyclicBehaviour {
 	/**
 	 * 
 	 */
+	final Gson gson = new GsonBuilder().create();
+
 	private static final long serialVersionUID = 1L;
 	private final static MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.CFP);
 	private final static MessageTemplate other = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
@@ -32,6 +37,7 @@ public class ReceiverBehaviour extends CyclicBehaviour {
 				System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 				ACLMessage response = aclMessage.createReply();
 				response.setPerformative(ACLMessage.PROPOSE);
+				response.setContent(gson.toJson(new Propose()));
 				System.out.println(response.getAllReceiver());
 				myAgent.send(response);
 				System.out.println("its sent");
