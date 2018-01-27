@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class BddAgent extends Agent {
 
@@ -22,6 +23,7 @@ public class BddAgent extends Agent {
     public static String[] lesPays = {"Guinee", "Maraoc", "Tunisie", "Gambie", "Botsawana", "Cameroun", "Senegal"};
     //public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
     public static String[] lesAssos = {"MiageSansFrontiere"};
+    public static String[] lesMaladies = {"grippe", "bronchite", "rage", "variole", "sida"};
 
     @Override
     protected void setup() {
@@ -127,11 +129,11 @@ public class BddAgent extends Agent {
 
     }
 
-    public static int getNombre(String pays, String maladie) {
+    public static long getNombre(String pays, String maladie) {
         Query q = em.createNamedQuery("Malade.nombreMaladeMaladie")
                 .setParameter("nomMa", maladie)
                 .setParameter("nompays", pays);
-        int results = (int) q.getSingleResult();
+        long results = (long) q.getSingleResult();
         return results;
     }
 
@@ -192,183 +194,21 @@ public class BddAgent extends Agent {
 
     //INSERT DATA TO DATABASE
 
-
+    /**
+     * Add all disease to DB
+     */
     private static void instanciateMaladie() {
-        Maladie mal = new Maladie();
-        mal.setNom("Grippe");
-        Vaccin va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.2);
+        Maladie tmp;
+        Random rm = new Random();
+        for (String maladie : lesMaladies) {
+            tmp = new Maladie();
+            tmp.setNom(maladie);
+            tmp.setDelaiIncub(rm.nextDouble());
 
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-
-        mal = new Maladie();
-        mal.setNom("sida");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.1);
-
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-
-        mal = new Maladie();
-        mal.setNom("bronchite");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.5);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("choléra");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.2);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("coqueluche");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.1);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("diphtérie");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.5);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("encéphalite");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.9);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("fièvre");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.4);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("hépatite A");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.2);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("hépatite B");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.3);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("Rage");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.8);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("rubéole");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.2);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("varicelle");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.1);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("variole");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.2);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("tétanos");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.6);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("oreillons");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.5);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("zona");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.1);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("fièvre jaune");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(0.2);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
-        mal = new Maladie();
-        mal.setNom("rotavirus");
-        va = new Vaccin();
-        va.setNom(mal);
-        va.setVolume(1.1);
-        em.getTransaction().begin();
-        em.persist(va);
-        em.persist(mal);
-        em.getTransaction().commit();
+            em.getTransaction().begin();
+            em.persist(tmp);
+            em.getTransaction().commit();
+        }
     }
 
     /**

@@ -84,7 +84,7 @@ public class SceneController implements Initializable {
         ObservableList<DataTable> data = FXCollections.observableArrayList();
         for(String p:pays){
             for(String m:maladie){
-                int res = BddAgent.getNombre(p, m);
+                long res = BddAgent.getNombre(p, m);
                 data.add(new DataTable(p, m, String.valueOf(res)));
             }
         }

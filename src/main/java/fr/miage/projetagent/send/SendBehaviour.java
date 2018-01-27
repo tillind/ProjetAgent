@@ -42,7 +42,7 @@ public class SendBehaviour extends CyclicBehaviour {
                 //the list is sorted according to the priority to cure it
                 for (Maladie maladie : maladiesToCure) {
 
-                    int sickPeople = BddAgent.getNombre(vol.getDestination().getNom(), maladie.getNom());
+                    long sickPeople = BddAgent.getNombre(vol.getDestination().getNom(), maladie.getNom());
                     List<Vaccin> vaccinsInStock = BddAgent.getVaccins(maladie.getNom());
 
                     for (Vaccin vaccin : vaccinsInStock) {
