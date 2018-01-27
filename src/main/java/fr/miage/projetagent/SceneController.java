@@ -10,6 +10,7 @@ import fr.miage.projetagent.entity.Maladie;
 import fr.miage.projetagent.entity.Pays;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import fr.miage.projetagent.bdd.BddAgent;
 
 /**
  * FXML Controller class
@@ -57,42 +59,21 @@ public class SceneController implements Initializable {
 //        String lesPays = "SELECT m FROM Pays m";
 //        Query queryMaladies = em.createQuery(lesMaladies);
 //        Query queryPays = em.createQuery(lesPays);
-        List<Maladie> maladies = new ArrayList<>();
-        List<Pays> pays = new ArrayList<>();
-        List<Association> associations = new ArrayList<>();
-//        maladies = queryMaladies.getResultList();
-//        pays=queryPays.getResultList();
-        Pays p1 = new Pays();
-        Pays p2 = new Pays();
-        Association assoc1 = new Association();
-        Association assoc2 = new Association();
-        assoc1.setNom("machots du coeur");
-        assoc2.setNom("unijambistes anonymes");
-        associations.add(assoc1);
-        associations.add(assoc2);
-        Maladie m1 = new Maladie();
-        Maladie m2 = new Maladie();
-        p1.setNom("Guinée");
-        m1.setNom("Dysentrie");
-        pays.add(p1);
-        pays.add(p2);
-        maladies.add(m1);
-        maladies.add(m2);
-        // TODO
+        String[] pays = {"Guinee", "Maraoc", "Tunisie", "Gambie", "Botsawana", "Cameroun", "Senegal"};
+        String[] associations = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
+        String[] maladie={"Grippe","sida","bronchite","choléra","coqueluche","diphtérie","encéphalite","fièvre","hépatite A","hépatite B","Rage","rubéole","varicelle","variole","tétanos","oreillons","zona","fièvre jaune","rotavirus"};
+        
+
         ObservableList<String> itemsPays = FXCollections.observableArrayList();
-        pays.forEach((p) -> {
-            itemsPays.add(p.getNom());
-        });
+        itemsPays.addAll(Arrays.asList(pays));
         cbPays.setItems(itemsPays);
+
         ObservableList<String> itemsMaladie = FXCollections.observableArrayList();
-        maladies.forEach((m) -> {
-            itemsMaladie.add(m.getNom());
-        });
+        itemsMaladie.addAll(maladie);
         cbMaladie.setItems(itemsMaladie);
+
         ObservableList<String> itemsAssoc = FXCollections.observableArrayList();
-        associations.forEach((a) -> {
-            itemsAssoc.add(a.getNom());
-        });
+        itemsAssoc.addAll(associations);
         assoc.setItems(itemsAssoc);
 
         // table
@@ -100,7 +81,13 @@ public class SceneController implements Initializable {
         c1.setCellValueFactory(cellData -> cellData.getValue().paysProperty());
         c2.setCellValueFactory(cellData -> cellData.getValue().maladieProperty());
         c3.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());
-        ObservableList<DataTable> data = FXCollections.observableArrayList(new DataTable("somalie", "rhume", "100"));
+        ObservableList<DataTable> data = FXCollections.observableArrayList();
+        for(String p:pays){
+            for(String m:maladie){
+                int res = BddAgent.getNombre(p, m);
+                data.add(new DataTable(p, m, String.valueOf(res)));
+            }
+        }
         tableData.setItems(data);
 
     }
