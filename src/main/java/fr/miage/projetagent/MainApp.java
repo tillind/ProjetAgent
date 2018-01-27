@@ -28,26 +28,30 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-
-
+             AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         Scene scene = new Scene(root);
 
-        stage.setTitle("Eradique 1.0");
+          
+           stage.setTitle("Eradique 1.0");
         stage.setScene(scene);
         stage.show();
-
+        
         String agents = "bdd:fr.miage.projetagent.bdd.BddAgent;";
         BddAgent.addData();
 
+     
         try {
             Thread.sleep(15000);
         } catch(InterruptedException e) {
             System.out.println("got interrupted!");
-        }        
+        }
+        
         for (String assos : BddAgent.getAllAssosName()) {
             agents += assos + ":fr.miage.projetagent.agent.AssosAgent;";
         }
+        
+
+
 
         ProfileImpl profile = new ProfileImpl();
         profile.setParameter("host", "192.168.0.15");
@@ -57,8 +61,10 @@ public class MainApp extends Application {
 
         Runtime rt = Runtime.instance();
 
+        
         jade.wrapper.AgentContainer cont = rt.createAgentContainer(profile);
-    
+ 
+      
         }
 
     /**

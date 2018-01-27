@@ -35,10 +35,12 @@ public class BddAgent extends Agent {
        
         Query q = em.createNamedQuery("Association.findAll", Association.class);
         List<Association> results = q.getResultList();
+        
         ArrayList<String> tmp = new ArrayList<>();
-        results.forEach((assoc)->{
+        tmp.add(results.get(0).getNom());
+        /*results.forEach((assoc)->{
             tmp.add(assoc.getNom());
-        });
+        });*/
         return tmp;
     }
 

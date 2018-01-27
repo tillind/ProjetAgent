@@ -17,6 +17,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * FXML Controller class
@@ -42,6 +45,7 @@ public class SceneController implements Initializable {
     final ToggleGroup radioGroupAssoc = new ToggleGroup();
     final ToggleGroup radioGroup = new ToggleGroup();
 
+
     /**
      * Initializes the controller class.
      *
@@ -50,36 +54,25 @@ public class SceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+                try {
+            Thread.sleep(45000);
+        } catch(InterruptedException e) {
+            System.out.println("got interrupted!");
+        }
+    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
+    EntityManager em = entityManagerFactory.createEntityManager();
         choicePays.setToggleGroup(radioGroup);
         choiceMaladie.setToggleGroup(radioGroup);
-//        String lesMaladies = "SELECT m FROM Maladie m";
-//        String lesPays = "SELECT m FROM Pays m";
-//        Query queryMaladies = em.createQuery(lesMaladies);
-//        Query queryPays = em.createQuery(lesPays);
-        List<Maladie> maladies = new ArrayList<>();
-        List<Pays> pays = new ArrayList<>();
-        List<Association> associations = new ArrayList<>();
-//        maladies = queryMaladies.getResultList();
-//        pays=queryPays.getResultList();
-        Pays p1 = new Pays();
-        Pays p2 = new Pays();
-        Association assoc1 = new Association();
-        Association assoc2 = new Association();
-        assoc1.setNom("machots du coeur");
-        assoc2.setNom("unijambistes anonymes");
-        associations.add(assoc1);
-        associations.add(assoc2);
-        Maladie m1 = new Maladie();
-        Maladie m2 = new Maladie();
-        p1.setNom("Guinée");
-        m1.setNom("Dysentrie");
-        pays.add(p1);
-        pays.add(p2);
-        maladies.add(m1);
-        maladies.add(m2);
+        //List<Pays> maladies = em.createQuery("SELECT p FROM Pays p").getResultList();
+        //List<Maladie> pays = em.createQuery("SELECT p FROM Maladie p").getResultList();
+        System.out.println("fr.miage.projetagent.SceneController.initialize()");
+        List<Association> associations = em.createQuery("SELECT p FROM Association p").getResultList();
+        for (Association association : associations) {
+            System.out.println("fr.miage.projetagent.SceneController.initialize()");
+            System.out.println(association.getNom());
+        }
         // TODO
-        ObservableList<String> itemsPays = FXCollections.observableArrayList();
+      /*  ObservableList<String> itemsPays = FXCollections.observableArrayList();
         pays.forEach((p) -> {
             itemsPays.add(p.getNom());
         });
@@ -88,7 +81,7 @@ public class SceneController implements Initializable {
         maladies.forEach((m) -> {
             itemsMaladie.add(m.getNom());
         });
-        cbMaladie.setItems(itemsMaladie);
+        cbMaladie.setItems(itemsMaladie);*/
         ObservableList<String> itemsAssoc = FXCollections.observableArrayList();
         associations.forEach((a) -> {
             itemsAssoc.add(a.getNom());
