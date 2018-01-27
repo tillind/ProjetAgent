@@ -24,7 +24,7 @@ public class LaboBehaviour extends ContractNetInitiator {
 
     public LaboBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);
-        System.out.println("--------Message is sent to all labos");
+        System.out.println(myAgent.getLocalName() + " -------- Message is sent to all labos");
     }
 
 
@@ -32,7 +32,7 @@ public class LaboBehaviour extends ContractNetInitiator {
      * Reset cette behaviour
      */
     private void resetBehaviour() {
-        System.out.println("--------Labo behaviour is reseted");
+        System.out.println(myAgent.getLocalName() + " -------- Labo behaviour is reset");
         CommunicationBehaviour parent = (CommunicationBehaviour) this.parent;
         parent.init();
         this.reset(parent.startLabo());
@@ -49,7 +49,7 @@ public class LaboBehaviour extends ContractNetInitiator {
      */
     @Override
     protected void handleAllResponses(Vector responses, Vector acceptances) {
-        System.out.println("--------" + responses.size() + "responses");
+        System.out.println(myAgent.getLocalName() + "*Labo  --------" + responses.size() + "responses");
         //System.out.println("--------" + acceptances.size() + "acceptances");
         List<ACLMessage> proposeResponse = new ArrayList<>();
         for (Object response : responses) {
@@ -59,17 +59,19 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
 
-        acceptances=choosePropose(proposeResponse);
+        System.out.println(myAgent.getLocalName() + "*Labo  --------" + proposeResponse.size() + "propose");
+
+        acceptances = choosePropose(proposeResponse);
         moreAcceptances(acceptances);
         boolean atLeastOne = false;
-        for (Object response : acceptances){
-            if (((ACLMessage)response).getPerformative() == ACLMessage.ACCEPT_PROPOSAL){
+        for (Object response : acceptances) {
+            if (((ACLMessage) response).getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
                 atLeastOne = true;
             }
         }
 
         if (!atLeastOne) {
-           resetBehaviour();
+            resetBehaviour();
         }
 
     }
@@ -167,7 +169,7 @@ public class LaboBehaviour extends ContractNetInitiator {
                 ACLMessage agree = message.createReply();
                 agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                 reponse.add(agree);
-                System.out.println("-------- ACCEPT Proposal sended");
+                System.out.println(myAgent.getLocalName() + "*Labo -------- ACCEPT Proposal sended");
 
                 String content = message.getContent();
                 Propose propose = gson.fromJson(content, Propose.class);
@@ -179,7 +181,7 @@ public class LaboBehaviour extends ContractNetInitiator {
                 ACLMessage reject = message.createReply();
                 reject.setPerformative(ACLMessage.REJECT_PROPOSAL);
                 reponse.add(reject);
-                System.out.println("-------- REJECT Proposal sended");
+                System.out.println(myAgent.getLocalName() + "*Labo -------- REJECT Proposal sended");
             }
         }
         return reponse;
@@ -188,14 +190,17 @@ public class LaboBehaviour extends ContractNetInitiator {
 
     /**
      * Attend tous les messages inform/refuse
+     *
      * @param resultNotifications
      */
     @Override
     protected void handleAllResultNotifications(Vector resultNotifications) {
 
+        System.out.println(myAgent.getLocalName() + "*Labo  --------" + resultNotifications.size() + "refuse/inform");
+
+
         boolean atLeastOneInform = false;
 
-        System.out.println("--------" + resultNotifications.size() + "inform/refuse");
         List<Propose> informList = new ArrayList<>();
 
         for (Object response : resultNotifications) {
@@ -207,6 +212,7 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
 
+        System.out.println(myAgent.getLocalName() + "*Labo --------" + informList.size() + "inform");
 
         if (atLeastOneInform) {
             handleInform(informList);
@@ -221,9 +227,10 @@ public class LaboBehaviour extends ContractNetInitiator {
     /**
      * Recoit toutes les informations des commandes de médicaments validées
      * Met à jour les autres informations
+     *
      * @param list
      */
-    private void handleInform(List<Propose> list){
+    private void handleInform(List<Propose> list) {
 
         Objectif objectif = ((AssosAgent) myAgent).getEnCours();
         List<Propose> beforeDeath = new ArrayList<>();
@@ -236,11 +243,11 @@ public class LaboBehaviour extends ContractNetInitiator {
         //calcule nombre acheté, argent dépensé, volume acheté
         for (Propose propose : list) {
             nbTotal += propose.getNombre();
-            sumTotal += propose.getPrix()*propose.getNombre();
-            volumTotal += propose.getVolume()*propose.getNombre();
-            if (propose.getDateLivraison().before(objectif.getDateMort())){
+            sumTotal += propose.getPrix() * propose.getNombre();
+            volumTotal += propose.getVolume() * propose.getNombre();
+            if (propose.getDateLivraison().before(objectif.getDateMort())) {
                 beforeDeath.add(propose);
-            }else{
+            } else {
                 afterDeath.add(propose);
             }
         }
@@ -251,16 +258,16 @@ public class LaboBehaviour extends ContractNetInitiator {
                 .orElseThrow(NoSuchElementException::new);
 
         //si des vaccins se périment avant, on l'envoie avant qu'ils ne soient périmés
-        if (firstPeremption.getDatePeremption().before(objectif.getDateMort())){
+        if (firstPeremption.getDatePeremption().before(objectif.getDateMort())) {
             objectif.setDateSouhaitee(firstPeremption.getDatePeremption());
-        }else{
+        } else {
             //si tous les vaccins se périment après
-            if(beforeDeath.size()>0){ //si certains vaccins sont livrés avant la date limite, on prend le dernier
+            if (beforeDeath.size() > 0) { //si certains vaccins sont livrés avant la date limite, on prend le dernier
                 Propose lastOneBeforeDeath = list.stream()
                         .max(Comparator.comparing(Propose::getDateLivraison))
                         .orElseThrow(NoSuchElementException::new);
                 objectif.setDateSouhaitee(lastOneBeforeDeath.getDatePeremption());
-            }else{ //si les vaccins sont livrés après la date limite, on envoie dès que le premier arrive
+            } else { //si les vaccins sont livrés après la date limite, on envoie dès que le premier arrive
                 Propose firstOneAfterDeath = list.stream()
                         .min(Comparator.comparing(Propose::getDateLivraison))
                         .orElseThrow(NoSuchElementException::new);
@@ -268,26 +275,26 @@ public class LaboBehaviour extends ContractNetInitiator {
             }
         }
 
-
         //mise à jour de l'objectif
-        objectif.setVolume(objectif.getVolume()+volumTotal);
+        objectif.setVolume(objectif.getVolume() + volumTotal);
         objectif.setNombre(nbTotal);
 
         List<Vaccin> vaccins = new ArrayList<>();
-        for (Propose propose : list){
-            for (int i = 0 ; i<propose.getNombre() ; i++){
+        for (Propose propose : list) {
+            for (int i = 0; i < propose.getNombre(); i++) {
                 Vaccin vaccin = new Vaccin();
                 vaccin.setDateDebut(propose.getDateLivraison());
                 vaccin.setDateFin(propose.getDatePeremption());
                 vaccin.setVolume(propose.getVolume());
                 //J'ajoute les vaccins
                 BddAgent.addVaccin(objectif.getVaccin(), vaccin);
+                System.out.println(myAgent.getLocalName() + "*Labo -------- added envoi to DB");
             }
         }
 
         BddAgent.decreaseMoney(myAgent.getLocalName(), sumTotal);
-        //TODO diminuer l'argent
 
+        System.out.println(myAgent.getLocalName() + "*Labo -------- DONE");
 
     }
 

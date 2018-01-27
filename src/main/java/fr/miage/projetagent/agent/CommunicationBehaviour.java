@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import fr.miage.projetagent.labo.CFP;
 import fr.miage.projetagent.compagnie.CompagnieBehaviour;
 import fr.miage.projetagent.compagnie.CompagnieMessage;
+import fr.miage.projetagent.labo.LaboBehaviour;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.SequentialBehaviour;
@@ -30,8 +31,8 @@ public class CommunicationBehaviour extends SequentialBehaviour {
     public CommunicationBehaviour(Agent a) {
         super(a);
         init();
-        //this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
-        this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
+        this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
+        //this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
     }
 
 
@@ -41,12 +42,8 @@ public class CommunicationBehaviour extends SequentialBehaviour {
      */
     public void init() {
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
-        assocAgent.getPriority().setNombre(100);
-        assocAgent.getPriority().setMaladie("rage");
-        assocAgent.getPriority().setDate(new Date());
-        assocAgent.getPriority().setPays("pays");
-        assocAgent.getPriority().setVolume(100);
-        assocAgent.setArgent(1000000000);
+
+        assocAgent.update();
 
         assocAgent.getEnCours().setPays(assocAgent.getPriority().getPays());
         assocAgent.getEnCours().setDateMort(assocAgent.getPriority().getDate());
@@ -54,7 +51,6 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         assocAgent.getEnCours().setVaccin(assocAgent.getPriority().getMaladie());
         assocAgent.getEnCours().setVolume(assocAgent.getPriority().getVolume());
         //assocAgent.getEnCours().set
-        System.out.println("prioriu = "+assocAgent.getPriority().getNombre());
     }
 
 

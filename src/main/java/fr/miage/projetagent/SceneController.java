@@ -5,18 +5,17 @@
  */
 package fr.miage.projetagent;
 
-import fr.miage.projetagent.entity.Association;
-import fr.miage.projetagent.entity.Maladie;
-import fr.miage.projetagent.entity.Pays;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import fr.miage.projetagent.bdd.BddAgent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -59,33 +58,29 @@ public class SceneController implements Initializable {
         } catch(InterruptedException e) {
             System.out.println("got interrupted!");
         }
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
-    EntityManager em = entityManagerFactory.createEntityManager();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
+        EntityManager em = entityManagerFactory.createEntityManager();
         choicePays.setToggleGroup(radioGroup);
         choiceMaladie.setToggleGroup(radioGroup);
-        //List<Pays> maladies = em.createQuery("SELECT p FROM Pays p").getResultList();
-        //List<Maladie> pays = em.createQuery("SELECT p FROM Maladie p").getResultList();
-        System.out.println("fr.miage.projetagent.SceneController.initialize()");
-        List<Association> associations = em.createQuery("SELECT p FROM Association p").getResultList();
-        for (Association association : associations) {
-            System.out.println("fr.miage.projetagent.SceneController.initialize()");
-            System.out.println(association.getNom());
-        }
-        // TODO
-      /*  ObservableList<String> itemsPays = FXCollections.observableArrayList();
-        pays.forEach((p) -> {
-            itemsPays.add(p.getNom());
-        });
+//        String lesMaladies = "SELECT m FROM Maladie m";
+//        String lesPays = "SELECT m FROM Pays m";
+//        Query queryMaladies = em.createQuery(lesMaladies);
+//        Query queryPays = em.createQuery(lesPays);
+        String[] pays = {"Guinee", "Maraoc", "Tunisie", "Gambie", "Botsawana", "Cameroun", "Senegal"};
+        String[] associations = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
+        String[] maladie = {"grippe", "bronchite", "rage", "variole", "sida"};
+
+
+        ObservableList<String> itemsPays = FXCollections.observableArrayList();
+        itemsPays.addAll(Arrays.asList(pays));
         cbPays.setItems(itemsPays);
+
         ObservableList<String> itemsMaladie = FXCollections.observableArrayList();
-        maladies.forEach((m) -> {
-            itemsMaladie.add(m.getNom());
-        });
-        cbMaladie.setItems(itemsMaladie);*/
+        itemsMaladie.addAll(maladie);
+        cbMaladie.setItems(itemsMaladie);
+
         ObservableList<String> itemsAssoc = FXCollections.observableArrayList();
-        associations.forEach((a) -> {
-            itemsAssoc.add(a.getNom());
-        });
+        itemsAssoc.addAll(associations);
         assoc.setItems(itemsAssoc);
 
         // table
@@ -93,7 +88,13 @@ public class SceneController implements Initializable {
         c1.setCellValueFactory(cellData -> cellData.getValue().paysProperty());
         c2.setCellValueFactory(cellData -> cellData.getValue().maladieProperty());
         c3.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());
-        ObservableList<DataTable> data = FXCollections.observableArrayList(new DataTable("somalie", "rhume", "100"));
+        ObservableList<DataTable> data = FXCollections.observableArrayList();
+        for (String p : pays) {
+            for (String m : maladie) {
+                long res = BddAgent.getNombre(p, m);
+                data.add(new DataTable(p, m, String.valueOf(res)));
+            }
+        }
         tableData.setItems(data);
 
     }

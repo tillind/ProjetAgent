@@ -15,15 +15,26 @@ public class Maladie implements Serializable {
 
     @Id
     private String nom;
+    private double delaiIncub;
 
 
+    public Maladie() {
+    }
 
-    
-    public String getNom(){
+    public String getNom() {
         return this.nom;
     }
-    public void setNom(String nom){
-        this.nom=nom;
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
-    
+
+
+    public double getDelaiIncub() {
+        return delaiIncub;
+    }
+
+    public void setDelaiIncub(double delaiIncub) {
+        this.delaiIncub = delaiIncub;
+    }
 }
