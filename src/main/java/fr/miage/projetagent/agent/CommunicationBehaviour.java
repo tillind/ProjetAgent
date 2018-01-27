@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import fr.miage.projetagent.labo.CFP;
 import fr.miage.projetagent.compagnie.CompagnieBehaviour;
 import fr.miage.projetagent.compagnie.CompagnieMessage;
+import fr.miage.projetagent.labo.LaboBehaviour;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.SequentialBehaviour;
@@ -30,8 +31,8 @@ public class CommunicationBehaviour extends SequentialBehaviour {
     public CommunicationBehaviour(Agent a) {
         super(a);
         init();
-        //this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
-        this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
+        this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
+        //this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
     }
 
 
@@ -47,6 +48,8 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         assocAgent.getPriority().setPays("pays");
         assocAgent.getPriority().setVolume(100);
         assocAgent.setArgent(1000000000);
+
+        assocAgent.update();
 
         assocAgent.getEnCours().setPays(assocAgent.getPriority().getPays());
         assocAgent.getEnCours().setDateMort(assocAgent.getPriority().getDate());

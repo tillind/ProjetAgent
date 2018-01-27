@@ -3,6 +3,7 @@ package fr.miage.projetagent.agent;
 import fr.miage.projetagent.bdd.BddAgent;
 import fr.miage.projetagent.common.EnregistrerService;
 import jade.core.Agent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,5 +65,11 @@ public class AssosAgent extends Agent {
         EnregistrerService.unregisterService(this, "assos", "assos");
         BddAgent.removeAssosAgent(this);
         super.takeDown();
+    }
+
+    public void update() {
+        this.setPriority(BddAgent.getStatut(this.getLocalName()));
+        this.setArgent(BddAgent.getArgent(this.getLocalName()));
+        System.out.println(this.getLocalName() + " updated prority");
     }
 }
