@@ -5,6 +5,8 @@
  */
 package fr.miage.projetagent;
 
+import java.util.Comparator;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -12,7 +14,7 @@ import javafx.beans.property.StringProperty;
  *
  * @author Arthur
  */
-public class DataTable {
+public class DataTable{
 
     private final StringProperty pays;
     private final StringProperty maladie;
@@ -44,5 +46,6 @@ public class DataTable {
     public StringProperty nombreProperty(){
         return this.nombre;
     }
+
 
 }

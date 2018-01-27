@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -103,6 +104,7 @@ public class SceneController implements Initializable {
             }
         }
         tableData.setItems(data);
+        tableData.getItems().sorted();
         System.out.println("OK");
 
     }
