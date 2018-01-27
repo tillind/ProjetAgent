@@ -5,16 +5,20 @@
  */
 package fr.miage.projetagent;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import fr.miage.projetagent.bdd.BddAgent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import fr.miage.projetagent.bdd.BddAgent;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ResourceBundle;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * FXML Controller class
@@ -43,6 +47,7 @@ public class SceneController implements Initializable {
     static final String[] associations = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
     static final String[] maladie = {"Grippe", "sida", "bronchite", "choléra", "coqueluche", "diphtérie", "encéphalite", "fièvre", "hépatite A", "hépatite B", "Rage", "rubéole", "varicelle", "variole", "tétanos", "oreillons", "zona", "fièvre jaune", "rotavirus"};
 
+
     /**
      * Initializes the controller class.
      *
@@ -51,7 +56,13 @@ public class SceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+                try {
+            Thread.sleep(45000);
+        } catch(InterruptedException e) {
+            System.out.println("got interrupted!");
+        }
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
+        EntityManager em = entityManagerFactory.createEntityManager();
         choicePays.setToggleGroup(radioGroup);
         choiceMaladie.setToggleGroup(radioGroup);
 
@@ -75,7 +86,7 @@ public class SceneController implements Initializable {
         ObservableList<DataTable> data = FXCollections.observableArrayList();
         for (String p : pays) {
             for (String m : maladie) {
-                int res = BddAgent.getNombre(p, m);
+                long res = BddAgent.getNombre(p, m);
                 data.add(new DataTable(p, m, String.valueOf(res)));
             }
         }
@@ -87,7 +98,7 @@ public class SceneController implements Initializable {
         ObservableList<DataTable> data = FXCollections.observableArrayList();
         for (String p : pays) {
             for (String m : maladie) {
-                int res = BddAgent.getNombre(p, m);
+                long res = BddAgent.getNombre(p, m);
                 data.add(new DataTable(p, m, String.valueOf(res)));
             }
         }

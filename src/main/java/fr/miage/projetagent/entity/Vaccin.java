@@ -32,9 +32,9 @@ public class Vaccin implements Serializable {
     private String id = UUID.randomUUID().toString();
     @OneToOne
     private Maladie nom;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateDebut;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateFin;
     private double volume;
 

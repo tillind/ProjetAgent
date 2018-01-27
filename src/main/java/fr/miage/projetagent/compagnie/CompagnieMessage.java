@@ -7,11 +7,11 @@ import java.util.Date;
 
 public class CompagnieMessage implements Serializable {
 
-    private int volume;
+    private double volume;
     private Date date;
     private String pays;
 
-    public CompagnieMessage(int volume, Date date, String pays) {
+    public CompagnieMessage(double volume, Date date, String pays) {
         this.volume = volume;
         this.date = date;
         this.pays = pays;

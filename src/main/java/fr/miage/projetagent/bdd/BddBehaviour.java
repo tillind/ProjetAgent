@@ -1,24 +1,18 @@
 package fr.miage.projetagent.bdd;
 
-import fr.miage.projetagent.agent.AssosAgent;
-
-import static fr.miage.projetagent.bdd.BddAgent.em;
-
 import fr.miage.projetagent.entity.Malade;
 import fr.miage.projetagent.entity.Maladie;
 import fr.miage.projetagent.entity.Pays;
 import fr.miage.projetagent.entity.TypeMalade;
-import fr.miage.projetagent.entity.Vaccin;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 
+import javax.persistence.Query;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Query;
+
+import static fr.miage.projetagent.bdd.BddAgent.em;
 
 public class BddBehaviour extends TickerBehaviour {
 
@@ -29,14 +23,6 @@ public class BddBehaviour extends TickerBehaviour {
 
     @Override
     protected void onTick() {
-        // BddAgent bdd = (BddAgent) myAgent;
-        //Iterator<AssosAgent> iter = bdd.assosAgent.iterator();
-
-
-        // while (iter.hasNext()) {
-        //  AssosAgent a = iter.next();
-        // a.setPriority(BddAgent.getStatut(a.getLocalName()));
-        //a.setArgent(BddAgent.getArgent(a.getLocalName()));
 
         //supprime malades mort, vaccins périmés, vol dépassé, créer malade
 
@@ -74,11 +60,11 @@ public class BddBehaviour extends TickerBehaviour {
 
     public void createRandomMalade() {
 
-        System.out.println("fr.miage.projetagent.bdd.BddBehaviour.createRandomMalade()");
+        System.out.println("Creating sick");
         List<Pays> listPays = em.createQuery("SELECT p FROM Pays p").getResultList();
         List<Maladie> listmal = em.createQuery("SELECT p FROM Maladie p").getResultList();
         Random rm = new Random();
-        int nb = rm.nextInt(1000 - 100 + 1) + 100;
+        int nb = rm.nextInt(100) + 100;
         for (int i = 0; i < nb; i++) {
 
             Malade tmp = new Malade();

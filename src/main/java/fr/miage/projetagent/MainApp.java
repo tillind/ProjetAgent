@@ -32,6 +32,7 @@ public class MainApp extends Application {
         String agents = "bdd:fr.miage.projetagent.bdd.BddAgent;";
         BddAgent.addData();
 
+     
         try {
             Thread.sleep(60000);
         } catch (InterruptedException e) {
@@ -40,17 +41,21 @@ public class MainApp extends Application {
         for (String assos : BddAgent.getAllAssosName()) {
             agents += assos + ":fr.miage.projetagent.agent.AssosAgent;";
         }
+        
+
+
 
         System.out.println("finished sleep");
 
         ProfileImpl profile = new ProfileImpl();
-        profile.setParameter("host", "192.168.43.79");
+        profile.setParameter("host", "192.168.0.15");
         profile.setParameter("main", "false");
         profile.setParameter("no-display", "true");
         profile.setParameter("agents", agents);
 
         Runtime rt = Runtime.instance();
 
+        
         jade.wrapper.AgentContainer cont = rt.createAgentContainer(profile);
 
 

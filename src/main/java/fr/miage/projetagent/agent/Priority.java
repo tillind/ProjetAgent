@@ -7,7 +7,8 @@ public class Priority {
     //date where a patient will die
     private Date date;
     //volume of vaccine we already have for this disease and this date
-    private int volume;
+    private double volume;
+    protected int nbVaccin;
     //number of people to cure, minus the number of vaccine we already have for this disease and this date
     private int nombre;
     private String pays;
@@ -32,11 +33,11 @@ public class Priority {
         this.date = date;
     }
 
-    public int getVolume() {
+    public double getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(double volume) {
         this.volume = volume;
     }
 
@@ -64,4 +65,28 @@ public class Priority {
         this.maladie = maladie;
     }
 
+    @Override
+    public String toString() {
+        return "Priority{" +
+                "date=" + date +
+                ", volume=" + volume +
+                ", nombre=" + nombre +
+                ", pays='" + pays +
+                ", maladie='" + maladie +
+                '}';
+    }
+
+    /**
+     * @return the nbVaccin
+     */
+    public int getNbVaccin() {
+        return nbVaccin;
+    }
+
+    /**
+     * @param nbVaccin the nbVaccin to set
+     */
+    public void setNbVaccin(int nbVaccin) {
+        this.nbVaccin = nbVaccin;
+    }
 }

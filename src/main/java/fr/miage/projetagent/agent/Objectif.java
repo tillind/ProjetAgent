@@ -8,7 +8,7 @@ public class Objectif {
     private String vaccin;
     private int nombre;
     private Date dateMort;
-    private int volume;
+    private double volume;
     private Date arrivee;
     private Date dateSouhaitee;
 
@@ -58,11 +58,11 @@ public class Objectif {
         this.dateMort = dateMort;
     }
 
-    public int getVolume() {
+    public double getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(double volume) {
         this.volume = volume;
     }
 
