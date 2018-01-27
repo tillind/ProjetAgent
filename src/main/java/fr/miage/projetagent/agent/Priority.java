@@ -65,28 +65,23 @@ public class Priority {
         this.maladie = maladie;
     }
 
+    public int getNbVaccin() {
+        return nbVaccin;
+    }
+
+    public void setNbVaccin(int nbVaccin) {
+        this.nbVaccin = nbVaccin;
+    }
+
     @Override
     public String toString() {
         return "Priority{" +
                 "date=" + date +
                 ", volume=" + volume +
+                ", nbVaccin=" + nbVaccin +
                 ", nombre=" + nombre +
-                ", pays='" + pays +
-                ", maladie='" + maladie +
+                ", pays=" + pays +
+                ", maladie=" + maladie +
                 '}';
-    }
-
-    /**
-     * @return the nbVaccin
-     */
-    public int getNbVaccin() {
-        return nbVaccin;
-    }
-
-    /**
-     * @param nbVaccin the nbVaccin to set
-     */
-    public void setNbVaccin(int nbVaccin) {
-        this.nbVaccin = nbVaccin;
     }
 }

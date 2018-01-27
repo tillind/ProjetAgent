@@ -34,21 +34,19 @@ public class MainApp extends Application {
 
      
         try {
-            Thread.sleep(60000);
+            Thread.sleep(30000);
         } catch (InterruptedException e) {
             System.out.println("got interrupted!");
         }
         for (String assos : BddAgent.getAllAssosName()) {
             agents += assos + ":fr.miage.projetagent.agent.AssosAgent;";
         }
-        
-
 
 
         System.out.println("finished sleep");
 
         ProfileImpl profile = new ProfileImpl();
-        profile.setParameter("host", "192.168.0.15");
+        profile.setParameter("host", "192.168.43.79");
         profile.setParameter("main", "false");
         profile.setParameter("no-display", "true");
         profile.setParameter("agents", agents);
