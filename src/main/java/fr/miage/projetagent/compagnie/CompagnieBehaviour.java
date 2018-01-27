@@ -31,6 +31,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
      * Reset la behaviour en augmentant la date d'un jour
      */
     private void resetBehaviour() {
+        System.out.println(myAgent.getLocalName() + " -------- Compagnie behaviour is reset");
         ACLMessage newMessage = new ACLMessage(ACLMessage.CFP);
         newMessage.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
         newMessage.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
@@ -46,8 +47,8 @@ public class CompagnieBehaviour extends ContractNetInitiator {
 
     @Override
     protected void handleAllResponses(Vector responses, Vector acceptances) {
-        System.out.println("--------" + responses.size() + "responses");
-        System.out.println("--------" + acceptances.size() + "acceptances");
+        System.out.println(myAgent.getLocalName() + "*Compagnie  --------" + responses.size() + "responses");
+
         List<ACLMessage> proposeResponse = new ArrayList<>();
         for (Object response : responses) {
             ACLMessage reponseMessage = (ACLMessage) response;
@@ -55,6 +56,8 @@ public class CompagnieBehaviour extends ContractNetInitiator {
                 proposeResponse.add(reponseMessage);
             }
         }
+
+        System.out.println(myAgent.getLocalName() + "*Compagnie  --------" + proposeResponse.size() + "propose");
 
         if (proposeResponse.size() == 0) {
             // Si pas de réponse des compagnies, renvoie du message avec une nouvelle date
@@ -80,7 +83,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
                 agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                 agree.setContent(gson.toJson(volMoinsCher));
                 acceptances.add(agree);
-                System.out.println("-------- ACCEPT_PROPOSAL Vol sended");
+                System.out.println(myAgent.getLocalName() + "*Compagnie -------- ACCEPT_PROPOSAL Vol sended");
                 getDataStore().put(message.getConversationId() + "vol", volMoinsCher);
             }
             moreAcceptances(acceptances);
@@ -91,7 +94,8 @@ public class CompagnieBehaviour extends ContractNetInitiator {
     protected void handleAllResultNotifications(Vector resultNotifications) {
         boolean atLeastOneInform = false;
 
-        System.out.println("--------" + resultNotifications.size() + "inform/refuse");
+        System.out.println(myAgent.getLocalName() + "*Compagnie  -------- " + resultNotifications.size() + "refuse/inform");
+
         VolPropose propose = new VolPropose();
 
         for (Object response : resultNotifications) {
@@ -99,6 +103,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
             if (reponseMessage.getPerformative() == ACLMessage.INFORM) {
                 atLeastOneInform = true;
                 propose = (VolPropose) getDataStore().get(reponseMessage.getConversationId() + "vol");
+                System.out.println(myAgent.getLocalName() + "*Labo -------- " + 1 + "inform");
             }
         }
 
@@ -126,5 +131,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         //BddAgent.addVol(Vol vol);
 
         //TODO mettre l'objectif dans prioritiesDone
+
+        System.out.println(myAgent.getLocalName() + "*Compagnie -------- DONE");
     }
 }
