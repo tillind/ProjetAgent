@@ -5,20 +5,17 @@
  */
 package fr.miage.projetagent;
 
-import fr.miage.projetagent.entity.Association;
-import fr.miage.projetagent.entity.Maladie;
-import fr.miage.projetagent.entity.Pays;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import fr.miage.projetagent.bdd.BddAgent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import fr.miage.projetagent.bdd.BddAgent;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -61,8 +58,8 @@ public class SceneController implements Initializable {
 //        Query queryPays = em.createQuery(lesPays);
         String[] pays = {"Guinee", "Maraoc", "Tunisie", "Gambie", "Botsawana", "Cameroun", "Senegal"};
         String[] associations = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
-        String[] maladie={"Grippe","sida","bronchite","choléra","coqueluche","diphtérie","encéphalite","fièvre","hépatite A","hépatite B","Rage","rubéole","varicelle","variole","tétanos","oreillons","zona","fièvre jaune","rotavirus"};
-        
+        String[] maladie = {"grippe", "bronchite", "rage", "variole", "sida"};
+
 
         ObservableList<String> itemsPays = FXCollections.observableArrayList();
         itemsPays.addAll(Arrays.asList(pays));
@@ -82,8 +79,8 @@ public class SceneController implements Initializable {
         c2.setCellValueFactory(cellData -> cellData.getValue().maladieProperty());
         c3.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());
         ObservableList<DataTable> data = FXCollections.observableArrayList();
-        for(String p:pays){
-            for(String m:maladie){
+        for (String p : pays) {
+            for (String m : maladie) {
                 long res = BddAgent.getNombre(p, m);
                 data.add(new DataTable(p, m, String.valueOf(res)));
             }
