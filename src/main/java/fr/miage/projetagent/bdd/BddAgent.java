@@ -2,22 +2,16 @@ package fr.miage.projetagent.bdd;
 
 import fr.miage.projetagent.agent.AssosAgent;
 import fr.miage.projetagent.agent.Priority;
-import fr.miage.projetagent.entity.Argent;
-import fr.miage.projetagent.entity.Association;
-import fr.miage.projetagent.entity.Envoi;
-import fr.miage.projetagent.entity.EnvoiVaccin;
-import fr.miage.projetagent.entity.Maladie;
-import fr.miage.projetagent.entity.Pays;
-import fr.miage.projetagent.entity.Vaccin;
-import fr.miage.projetagent.entity.Vol;
+import fr.miage.projetagent.entity.*;
 import jade.core.Agent;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class BddAgent extends Agent {
 
@@ -26,11 +20,12 @@ public class BddAgent extends Agent {
     static EntityManager em = entityManagerFactory.createEntityManager();
 
     public static String[] lesPays = {"Guinee", "Maraoc", "Tunisie", "Gambie", "Botsawana", "Cameroun", "Senegal"};
-    public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
+    //public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
+    public static String[] lesAssos = {"MiageSansFrontiere"};
 
     @Override
     protected void setup() {
-        this.addBehaviour(new BddBehaviour(this, 45));
+        //this.addBehaviour(new BddBehaviour(this, 30));
     }
 
     public static List<String> getAllAssosName() {
@@ -59,7 +54,12 @@ public class BddAgent extends Agent {
         Association a = em.find(Association.class, assosName);
         Priority p = new Priority();
 
-        return new Priority();
+        p.setMaladie("sida");
+        p.setDate(new Date());
+        p.setVolume(100);
+        p.setPays("Senegal");
+        p.setNombre(100);
+        return p;
     }
 
     public static void addData() {
@@ -80,6 +80,7 @@ public class BddAgent extends Agent {
 
     /**
      * Delete vaccine from DB
+     *
      * @param vaccins
      */
     public static void deleteVaccin(Vaccin vaccins) {
@@ -90,6 +91,7 @@ public class BddAgent extends Agent {
 
     /**
      * Delete flight from DB
+     *
      * @param vol
      */
     public static void deleteVol(Vol vol) {
@@ -100,6 +102,7 @@ public class BddAgent extends Agent {
 
     /**
      * Get amount of money available for association
+     *
      * @param assosName
      * @return
      */
@@ -110,6 +113,7 @@ public class BddAgent extends Agent {
 
     /**
      * Decrease amount of money for association
+     *
      * @param assosName
      * @param argent
      */

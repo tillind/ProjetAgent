@@ -64,4 +64,14 @@ public class Priority {
         this.maladie = maladie;
     }
 
+    @Override
+    public String toString() {
+        return "Priority{" +
+                "date=" + date +
+                ", volume=" + volume +
+                ", nombre=" + nombre +
+                ", pays='" + pays +
+                ", maladie='" + maladie +
+                '}';
+    }
 }
