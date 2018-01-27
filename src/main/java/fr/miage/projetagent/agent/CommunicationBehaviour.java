@@ -42,12 +42,6 @@ public class CommunicationBehaviour extends SequentialBehaviour {
      */
     public void init() {
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
-        assocAgent.getPriority().setNombre(100);
-        assocAgent.getPriority().setMaladie("rage");
-        assocAgent.getPriority().setDate(new Date());
-        assocAgent.getPriority().setPays("pays");
-        assocAgent.getPriority().setVolume(100);
-        assocAgent.setArgent(1000000000);
 
         assocAgent.update();
 
@@ -57,7 +51,6 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         assocAgent.getEnCours().setVaccin(assocAgent.getPriority().getMaladie());
         assocAgent.getEnCours().setVolume(assocAgent.getPriority().getVolume());
         //assocAgent.getEnCours().set
-        System.out.println("prioriu = "+assocAgent.getPriority().getNombre());
     }
 
 

@@ -70,6 +70,6 @@ public class AssosAgent extends Agent {
     public void update() {
         this.setPriority(BddAgent.getStatut(this.getLocalName()));
         this.setArgent(BddAgent.getArgent(this.getLocalName()));
-        System.out.println(this.getLocalName() + " updated prority");
+        System.out.println(this.getLocalName() + "--------- updated prority");
     }
 }

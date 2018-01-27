@@ -24,7 +24,9 @@ public class BddAgent extends Agent {
     static List<AssosAgent> assosAgent = new ArrayList<>();
     static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
     static EntityManager em = entityManagerFactory.createEntityManager();
+
     public static String[] lesPays = {"Guinee", "Maraoc", "Tunisie", "Gambie", "Botsawana", "Cameroun", "Senegal"};
+    public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
 
     @Override
     protected void setup() {
@@ -60,11 +62,6 @@ public class BddAgent extends Agent {
         return new Priority();
     }
 
-    public static double getArgent(String assosName) {
-        Association a = em.find(Association.class, assosName);
-        return a.getTresorerie().getSomme();
-    }
-
     public static void addData() {
         instanciateAssociation();
         instanciateMaladie();
@@ -81,18 +78,41 @@ public class BddAgent extends Agent {
         //TODO ajouter vaccin pour la maladie
     }
 
+    /**
+     * Delete vaccine from DB
+     * @param vaccins
+     */
     public static void deleteVaccin(Vaccin vaccins) {
         em.getTransaction().begin();
         em.remove(vaccins);
         em.getTransaction().commit();
     }
 
+    /**
+     * Delete flight from DB
+     * @param vol
+     */
     public static void deleteVol(Vol vol) {
         em.getTransaction().begin();
         em.remove(vol);
         em.getTransaction().commit();
     }
 
+    /**
+     * Get amount of money available for association
+     * @param assosName
+     * @return
+     */
+    public static double getArgent(String assosName) {
+        Association a = em.find(Association.class, assosName);
+        return a.getTresorerie().getSomme();
+    }
+
+    /**
+     * Decrease amount of money for association
+     * @param assosName
+     * @param argent
+     */
     public static void decreaseMoney(String assosName, double argent) {
         Association m = em.find(Association.class, assosName);
         em.getTransaction().begin();
@@ -164,6 +184,9 @@ public class BddAgent extends Agent {
             em.getTransaction().commit();
         }
     }
+
+
+    //INSERT DATA TO DATABASE
 
 
     private static void instanciateMaladie() {
@@ -344,6 +367,9 @@ public class BddAgent extends Agent {
         em.getTransaction().commit();
     }
 
+    /**
+     * Add all countries to DB
+     */
     private static void instanciatePays() {
         Pays tmp;
         for (String pays : lesPays) {
@@ -356,46 +382,21 @@ public class BddAgent extends Agent {
         }
     }
 
+    /**
+     * Add all associations to DB
+     */
     private static void instanciateAssociation() {
-        Association assocA = new Association();
-        assocA.setNom("GrippeSansFrontiére");
-        Argent a = new Argent();
-        a.setSomme(10000);
-        assocA.setTresorerie(a);
-        em.getTransaction().begin();
-        em.persist(a);
-        em.persist(assocA);
-        em.getTransaction().commit();
-
-        assocA = new Association();
-        assocA.setNom("Emmaus");
-        a = new Argent();
-        a.setSomme(10000);
-        assocA.setTresorerie(a);
-        em.getTransaction().begin();
-        em.persist(a);
-        em.persist(assocA);
-        em.getTransaction().commit();
-
-        assocA = new Association();
-        assocA.setNom("MiageSansFrontiere");
-        a = new Argent();
-        a.setSomme(10000);
-        assocA.setTresorerie(a);
-        em.getTransaction().begin();
-        em.persist(a);
-        em.persist(assocA);
-        em.getTransaction().commit();
-
-        assocA = new Association();
-        assocA.setNom("Helpers");
-        a = new Argent();
-        a.setSomme(10000);
-        assocA.setTresorerie(a);
-        em.getTransaction().begin();
-        em.persist(a);
-        em.persist(assocA);
-        em.getTransaction().commit();
-
+        Association tmp;
+        for (String assos : lesAssos) {
+            tmp = new Association();
+            tmp.setNom(assos);
+            Argent a = new Argent();
+            a.setSomme(10000);
+            tmp.setTresorerie(a);
+            em.getTransaction().begin();
+            em.persist(a);
+            em.persist(tmp);
+            em.getTransaction().commit();
+        }
     }
 }
