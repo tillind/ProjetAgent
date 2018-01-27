@@ -26,27 +26,29 @@
             <center>
                 <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <children>
-                  <RadioButton fx:id="choicePays" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" text="Pays">
-                     <graphic>
+                        <RadioButton fx:id="choicePays" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" text="Pays">
+                            <graphic>
                                 <ChoiceBox fx:id="cbPays" prefWidth="150.0" />
-                     </graphic>
-                  </RadioButton>
+                            </graphic>
+                        </RadioButton>
                     </children>
                 </AnchorPane>
             </center>
         </BorderPane>
-      <Button fx:id="sendPrio" layoutX="216.0" layoutY="257.0" mnemonicParsing="false" onAction="#getPrio" text="envoyer les prioritées" />
-      <RadioButton fx:id="choiceMaladie" layoutX="347.0" layoutY="174.0" mnemonicParsing="false" text="Maladie">
-         <graphic>
-                    <ChoiceBox fx:id="cbMaladie" prefWidth="150.0" />
-         </graphic>
-      </RadioButton>
-      <ChoiceBox fx:id="assoc" layoutX="303.0" layoutY="42.0" prefWidth="150.0" />
-      <TableView fx:id="tableData" layoutX="71.0" layoutY="351.0" prefHeight="200.0" prefWidth="445.0">
-         <columns>
-            <TableColumn fx:id="c1" prefWidth="148.0" text="Pays" />
-            <TableColumn fx:id="c2" prefWidth="155.0" text="Maladie" />
-            <TableColumn fx:id="c3" prefWidth="141.0" text="Nombre" />
-         </columns></TableView>
+        <Button fx:id="sendPrio" layoutX="216.0" layoutY="257.0" mnemonicParsing="false" onAction="#getPrio" text="envoyer les prioritées" />
+        <RadioButton fx:id="choiceMaladie" layoutX="347.0" layoutY="174.0" mnemonicParsing="false" text="Maladie">
+            <graphic>
+                <ChoiceBox fx:id="cbMaladie" prefWidth="150.0" />
+            </graphic>
+        </RadioButton>
+        <ChoiceBox fx:id="assoc" layoutX="303.0" layoutY="42.0" prefWidth="150.0" />
+        <TableView fx:id="tableData" layoutX="13.0" layoutY="346.0" prefHeight="200.0" prefWidth="445.0">
+            <columns>
+                <TableColumn fx:id="c1" prefWidth="148.0" text="Pays" />
+                <TableColumn fx:id="c2" prefWidth="155.0" text="Maladie" />
+                <TableColumn fx:id="c3" prefWidth="141.0" text="Nombre" />
+            </columns>
+        </TableView>
+        <Button fx:id="refresh" layoutX="484.0" layoutY="431.0" mnemonicParsing="false" onAction="#refresh" text="Actualiser" />
     </children>
 </AnchorPane>
