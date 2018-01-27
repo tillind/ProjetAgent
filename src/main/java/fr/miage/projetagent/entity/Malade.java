@@ -34,7 +34,7 @@ public class Malade implements Serializable {
     private Pays pays;
     @OneToOne
     private Maladie maladie;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateContamination;
 
     public Malade() {

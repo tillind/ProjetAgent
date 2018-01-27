@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
 
 @NamedQueries({
     @NamedQuery(
@@ -21,6 +22,7 @@ public class Vol implements Serializable {
     private String id;
     @OneToOne
     private Pays destination;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     private int volumeMax;
 

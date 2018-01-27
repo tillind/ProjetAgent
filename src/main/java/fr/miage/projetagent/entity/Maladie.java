@@ -16,6 +16,7 @@ public class Maladie implements Serializable {
     @Id
     private String nom;
     private double delaiIncub;
+    protected double vaccin_volume;
 
 
     public Maladie() {
@@ -36,5 +37,19 @@ public class Maladie implements Serializable {
 
     public void setDelaiIncub(double delaiIncub) {
         this.delaiIncub = delaiIncub;
+    }
+
+    /**
+     * @return the vaccin_volume
+     */
+    public double getVaccin_volume() {
+        return vaccin_volume;
+    }
+
+    /**
+     * @param vaccin_volume the vaccin_volume to set
+     */
+    public void setVaccin_volume(double vaccin_volume) {
+        this.vaccin_volume = vaccin_volume;
     }
 }

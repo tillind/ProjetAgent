@@ -8,6 +8,7 @@ public class Priority {
     private Date date;
     //volume of vaccine we already have for this disease and this date
     private double volume;
+    protected int nbVaccin;
     //number of people to cure, minus the number of vaccine we already have for this disease and this date
     private int nombre;
     private String pays;
@@ -73,5 +74,19 @@ public class Priority {
                 ", pays='" + pays +
                 ", maladie='" + maladie +
                 '}';
+    }
+
+    /**
+     * @return the nbVaccin
+     */
+    public int getNbVaccin() {
+        return nbVaccin;
+    }
+
+    /**
+     * @param nbVaccin the nbVaccin to set
+     */
+    public void setNbVaccin(int nbVaccin) {
+        this.nbVaccin = nbVaccin;
     }
 }
