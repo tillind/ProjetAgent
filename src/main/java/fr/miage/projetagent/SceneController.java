@@ -40,7 +40,6 @@ public class SceneController implements Initializable {
     static final String[] associations = BddAgent.lesAssos;
     static final String[] maladie = BddAgent.lesMaladies;
 
-
     /**
      * Initializes the controller class.
      *
@@ -104,6 +103,7 @@ public class SceneController implements Initializable {
          */
 //        String updateMoney ="UPDATE table SET col ="+somme.getText()+"WHERE nomEtreprise ='"+radioGroupAssoc.selectedToggleProperty().getValue().toString()+"'";
 //        Query money = em.creatQuery(updateMoney);
+        BddAgent.increaseMoney(assoc.getValue(), Double.valueOf(somme.getText()));
     }
 
     public void getPrio() {

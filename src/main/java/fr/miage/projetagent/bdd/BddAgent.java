@@ -55,7 +55,6 @@ public class BddAgent extends Agent {
         assosAgent.remove(a);
     }
 
-
     public static void getStatut(String assosName, String pays, String maladie) {
         Priority tmp = new Priority();
         tmp.setPays(pays);
@@ -131,14 +130,13 @@ public class BddAgent extends Agent {
         //while there are no people to cure, we are changing priorities
         while (people < vaccine && indice < maladiePays.size()) {
 
-
             //get number of sick people and date for the selected country for the selected disease
-            Query q = session2.createNativeQuery("SELECT count(m.id), min(m.datecontamination +  (INTERVAL '1m')*desease.delaiincub) AS date, maladie_nom, pays_nom" +
-                    " FROM malade m, maladie desease" +
-                    " WHERE desease.nom=m.maladie_nom" +
-                    " AND m.pays_nom= :pays" +
-                    " AND m.maladie_nom= :maladie" +
-                    " GROUP BY m.maladie_nom, m.pays_nom");
+            Query q = session2.createNativeQuery("SELECT count(m.id), min(m.datecontamination +  (INTERVAL '1m')*desease.delaiincub) AS date, maladie_nom, pays_nom"
+                    + " FROM malade m, maladie desease"
+                    + " WHERE desease.nom=m.maladie_nom"
+                    + " AND m.pays_nom= :pays"
+                    + " AND m.maladie_nom= :maladie"
+                    + " GROUP BY m.maladie_nom, m.pays_nom");
             q.setParameter("pays", p.getPays());
             q.setParameter("maladie", p.getMaladie());
             List<Object[]> prio = q.getResultList();
@@ -154,13 +152,13 @@ public class BddAgent extends Agent {
             }
 
             //get number of vaccine we already have and total volume
-            Query q2 = session2.createNativeQuery("SELECT COUNT(v.id) AS nb, SUM(v.volume) AS volume, v.nom_nom" +
-                    " FROM  vaccin v WHERE v.nom_nom = :maladie" +
-                    " GROUP BY v.nom_nom");
+            Query q2 = session2.createNativeQuery("SELECT COUNT(v.id) AS nb, SUM(v.volume) AS volume, v.nom_nom"
+                    + " FROM  vaccin v WHERE v.nom_nom = :maladie"
+                    + " GROUP BY v.nom_nom");
             q2.setParameter("maladie", p.getMaladie());
             List<Object[]> vol = q2.getResultList();
             if (vol.size() > 0) {
-                p.setNbVaccin(((BigInteger)vol.get(0)[0]).intValue());
+                p.setNbVaccin(((BigInteger) vol.get(0)[0]).intValue());
                 p.setVolume((double) vol.get(0)[1]);
                 vaccine = p.getNbVaccin();
             } else {
@@ -235,7 +233,6 @@ public class BddAgent extends Agent {
         session.close();
     }
 
-
     /**
      * Get all flights
      *
@@ -253,7 +250,6 @@ public class BddAgent extends Agent {
         return results;
 
     }
-
 
     /**
      * Add flight from DB
@@ -298,7 +294,6 @@ public class BddAgent extends Agent {
 
         Session session = getSessionFactory().openSession();
 
-
         Association m = session.find(Association.class, assosName);
         session.getTransaction().begin();
 
@@ -308,6 +303,17 @@ public class BddAgent extends Agent {
 
         session.close();
 
+    }
+
+    public static void increaseMoney(String assosName, double argent) {
+        Session session = getSessionFactory().openSession();
+        Association m = session.find(Association.class, assosName);
+        session.getTransaction().begin();
+        m.getTresorerie().setSomme(m.getTresorerie().getSomme() + argent);
+
+        session.getTransaction().commit();
+
+        session.close();
     }
 
     public static long getNombre(String pays, String maladie) {
@@ -351,7 +357,6 @@ public class BddAgent extends Agent {
         return results;
     }
 
-
     public static Maladie getMaladie(String maladie) {
         Session session = getSessionFactory().openSession();
 
@@ -382,7 +387,6 @@ public class BddAgent extends Agent {
 
         session.close();
 
-
         Session session2 = getSessionFactory().openSession();
 
         session2.getTransaction().begin();
@@ -396,7 +400,6 @@ public class BddAgent extends Agent {
 
     public static void addEnvoi(Envoi envoi, List<EnvoiVaccin> evs) {
         Session session = getSessionFactory().openSession();
-
 
         session.getTransaction().begin();
         session.persist(envoi);
@@ -412,9 +415,7 @@ public class BddAgent extends Agent {
         session.close();
     }
 
-
     //INSERT DATA TO DATABASE
-
     /**
      * Add all disease to DB
      */
@@ -482,7 +483,6 @@ public class BddAgent extends Agent {
     private static void instacianteMalade() {
 
         Session session = getSessionFactory().openSession();
-
 
         System.out.println("Creating sick");
         List<Pays> listPays = session.createQuery("SELECT p FROM Pays p").getResultList();
