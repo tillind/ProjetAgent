@@ -22,11 +22,11 @@ import java.util.ResourceBundle;
 public class SceneController implements Initializable {
 
     @FXML
-    private Button giveButton;
+    private CheckBox maladieSelect;
+    @FXML
+    private CheckBox paysSelect;
     @FXML
     private TextArea somme;
-    @FXML
-    private RadioButton choicePays, choiceMaladie;
     @FXML
     private ChoiceBox<String> cbPays, cbMaladie;
     @FXML
@@ -35,7 +35,6 @@ public class SceneController implements Initializable {
     private TableView<DataTable> tableData;
     @FXML
     private TableColumn<DataTable, String> c1, c2, c3;
-    final ToggleGroup radioGroupAssoc = new ToggleGroup();
     final ToggleGroup radioGroup = new ToggleGroup();
     static final String[] pays = BddAgent.lesPays;
     static final String[] associations = BddAgent.lesAssos;
@@ -57,20 +56,21 @@ public class SceneController implements Initializable {
         }
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
         EntityManager em = entityManagerFactory.createEntityManager();
-        choicePays.setToggleGroup(radioGroup);
-        choiceMaladie.setToggleGroup(radioGroup);
 
         ObservableList<String> itemsPays = FXCollections.observableArrayList();
         itemsPays.addAll(Arrays.asList(pays));
         cbPays.setItems(itemsPays);
+        cbPays.getSelectionModel().selectFirst();
 
         ObservableList<String> itemsMaladie = FXCollections.observableArrayList();
         itemsMaladie.addAll(maladie);
         cbMaladie.setItems(itemsMaladie);
+        cbMaladie.getSelectionModel().selectFirst();
 
         ObservableList<String> itemsAssoc = FXCollections.observableArrayList();
         itemsAssoc.addAll(associations);
         assoc.setItems(itemsAssoc);
+        assoc.getSelectionModel().selectFirst();
 
         // table
         tableData.setEditable(true);
@@ -98,8 +98,6 @@ public class SceneController implements Initializable {
         }
         tableData.setItems(data);
         tableData.getItems().sorted();
-        System.out.println("OK");
-
     }
 
     public void moreMoney() {
@@ -115,11 +113,19 @@ public class SceneController implements Initializable {
     }
 
     public String getPays() {
-        return cbPays.getValue();
+        if (paysSelect.isSelected()) {
+            return cbPays.getValue();
+        } else {
+            return null;
+        }
     }
 
     public String getMaladie() {
-        return cbMaladie.getValue();
+        if (maladieSelect.isSelected()) {
+            return cbMaladie.getValue();
+        } else {
+            return null;
+        }
     }
 
 }
