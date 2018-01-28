@@ -118,6 +118,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         message.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
         System.out.println("the date is here " +objectif.getDateSouhaitee());
+        System.out.println("volume" +objectif.getVolume());
         CompagnieMessage content = new CompagnieMessage(objectif.getVolume(), objectif.getDateSouhaitee(), objectif.getPays());
         message.setContent(gson.toJson(content));
         for (AID aid : getAID(compagnieType)) {

@@ -41,9 +41,6 @@ public class CompagnieBehaviour extends ContractNetInitiator {
             lastDate = cm.getDate();
             lastVolume = cm.getVolume();
         }
-        System.out.println("volume " + lastVolume);
-        System.out.println("date " + lastDate);
-        System.out.println("bool :" + lastIsDate);
 
         //switch between postponing and decreasing volume
         if (lastIsDate) {
@@ -69,6 +66,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         System.out.println("--------Message is send to all compagnies");
         //now that this behaviour has started, we can send CFP
         CommunicationBehaviour parent = (CommunicationBehaviour) this.parent;
+        System.out.println("called from onstart");
         ACLMessage origin = parent.startCompagnies();
         this.reset(origin);
         super.onStart();
