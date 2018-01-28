@@ -19,10 +19,7 @@ import javax.persistence.NamedQuery;
 
     @NamedQuery(
         name="Vaccin.getVaccinWhereMaladie",
-        query="SELECT v FROM Vaccin v JOIN v.nom n WHERE n.nom = :nom"), 
-    @NamedQuery(
-        name="Vaccin.deleteVaccinPerimer",
-        query="DELETE FROM Vaccin v WHERE v.dateFin =  current_date() "), 
+        query="SELECT v FROM Vaccin v JOIN v.nom n WHERE n.nom = :nom"),
 })
 
 @Entity

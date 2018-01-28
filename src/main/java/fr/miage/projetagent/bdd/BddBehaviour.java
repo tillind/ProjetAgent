@@ -28,22 +28,9 @@ public class BddBehaviour extends TickerBehaviour {
 
         //supprime malades mort, vaccins périmés, vol dépassé, créer malade
 
-        //this.deleteMadaladeMort();
-        //this.deleteVaccinPerimer();
+        this.deleteVaccinPerimer();
         this.clearSick();
         this.createRandomMalade();
-        // }
-    }
-
-    public void deleteMadaladeMort() {
-        Session session = getSessionFactory().openSession();
-
-        session.getTransaction().begin();
-        Query q = session.createNativeQuery("DELETE FROM malade m WHERE m.etat = 'Non_soignable'");
-        q.executeUpdate();
-        session.getTransaction().commit();
-
-        session.close();
 
     }
 
@@ -52,23 +39,27 @@ public class BddBehaviour extends TickerBehaviour {
         Session session = getSessionFactory().openSession();
 
         session.getTransaction().begin();
-        Query q = session.createNativeQuery("DELETE FROM vaccin v WHERE v.dateFin =  CURRENT_DATE ");
+        Query q = session.createNativeQuery("DELETE FROM vaccin v WHERE v.dateFin <  CURRENT_DATE ");
         q.executeUpdate();
         session.getTransaction().commit();
 
         session.close();
     }
+
+    /**
+     * Delete all sick people
+     */
     public void clearSick() {
 
         Session session = getSessionFactory().openSession();
 
         session.getTransaction().begin();
-        Query q = session.createNativeQuery("DELETE FROM malade\n" +
-"WHERE id IN (SELECT id\n" +
-"FROM malade m \n" +
-"JOIN maladie mi on m.maladie_nom = mi.nom\n" +
-"WHERE datecontamination  + interval '1m' * delaiincub < current_timestamp\n" +
-"OR etat <> 'Soignable') ");
+        Query q = session.createNativeQuery("DELETE FROM malade" +
+                " WHERE id IN (SELECT id" +
+                " FROM malade m " +
+                "JOIN maladie mi ON m.maladie_nom = mi.nom" +
+                " WHERE datecontamination  + INTERVAL '1m' * delaiincub < current_timestamp" +
+                " OR etat <> 'Soignable') ");
         q.executeUpdate();
         session.getTransaction().commit();
 
@@ -78,29 +69,7 @@ public class BddBehaviour extends TickerBehaviour {
 
     public void createRandomMalade() {
 
-
-        Session session = getSessionFactory().openSession();
-
-
-        System.out.println("Creating sick");
-        List<Pays> listPays = session.createQuery("SELECT p FROM Pays p").getResultList();
-        List<Maladie> listmal = session.createQuery("SELECT p FROM Maladie p").getResultList();
-        Random rm = new Random();
-        int nb = rm.nextInt(100) + 100;
-        for (int i = 0; i < nb; i++) {
-
-            Malade tmp = new Malade();
-            tmp.setEtat(TypeMalade.Soignable);
-            tmp.setMaladie(listmal.get(rm.nextInt(listmal.size() - 0)));
-            tmp.setPays(listPays.get(rm.nextInt(listPays.size() - 0)));
-            tmp.setDateContamination(new Date());
-            session.getTransaction().begin();
-            session.persist(tmp);
-            session.getTransaction().commit();
-        }
-
-
-        session.close();
+        BddAgent.instacianteMalade();
 
     }
 

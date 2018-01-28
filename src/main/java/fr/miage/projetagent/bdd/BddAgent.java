@@ -1,6 +1,5 @@
 package fr.miage.projetagent.bdd;
 
-import fr.miage.projetagent.agent.AssosAgent;
 import fr.miage.projetagent.agent.Priority;
 import fr.miage.projetagent.entity.*;
 import jade.core.Agent;
@@ -15,14 +14,14 @@ import static fr.miage.projetagent.bdd.HibernateSessionProvider.getSessionFactor
 public class BddAgent extends Agent {
 
     public static String[] lesPays = {"Guinee", "Tunisie", "Gambie", "Cameroun", "Senegal"};
-    //public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
-    public static String[] lesAssos = {"MiageSansFrontiere"};
+    public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
     public static String[] lesMaladies = {"grippe", "bronchite", "rage", "variole", "sida"};
     public static Map<String, Priority> lesprio = new HashMap<>();
 
     @Override
     protected void setup() {
-        this.addBehaviour(new BddBehaviour(this, 30));
+        //add sick and clean db every 30 seconds
+        this.addBehaviour(new BddBehaviour(this, 30000));
     }
 
     public static List<String> getAllAssosName() {
@@ -33,7 +32,6 @@ public class BddAgent extends Agent {
         List<Association> results = q.getResultList();
 
         ArrayList<String> tmp = new ArrayList<>();
-        //tmp.add(results.get(0).getNom());
         results.forEach((assoc) -> {
             tmp.add(assoc.getNom());
         });
@@ -42,16 +40,13 @@ public class BddAgent extends Agent {
         return tmp;
     }
 
-    public static void addAssosAgent(AssosAgent a) {
-        //assosAgent.add(a);
-        a.setPriority(getStatut(a.getLocalName()));
-        a.setArgent(getArgent(a.getLocalName()));
-    }
-
-    public static void removeAssosAgent(AssosAgent a) {
-        //assosAgent.remove(a);
-    }
-
+    /**
+     * Triggered by interface : set choosen priority
+     *
+     * @param assosName
+     * @param pays
+     * @param maladie
+     */
     public static void getStatut(String assosName, String pays, String maladie) {
         Priority tmp = new Priority();
         tmp.setPays(pays);
@@ -59,19 +54,14 @@ public class BddAgent extends Agent {
         lesprio.put(assosName, tmp);
     }
 
-    public static void dropBase() {
 
-        Session session = getSessionFactory().openSession();
-        session.beginTransaction();
-
-        Query drop = session.createNativeQuery("DROP TABLE IF EXISTS association, envoi, malade, maladie, vaccin, pays, vol, argent, association_envoi, association_vaccin, association_vol, envoi_envoivaccin, envoivaccin, metrics CASCADE");
-        drop.executeUpdate();
-
-        session.getTransaction().commit();
-        session.close();
-
-    }
-
+    /**
+     * Triggered by AssocAgent : is asking for prioriry
+     * Set number of sick, number of vaccine, volume of vaccine
+     *
+     * @param assosName
+     * @return
+     */
     public static Priority getStatut(String assosName) {
 
         if (lesprio.get(assosName) == null) {
@@ -173,13 +163,6 @@ public class BddAgent extends Agent {
 
         return p;
 
-    }
-
-    public static void addData() {
-        instanciateAssociation();
-        instanciateMaladie();
-        instanciatePays();
-        //instacianteMalade();
     }
 
     public static void addVaccin(String nom, Vaccin vaccin) {
@@ -305,6 +288,12 @@ public class BddAgent extends Agent {
 
     }
 
+    /**
+     * Increase the amount of money
+     *
+     * @param assosName
+     * @param argent
+     */
     public static void increaseMoney(String assosName, double argent) {
         Session session = getSessionFactory().openSession();
         Association m = session.find(Association.class, assosName);
@@ -316,6 +305,13 @@ public class BddAgent extends Agent {
         session.close();
     }
 
+    /**
+     * Get number of sick people in this country for this disease
+     *
+     * @param pays
+     * @param maladie
+     * @return
+     */
     public static long getNombre(String pays, String maladie) {
 
         Session session = getSessionFactory().openSession();
@@ -330,6 +326,12 @@ public class BddAgent extends Agent {
         return results;
     }
 
+    /**
+     * Get all vaccine for this disease
+     *
+     * @param maladie
+     * @return
+     */
     public static List<Vaccin> getVaccins(String maladie) {
 
         Session session = getSessionFactory().openSession();
@@ -344,6 +346,12 @@ public class BddAgent extends Agent {
         return results;
     }
 
+    /**
+     * Get all diseases for this country
+     *
+     * @param pays
+     * @return
+     */
     public static List<Maladie> getMaladiesForCountry(String pays) {
 
         Session session = getSessionFactory().openSession();
@@ -356,6 +364,13 @@ public class BddAgent extends Agent {
 
         return results;
     }
+
+    /**
+     * Get object maladie for the parameter
+     *
+     * @param maladie
+     * @return
+     */
 
     public static Maladie getMaladie(String maladie) {
         Session session = getSessionFactory().openSession();
@@ -415,7 +430,33 @@ public class BddAgent extends Agent {
         session.close();
     }
 
-    //INSERT DATA TO DATABASE
+    /**
+     * INSERT DATA TO DB
+     */
+
+
+    public static void dropBase() {
+
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query drop = session.createNativeQuery("DROP TABLE IF EXISTS association, envoi, malade, maladie, vaccin, pays, vol, argent, association_envoi, association_vaccin, association_vol, envoi_envoivaccin, envoivaccin, metrics CASCADE");
+        drop.executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
+
+    }
+
+
+    public static void addData() {
+        instanciateAssociation();
+        instanciateMaladie();
+        instanciatePays();
+        instacianteMalade(); //start right away
+    }
+
+
     /**
      * Add all disease to DB
      */
@@ -480,15 +521,14 @@ public class BddAgent extends Agent {
         session.close();
     }
 
-    private static void instacianteMalade() {
+    protected static void instacianteMalade() {
 
         Session session = getSessionFactory().openSession();
 
-        System.out.println("Creating sick");
         List<Pays> listPays = session.createQuery("SELECT p FROM Pays p").getResultList();
         List<Maladie> listmal = session.createQuery("SELECT p FROM Maladie p").getResultList();
         Random rm = new Random();
-        int nb = rm.nextInt(100) + 100;
+        int nb = rm.nextInt(40) + 80;
         for (int i = 0; i < nb; i++) {
 
             Malade tmp = new Malade();
