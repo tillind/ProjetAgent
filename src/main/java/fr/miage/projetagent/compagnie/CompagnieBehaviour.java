@@ -5,12 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import fr.miage.projetagent.agent.AssosAgent;
 import fr.miage.projetagent.agent.CommunicationBehaviour;
-import fr.miage.projetagent.agent.Objectif;
 import fr.miage.projetagent.bdd.BddAgent;
 import fr.miage.projetagent.entity.Pays;
 import fr.miage.projetagent.entity.Vol;
 import jade.core.Agent;
-import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
 
@@ -153,16 +151,16 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         // mise à jour de l'argent
         BddAgent.decreaseMoney(myAgent.getLocalName(), volPropose.getPrix());
 
-        // TODO ajouter le vol à la BD
         Vol vol = new Vol();
         vol.setDate(volPropose.getDateArrivee());
         Pays p = new Pays();
         p.setNom(volPropose.getPays());
         vol.setDestination(p);
         vol.setVolumeMax(volPropose.getVolume());
-        //BddAgent.addVol(Vol vol);
+        BddAgent.addVol(vol);
 
-        //TODO mettre l'objectif dans prioritiesDone
+        AssosAgent assos = (AssosAgent) myAgent;
+        assos.getPrioritiesDone().add(assos.getEnCours());
 
         System.out.println(myAgent.getLocalName() + "*Compagnie -------- DONE");
     }

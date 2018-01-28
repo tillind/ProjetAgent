@@ -204,6 +204,17 @@ public class BddAgent extends Agent {
     }
 
     /**
+     * Add flight from DB
+     *
+     * @param vol
+     */
+    public static void addVol(Vol vol) {
+        em.getTransaction().begin();
+        em.persist(vol);
+        em.getTransaction().commit();
+    }
+
+    /**
      * Get amount of money available for association
      *
      * @param assosName
