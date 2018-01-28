@@ -43,13 +43,13 @@ public class BddAgent extends Agent {
     }
 
     public static void addAssosAgent(AssosAgent a) {
-        assosAgent.add(a);
+        //assosAgent.add(a);
         a.setPriority(getStatut(a.getLocalName()));
         a.setArgent(getArgent(a.getLocalName()));
     }
 
     public static void removeAssosAgent(AssosAgent a) {
-        assosAgent.remove(a);
+        //assosAgent.remove(a);
     }
 
     public static void getStatut(String assosName, String pays, String maladie) {
