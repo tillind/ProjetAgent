@@ -21,8 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MainApp extends Application {
-    static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
-    static EntityManager em = entityManagerFactory.createEntityManager();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -68,50 +66,4 @@ public class MainApp extends Application {
         launch(args);
     }
 
-    public void testMethodeAgentEnvoiVaccin() {
-
-        List<Pays> listPersons = em.createQuery("SELECT p FROM Pays p").getResultList();
-        List<Vaccin> listv = em.createQuery("SELECT p FROM Vaccin p").getResultList();
-        System.out.println(listPersons.get(0).getNom());
-        System.out.println(listv.get(0).getNom().getNom());
-
-        Envoi monEnvoi = new Envoi();
-        monEnvoi.setPays(listPersons.get(0));
-        monEnvoi.setDate(new Date());
-        BddAgent.addEnvoi(monEnvoi);
-
-        em.getTransaction().begin();
-        EnvoiVaccin ev = new EnvoiVaccin();
-        ev.setNb(120);
-        ev.setLesVaccins(listv.get(0));
-        ev.setEnvoi(monEnvoi);
-        EnvoiVaccin ev2 = new EnvoiVaccin();
-        ev2.setNb(123);
-        ev2.setLesVaccins(listv.get(1));
-        ev2.setEnvoi(monEnvoi);
-        em.persist(ev);
-        em.persist(ev2);
-        em.getTransaction().commit();
-    }
-
-    public void testMethodeAgentAddVaccin() {
-        Vaccin va = new Vaccin();
-        va.setVolume(0.1);
-        BddAgent.addVaccin("Grippe", va);
-    }
-
-    public void testMethodeAgentdecreaseMoney() {
-        BddAgent.decreaseMoney("Emmaus", 50);
-    }
-
-    public void testMethodeAgentGetVaccin() {
-        List<Vaccin> vl = BddAgent.getVaccins("Grippe");
-        for (Vaccin vaccin : vl) {
-            System.out.println(vaccin.getNom().getNom());
-        }
-    }
-
-    public void testMethodeAgent() {
-
-    }
 }

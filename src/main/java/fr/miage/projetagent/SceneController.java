@@ -54,8 +54,6 @@ public class SceneController implements Initializable {
         } catch (InterruptedException e) {
             System.out.println("got interrupted!");
         }
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
-        EntityManager em = entityManagerFactory.createEntityManager();
 
         ObservableList<String> itemsPays = FXCollections.observableArrayList();
         itemsPays.addAll(Arrays.asList(pays));

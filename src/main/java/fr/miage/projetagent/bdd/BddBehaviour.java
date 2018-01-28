@@ -6,13 +6,15 @@ import fr.miage.projetagent.entity.Pays;
 import fr.miage.projetagent.entity.TypeMalade;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
+import org.hibernate.Session;
 
 import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import static fr.miage.projetagent.bdd.BddAgent.em;
+import static fr.miage.projetagent.bdd.HibernateSessionProvider.getSessionFactory;
+
 
 public class BddBehaviour extends TickerBehaviour {
 
@@ -28,41 +30,45 @@ public class BddBehaviour extends TickerBehaviour {
 
         this.deleteMadaladeMort();
         this.deleteVaccinPerimer();
-        this.deleteVolDepasser();
         this.createRandomMalade();
         // }
     }
 
     public void deleteMadaladeMort() {
-        em.getTransaction().begin();
-        Query q = em.createNativeQuery("DELETE FROM malade m WHERE m.etat = 'Non_soignable'");
+        Session session = getSessionFactory().openSession();
+
+        session.getTransaction().begin();
+        Query q = session.createNativeQuery("DELETE FROM malade m WHERE m.etat = 'Non_soignable'");
         //Query q = em.createNamedQuery("Malade.deleteMort");
         q.executeUpdate();
-        em.getTransaction().commit();
+        session.getTransaction().commit();
+
+        session.close();
+
     }
 
     public void deleteVaccinPerimer() {
-        em.getTransaction().begin();
-        Query q = em.createNativeQuery("DELETE FROM vaccin v WHERE v.dateFin =  CURRENT_DATE ");
-        q.executeUpdate();
-        em.getTransaction().commit();
 
+        Session session = getSessionFactory().openSession();
+
+        session.getTransaction().begin();
+        Query q = session.createNativeQuery("DELETE FROM vaccin v WHERE v.dateFin =  CURRENT_DATE ");
+        q.executeUpdate();
+        session.getTransaction().commit();
+
+        session.close();
     }
 
-    public void deleteVolDepasser() {
-        em.getTransaction().begin();
-        Query q = em.createNativeQuery("DELETE FROM vol v WHERE v.date >= CURRENT_DATE  ");
-
-        q.executeUpdate();
-        em.getTransaction().commit();
-
-    }
 
     public void createRandomMalade() {
 
+
+        Session session = getSessionFactory().openSession();
+
+
         System.out.println("Creating sick");
-        List<Pays> listPays = em.createQuery("SELECT p FROM Pays p").getResultList();
-        List<Maladie> listmal = em.createQuery("SELECT p FROM Maladie p").getResultList();
+        List<Pays> listPays = session.createQuery("SELECT p FROM Pays p").getResultList();
+        List<Maladie> listmal = session.createQuery("SELECT p FROM Maladie p").getResultList();
         Random rm = new Random();
         int nb = rm.nextInt(100) + 100;
         for (int i = 0; i < nb; i++) {
@@ -72,10 +78,13 @@ public class BddBehaviour extends TickerBehaviour {
             tmp.setMaladie(listmal.get(rm.nextInt(listmal.size() - 0)));
             tmp.setPays(listPays.get(rm.nextInt(listPays.size() - 0)));
             tmp.setDateContamination(new Date());
-            em.getTransaction().begin();
-            em.persist(tmp);
-            em.getTransaction().commit();
+            session.getTransaction().begin();
+            session.persist(tmp);
+            session.getTransaction().commit();
         }
+
+
+        session.close();
 
     }
 

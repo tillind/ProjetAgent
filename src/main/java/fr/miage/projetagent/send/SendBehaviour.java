@@ -2,18 +2,14 @@ package fr.miage.projetagent.send;
 
 import fr.miage.projetagent.agent.AssosAgent;
 import fr.miage.projetagent.agent.Objectif;
-import fr.miage.projetagent.agent.Priority;
 import fr.miage.projetagent.bdd.BddAgent;
 import fr.miage.projetagent.entity.Envoi;
-import fr.miage.projetagent.entity.EnvoiVaccin;
 import fr.miage.projetagent.entity.Maladie;
 import fr.miage.projetagent.entity.Vaccin;
 import fr.miage.projetagent.entity.Vol;
 import jade.core.behaviours.CyclicBehaviour;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,11 +18,12 @@ public class SendBehaviour extends CyclicBehaviour {
     @Override
     public void action() {
         //TODO get it from  DB
-        List<Vol> vols = new ArrayList<>();
+        List<Vol> vols = BddAgent.allFlight();
 
         for (Vol vol : vols) {
             //TODO change condition
-            if (vol.getDate().before(new Date())) {
+            if (false) {
+                // if (vol.getDate().before(new Date())) {
 
                 int volumeToSend = 0;
 
@@ -34,7 +31,7 @@ public class SendBehaviour extends CyclicBehaviour {
                 Envoi envoi = new Envoi();
                 envoi.setDate(vol.getDate());
                 envoi.setPays(vol.getDestination());
-                
+
 
                 List<Maladie> maladiesToCure = getDiseaseToCureSorted(vol.getDestination().getNom());
 

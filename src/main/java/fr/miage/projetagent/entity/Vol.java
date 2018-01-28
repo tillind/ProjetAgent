@@ -10,9 +10,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
 @NamedQueries({
-    @NamedQuery(
-        name="Vaccin.deleteVol",
-        query="DELETE FROM Vol v WHERE v.date >= current_date() "), 
+        @NamedQuery(
+                name = "Vol.deleteVol",
+                query = "DELETE FROM Vol v WHERE v.date >= current_date() "),
+        @NamedQuery(
+                name = "Vol.allVol",
+                query = "SELECT v FROM Vol v"),
 })
 
 @Entity

@@ -93,8 +93,8 @@ public class CompagnieBehaviour extends ContractNetInitiator {
             // Si pas de réponse des compagnies, renvoie du message avec une nouvelle date ou un nouveau volume
             this.resetBehaviour();
         } else {
-            VolPropose volMoinsCher = new VolPropose();
-            ACLMessage toRespond = new ACLMessage();
+            VolPropose volMoinsCher = null;
+            ACLMessage toRespond = null;
             for (ACLMessage message : proposeResponse) {
                 String content = message.getContent();
                 Type collectionType = new TypeToken<Collection<VolPropose>>() {
