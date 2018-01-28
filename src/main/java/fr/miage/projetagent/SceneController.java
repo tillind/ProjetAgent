@@ -48,11 +48,6 @@ public class SceneController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            Thread.sleep(45000);
-        } catch (InterruptedException e) {
-            System.out.println("got interrupted!");
-        }
 
         ObservableList<String> itemsPays = FXCollections.observableArrayList();
         itemsPays.addAll(Arrays.asList(pays));
