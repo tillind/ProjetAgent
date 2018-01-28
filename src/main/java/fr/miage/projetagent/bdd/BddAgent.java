@@ -62,6 +62,14 @@ public class BddAgent extends Agent {
         lesprio.put(assosName, tmp);
     }
 
+    public static void dropBase() {
+        em.getTransaction().begin();
+        Query drop = em.createNativeQuery("DROP TABLE IF EXISTS association, envoi, malade, maladie, vaccin, pays, vol, argent, association_envoi, association_vaccin, association_vol, envoi_envoivaccin, envoivaccin, metrics CASCADE");
+        drop.executeUpdate();
+        em.getTransaction().commit();
+
+    }
+
     public static Priority getStatut(String assosName) {
 
         if (lesprio.get(assosName) == null) {
@@ -151,7 +159,7 @@ public class BddAgent extends Agent {
                 p.setPays(maladiePays.get(indice)[1].toString());
             }
             indice += 1;
-            
+
         }
 
         return p;

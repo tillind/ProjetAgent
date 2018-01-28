@@ -30,20 +30,10 @@ public class MainApp extends Application {
         AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
 
         String agents = "bdd:fr.miage.projetagent.bdd.BddAgent;";
-        BddAgent.addData();
 
-     
-        try {
-            Thread.sleep(30000);
-        } catch (InterruptedException e) {
-            System.out.println("got interrupted!");
-        }
         for (String assos : BddAgent.getAllAssosName()) {
             agents += assos + ":fr.miage.projetagent.agent.AssosAgent;";
         }
-
-
-        System.out.println("finished sleep");
 
         ProfileImpl profile = new ProfileImpl();
         profile.setParameter("host", "192.168.43.79");
@@ -53,9 +43,7 @@ public class MainApp extends Application {
 
         Runtime rt = Runtime.instance();
 
-        
         jade.wrapper.AgentContainer cont = rt.createAgentContainer(profile);
-
 
         Platform.runLater(() -> {
             Scene scene = new Scene(root);
