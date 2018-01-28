@@ -36,7 +36,7 @@ public class MainApp extends Application {
         }
 
         ProfileImpl profile = new ProfileImpl();
-        profile.setParameter("host", "192.168.43.79");
+        profile.setParameter("host", "192.168.0.45");
         profile.setParameter("main", "false");
         profile.setParameter("no-display", "true");
         profile.setParameter("agents", agents);

@@ -13,7 +13,7 @@ public class DataApp {
 
 
     public static void main(String[] args) {
-        BddAgent.dropBase();
+        //BddAgent.dropBase();
         BddAgent.addData();
     }
 }

@@ -114,8 +114,6 @@ public class BddAgent extends Agent {
 
         int people = 0;
         int vaccine = 1;
-        System.out.println(p.getMaladie());
-        System.out.println(p.getPays());
         //while there are no people to cure, we are changing priorities
         while (people < vaccine && indice < maladiePays.size()) {
 

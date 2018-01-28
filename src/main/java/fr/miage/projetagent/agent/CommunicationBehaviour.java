@@ -43,7 +43,6 @@ public class CommunicationBehaviour extends SequentialBehaviour {
     public void init() {
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
 
-        System.out.println("nowwwwwwwwwwwwww");
         assocAgent.update();
 
         assocAgent.getEnCours().setPays(assocAgent.getPriority().getPays());
