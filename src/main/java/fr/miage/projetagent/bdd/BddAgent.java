@@ -14,17 +14,15 @@ import static fr.miage.projetagent.bdd.HibernateSessionProvider.getSessionFactor
 
 public class BddAgent extends Agent {
 
-    static List<AssosAgent> assosAgent = new ArrayList<>();
-
     public static String[] lesPays = {"Guinee", "Tunisie", "Gambie", "Cameroun", "Senegal"};
     //public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
     public static String[] lesAssos = {"MiageSansFrontiere"};
     public static String[] lesMaladies = {"grippe", "bronchite", "rage", "variole", "sida"};
-    public static HashMap<String, Priority> lesprio = new HashMap<String, Priority>();
+    public static Map<String, Priority> lesprio = new HashMap<>();
 
     @Override
     protected void setup() {
-        //this.addBehaviour(new BddBehaviour(this, 30));
+        this.addBehaviour(new BddBehaviour(this, 30));
     }
 
     public static List<String> getAllAssosName() {
@@ -35,24 +33,13 @@ public class BddAgent extends Agent {
         List<Association> results = q.getResultList();
 
         ArrayList<String> tmp = new ArrayList<>();
-        tmp.add(results.get(0).getNom());
-        /*results.forEach((assoc)->{
+        //tmp.add(results.get(0).getNom());
         results.forEach((assoc) -> {
             tmp.add(assoc.getNom());
-        });*/
+        });
 
         session.close();
         return tmp;
-    }
-
-    public static void addAssosAgent(AssosAgent a) {
-        assosAgent.add(a);
-        a.setPriority(getStatut(a.getLocalName()));
-        a.setArgent(getArgent(a.getLocalName()));
-    }
-
-    public static void removeAssosAgent(AssosAgent a) {
-        assosAgent.remove(a);
     }
 
 
@@ -60,7 +47,6 @@ public class BddAgent extends Agent {
         Priority tmp = new Priority();
         tmp.setPays(pays);
         tmp.setMaladie(maladie);
-
         lesprio.put(assosName, tmp);
     }
 
@@ -185,7 +171,7 @@ public class BddAgent extends Agent {
         instanciateAssociation();
         instanciateMaladie();
         instanciatePays();
-        instacianteMalade();
+        //instacianteMalade();
     }
 
     public static void addVaccin(String nom, Vaccin vaccin) {
@@ -260,9 +246,13 @@ public class BddAgent extends Agent {
      *
      * @param vol
      */
-    public static void addVol(Vol vol) {
+    public static void addVol(Vol vol, String pays) {
         Session session = getSessionFactory().openSession();
         session.beginTransaction();
+
+        Pays result = (Pays) session.createQuery("SELECT p FROM Pays p WHERE p.nom = :pays ").setParameter("pays", pays).getSingleResult();
+
+        vol.setDestination(result);
 
         session.persist(vol);
 

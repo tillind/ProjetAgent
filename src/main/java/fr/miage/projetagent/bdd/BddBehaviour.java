@@ -28,8 +28,8 @@ public class BddBehaviour extends TickerBehaviour {
 
         //supprime malades mort, vaccins périmés, vol dépassé, créer malade
 
-        this.deleteMadaladeMort();
-        this.deleteVaccinPerimer();
+        //this.deleteMadaladeMort();
+        //this.deleteVaccinPerimer();
         this.createRandomMalade();
         // }
     }
@@ -39,7 +39,6 @@ public class BddBehaviour extends TickerBehaviour {
 
         session.getTransaction().begin();
         Query q = session.createNativeQuery("DELETE FROM malade m WHERE m.etat = 'Non_soignable'");
-        //Query q = em.createNamedQuery("Malade.deleteMort");
         q.executeUpdate();
         session.getTransaction().commit();
 

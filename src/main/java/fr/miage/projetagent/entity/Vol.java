@@ -5,14 +5,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
 @NamedQueries({
-        @NamedQuery(
-                name = "Vol.deleteVol",
-                query = "DELETE FROM Vol v WHERE v.date >= current_date() "),
         @NamedQuery(
                 name = "Vol.allVol",
                 query = "SELECT v FROM Vol v"),
@@ -22,7 +20,7 @@ import javax.persistence.Temporal;
 public class Vol implements Serializable {
 
     @Id
-    private String id;
+    private String id = UUID.randomUUID().toString();
     @OneToOne
     private Pays destination;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
