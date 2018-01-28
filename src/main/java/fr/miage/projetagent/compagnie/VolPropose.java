@@ -6,7 +6,7 @@ public class VolPropose {
 
     private String pays;
     private Date dateArrivee;
-    private Integer volume;
+    private Double volume;
     private Double prix;
     private String idVol;
 
@@ -26,11 +26,11 @@ public class VolPropose {
         this.dateArrivee = dateArrivee;
     }
 
-    public Integer getVolume() {
+    public Double getVolume() {
         return volume;
     }
 
-    public void setVolume(Integer volume) {
+    public void setVolume(Double volume) {
         this.volume = volume;
     }
 

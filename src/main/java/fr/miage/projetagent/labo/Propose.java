@@ -6,7 +6,7 @@ import java.util.Date;
 public class  Propose implements Serializable{
 
     private Integer nombre;
-    private Double prix;
+    private double prix;
     private Date dateLivraison;
     private Date datePeremption;
     private double volume;

@@ -24,7 +24,7 @@ public class Vol implements Serializable {
     private Pays destination;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
-    private int volumeMax;
+    private double volumeMax;
 
     public Vol() {
     }
@@ -53,11 +53,11 @@ public class Vol implements Serializable {
         this.date = date;
     }
 
-    public int getVolumeMax() {
+    public double getVolumeMax() {
         return volumeMax;
     }
 
-    public void setVolumeMax(int volumeMax) {
+    public void setVolumeMax(double volumeMax) {
         this.volumeMax = volumeMax;
     }
 }
