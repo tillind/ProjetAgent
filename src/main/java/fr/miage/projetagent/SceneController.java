@@ -98,11 +98,6 @@ public class SceneController implements Initializable {
     }
 
     public void moreMoney() {
-        /**
-         * TO DO modifier le compte de l'association
-         */
-//        String updateMoney ="UPDATE table SET col ="+somme.getText()+"WHERE nomEtreprise ='"+radioGroupAssoc.selectedToggleProperty().getValue().toString()+"'";
-//        Query money = em.creatQuery(updateMoney);
         BddAgent.increaseMoney(assoc.getValue(), Double.valueOf(somme.getText()));
     }
 

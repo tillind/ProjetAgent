@@ -49,4 +49,15 @@ public class VolPropose {
     public void setIdVol(String idVol) {
         this.idVol = idVol;
     }
+
+    @Override
+    public String toString() {
+        return "VolPropose{" +
+                "pays='" + pays + '\'' +
+                ", dateArrivee=" + dateArrivee +
+                ", volume=" + volume +
+                ", prix=" + prix +
+                ", idVol='" + idVol + '\'' +
+                '}';
+    }
 }

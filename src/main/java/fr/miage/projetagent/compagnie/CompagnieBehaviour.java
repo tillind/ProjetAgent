@@ -153,11 +153,9 @@ public class CompagnieBehaviour extends ContractNetInitiator {
 
         Vol vol = new Vol();
         vol.setDate(volPropose.getDateArrivee());
-        Pays p = new Pays();
-        p.setNom(volPropose.getPays());
-        vol.setDestination(p);
+
         vol.setVolumeMax(volPropose.getVolume());
-        BddAgent.addVol(vol);
+        BddAgent.addVol(vol, volPropose.getPays());
 
         AssosAgent assos = (AssosAgent) myAgent;
         assos.getPrioritiesDone().add(assos.getEnCours());
