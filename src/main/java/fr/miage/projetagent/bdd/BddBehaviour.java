@@ -30,6 +30,7 @@ public class BddBehaviour extends TickerBehaviour {
 
         //this.deleteMadaladeMort();
         //this.deleteVaccinPerimer();
+        this.clearSick();
         this.createRandomMalade();
         // }
     }
@@ -52,6 +53,22 @@ public class BddBehaviour extends TickerBehaviour {
 
         session.getTransaction().begin();
         Query q = session.createNativeQuery("DELETE FROM vaccin v WHERE v.dateFin =  CURRENT_DATE ");
+        q.executeUpdate();
+        session.getTransaction().commit();
+
+        session.close();
+    }
+    public void clearSick() {
+
+        Session session = getSessionFactory().openSession();
+
+        session.getTransaction().begin();
+        Query q = session.createNativeQuery("DELETE FROM malade\n" +
+"WHERE id IN (SELECT id\n" +
+"FROM malade m \n" +
+"JOIN maladie mi on m.maladie_nom = mi.nom\n" +
+"WHERE datecontamination  + interval '1m' * delaiincub < current_timestamp\n" +
+"OR etat <> 'Soignable') ");
         q.executeUpdate();
         session.getTransaction().commit();
 
