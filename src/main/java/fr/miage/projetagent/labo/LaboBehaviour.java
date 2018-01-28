@@ -63,12 +63,6 @@ public class LaboBehaviour extends ContractNetInitiator {
         }
 
         System.out.println(myAgent.getLocalName() + "*Labo  --------" + proposeResponse.size() + "propose");
-/*
-
-        Objectif objectif = ((AssosAgent) myAgent).getEnCours();
-        objectif.setDateSouhaitee(new Date());
-        this.done(); */
-
 
         acceptances = choosePropose(proposeResponse);
         moreAcceptances(acceptances);
@@ -247,7 +241,7 @@ public class LaboBehaviour extends ContractNetInitiator {
 
         int nbTotal = 0;
         int sumTotal = 0;
-        int volumTotal = 0;
+        double volumTotal = 0.0;
 
         //calcule nombre acheté, argent dépensé, volume acheté
         for (Propose propose : list) {
@@ -285,8 +279,16 @@ public class LaboBehaviour extends ContractNetInitiator {
         }
 
         //mise à jour de l'objectif
+
+        System.out.println("from labo init ------ "+objectif.getVolume());
+
+        System.out.println("from labo totla ------ "+volumTotal);
+
         objectif.setVolume(objectif.getVolume() + volumTotal);
         objectif.setNombre(objectif.getNombre() + nbTotal);
+
+
+        System.out.println("from labo  ------ "+objectif.getVolume());
 
         List<Vaccin> vaccins = new ArrayList<>();
         for (Propose propose : list) {
