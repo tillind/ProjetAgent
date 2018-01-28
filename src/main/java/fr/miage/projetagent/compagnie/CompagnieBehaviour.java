@@ -55,8 +55,6 @@ public class CompagnieBehaviour extends ContractNetInitiator {
             cm.setDate(lastDate);
             lastIsDate = true;
         }
-        System.out.println("volume " + lastVolume);
-        System.out.println("date " + lastDate);
         origin.setContent(gson.toJson(cm));
         this.reset(origin);
     }
@@ -66,7 +64,6 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         System.out.println("--------Message is send to all compagnies");
         //now that this behaviour has started, we can send CFP
         CommunicationBehaviour parent = (CommunicationBehaviour) this.parent;
-        System.out.println("called from onstart");
         ACLMessage origin = parent.startCompagnies();
         this.reset(origin);
         super.onStart();
