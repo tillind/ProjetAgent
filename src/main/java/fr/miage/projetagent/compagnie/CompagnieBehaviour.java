@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import fr.miage.projetagent.agent.AssosAgent;
+import fr.miage.projetagent.agent.CommunicationBehaviour;
 import fr.miage.projetagent.agent.Objectif;
 import fr.miage.projetagent.bdd.BddAgent;
 import fr.miage.projetagent.entity.Pays;
@@ -24,25 +25,30 @@ public class CompagnieBehaviour extends ContractNetInitiator {
 
     public CompagnieBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);
-        System.out.println("--------Message is send to all compagnies");
     }
 
     /**
      * Reset la behaviour en augmentant la date d'un jour
      */
     private void resetBehaviour() {
+
         System.out.println(myAgent.getLocalName() + " -------- Compagnie behaviour is reset");
-        ACLMessage newMessage = new ACLMessage(ACLMessage.CFP);
-        newMessage.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
-        newMessage.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
-        Date dt = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(dt);
-        c.add(Calendar.DATE, 1);
-        dt = c.getTime();
-        CompagnieMessage content = new CompagnieMessage(objectif.getVolume(), dt, objectif.getPays());
-        newMessage.setContent(gson.toJson(content));
-        this.reset(newMessage);
+        CommunicationBehaviour parent = (CommunicationBehaviour) this.parent;
+        ACLMessage origin = parent.startCompagnies();
+        CompagnieMessage cm = gson.fromJson(origin.getContent(), CompagnieMessage.class);
+        System.out.println(cm.toString());
+        //cm.setDate();
+        this.reset(origin);
+    }
+
+    @Override
+    public void onStart() {
+        System.out.println("--------Message is send to all compagnies");
+        //now that this behaviour has started, we can send CFP
+        CommunicationBehaviour parent = (CommunicationBehaviour) this.parent;
+        ACLMessage origin = parent.startCompagnies();
+        this.reset(origin);
+        super.onStart();
     }
 
     @Override
@@ -58,6 +64,9 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         }
 
         System.out.println(myAgent.getLocalName() + "*Compagnie  --------" + proposeResponse.size() + "propose");
+
+        //this.resetBehaviour();
+/*
 
         if (proposeResponse.size() == 0) {
             // Si pas de réponse des compagnies, renvoie du message avec une nouvelle date
@@ -87,7 +96,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
                 getDataStore().put(message.getConversationId() + "vol", volMoinsCher);
             }
             moreAcceptances(acceptances);
-        }
+        }*/
     }
 
     @Override
@@ -119,7 +128,7 @@ public class CompagnieBehaviour extends ContractNetInitiator {
     private void handleInform(VolPropose volPropose) {
         int tmp = (int) (double) volPropose.getPrix();
         // mise à jour de l'argent
-        BddAgent.decreaseMoney(myAgent.getLocalName(),tmp);
+        BddAgent.decreaseMoney(myAgent.getLocalName(), tmp);
 
         // TODO ajouter le vol à la BD
         Vol vol = new Vol();

@@ -32,7 +32,8 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         super(a);
         init();
         this.addSubBehaviour(new LaboBehaviour(myAgent, startLabo())); //labo behaviour
-        //this.addSubBehaviour(new CompagnieBehaviour(myAgent, startCompagnies())); //compagnie behaviour
+        //for compagnie behaviour, we are not sending a message just yet
+        this.addSubBehaviour(new CompagnieBehaviour(myAgent, null)); //compagnie behaviour
     }
 
 
@@ -47,7 +48,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
 
         assocAgent.getEnCours().setPays(assocAgent.getPriority().getPays());
         assocAgent.getEnCours().setDateMort(assocAgent.getPriority().getDate());
-        assocAgent.getEnCours().setNombre(assocAgent.getPriority().getNombre());
+        assocAgent.getEnCours().setNombre(assocAgent.getPriority().getNombre() - assocAgent.getPriority().getNbVaccin());
         assocAgent.getEnCours().setVaccin(assocAgent.getPriority().getMaladie());
         assocAgent.getEnCours().setVolume(assocAgent.getPriority().getVolume());
     }
@@ -55,6 +56,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
 
     /**
      * Renvoie une liste d'ID des labos ou des compagnies
+     *
      * @return
      */
     private Set<AID> getAID(String type) {
@@ -82,6 +84,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
 
     /**
      * Envoie un message à tous les labos
+     *
      * @return
      */
     public ACLMessage startLabo() {
@@ -93,8 +96,6 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
 
         CFP content = new CFP(objectif.getVaccin(), objectif.getNombre(), objectif.getDateMort());
-        //CFP content = new CFP("rage", 2, new Date());
-
 
         message.setContent(gson.toJson(content));
 
@@ -106,13 +107,18 @@ public class CommunicationBehaviour extends SequentialBehaviour {
 
     /**
      * Envoie un message à toutes les compagnies
+     *
      * @return
      */
     public ACLMessage startCompagnies() {
+        AssosAgent assocAgent = (AssosAgent) this.myAgent;
+        Objectif objectif = assocAgent.getEnCours();
+
         ACLMessage message = new ACLMessage(ACLMessage.CFP);
         message.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
-        CompagnieMessage content = new CompagnieMessage(10, new Date(), "Guinee");
+        System.out.println("the date is here " +objectif.getDateSouhaitee());
+        CompagnieMessage content = new CompagnieMessage(objectif.getVolume(), objectif.getDateSouhaitee(), objectif.getPays());
         message.setContent(gson.toJson(content));
         for (AID aid : getAID(compagnieType)) {
             message.addReceiver(aid);

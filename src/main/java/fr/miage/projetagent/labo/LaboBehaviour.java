@@ -17,7 +17,6 @@ public class LaboBehaviour extends ContractNetInitiator {
 
     final Gson gson = new GsonBuilder().create();
 
-
     private Objectif objectif = ((AssosAgent) myAgent).getEnCours();
     private double argent = ((AssosAgent) myAgent).getArgent();
 
@@ -27,6 +26,10 @@ public class LaboBehaviour extends ContractNetInitiator {
         System.out.println(myAgent.getLocalName() + " -------- Message is sent to all labos");
     }
 
+    @Override
+    protected Vector prepareCfps(ACLMessage cfp) {
+        return super.prepareCfps(cfp);
+    }
 
     /**
      * Reset cette behaviour
@@ -277,7 +280,7 @@ public class LaboBehaviour extends ContractNetInitiator {
 
         //mise à jour de l'objectif
         objectif.setVolume(objectif.getVolume() + volumTotal);
-        objectif.setNombre(nbTotal);
+        objectif.setNombre(objectif.getNombre() + nbTotal);
 
         List<Vaccin> vaccins = new ArrayList<>();
         for (Propose propose : list) {

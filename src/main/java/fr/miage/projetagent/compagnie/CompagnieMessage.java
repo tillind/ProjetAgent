@@ -1,7 +1,5 @@
 package fr.miage.projetagent.compagnie;
 
-import fr.miage.projetagent.entity.Pays;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,5 +13,22 @@ public class CompagnieMessage implements Serializable {
         this.volume = volume;
         this.date = date;
         this.pays = pays;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "CompagnieMessage{" +
+                "volume=" + volume +
+                ", date=" + date +
+                ", pays='" + pays + '\'' +
+                '}';
     }
 }

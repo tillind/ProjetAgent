@@ -2,6 +2,7 @@ package fr.miage.projetagent.Dummy;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import fr.miage.projetagent.compagnie.VolPropose;
 import fr.miage.projetagent.labo.Propose;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -37,7 +38,7 @@ public class ReceiverBehaviour extends CyclicBehaviour {
 				System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 				ACLMessage response = aclMessage.createReply();
 				response.setPerformative(ACLMessage.PROPOSE);
-				response.setContent(gson.toJson(new Propose()));
+				response.setContent(gson.toJson(new VolPropose()));
 				System.out.println(response.getAllReceiver());
 				myAgent.send(response);
 				System.out.println("its sent");
