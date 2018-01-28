@@ -21,7 +21,10 @@ public class CompagnieBehaviour extends ContractNetInitiator {
 
     private final Gson gson = new GsonBuilder().create();
 
-    private Objectif objectif = ((AssosAgent) myAgent).getEnCours();
+    private Date lastDate;
+    private Double lastVolume;
+    private boolean lastIsDate = false;
+
 
     public CompagnieBehaviour(Agent a, ACLMessage cfp) {
         super(a, cfp);
@@ -36,8 +39,30 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         CommunicationBehaviour parent = (CommunicationBehaviour) this.parent;
         ACLMessage origin = parent.startCompagnies();
         CompagnieMessage cm = gson.fromJson(origin.getContent(), CompagnieMessage.class);
-        System.out.println(cm.toString());
-        //cm.setDate();
+        if (lastDate == null || lastVolume == null) {
+            lastDate = cm.getDate();
+            lastVolume = cm.getVolume();
+        }
+        System.out.println("volume " + lastVolume);
+        System.out.println("date " + lastDate);
+        System.out.println("bool :" + lastIsDate);
+
+        //switch between postponing and decreasing volume
+        if (lastIsDate) {
+            lastVolume = lastVolume - (lastVolume * 0.1);
+            cm.setVolume(lastVolume);
+            lastIsDate = false;
+        } else {
+            Calendar c = Calendar.getInstance();
+            c.setTime(lastDate);
+            c.add(Calendar.MINUTE, 1);
+            lastDate = c.getTime();
+            cm.setDate(lastDate);
+            lastIsDate = true;
+        }
+        System.out.println("volume " + lastVolume);
+        System.out.println("date " + lastDate);
+        origin.setContent(gson.toJson(cm));
         this.reset(origin);
     }
 
@@ -65,38 +90,37 @@ public class CompagnieBehaviour extends ContractNetInitiator {
 
         System.out.println(myAgent.getLocalName() + "*Compagnie  --------" + proposeResponse.size() + "propose");
 
-        //this.resetBehaviour();
-/*
 
         if (proposeResponse.size() == 0) {
-            // Si pas de réponse des compagnies, renvoie du message avec une nouvelle date
+            // Si pas de réponse des compagnies, renvoie du message avec une nouvelle date ou un nouveau volume
             this.resetBehaviour();
         } else {
+            VolPropose volMoinsCher = new VolPropose();
+            ACLMessage toRespond = new ACLMessage();
             for (ACLMessage message : proposeResponse) {
                 String content = message.getContent();
                 Type collectionType = new TypeToken<Collection<VolPropose>>() {
                 }.getType();
                 Collection<VolPropose> vols = gson.fromJson(content, collectionType);
 
-                // Choix de la proposition la moins chère
-                Iterator it = vols.iterator();
-                VolPropose volMoinsCher = (VolPropose) it.next();
-                while (it.hasNext()) {
-                    if (((VolPropose) it.next()).getPrix() < volMoinsCher.getPrix()) {
-                        volMoinsCher = (VolPropose) it.next();
-                    }
-                }
+                // Choix de la proposition la moins chère pour ce message
+                VolPropose tmp = vols.stream().min((v1, v2) -> Double.compare(v1.getPrix(), v2.getPrix())).get();
 
-                // Réponse avec l'id du vol accepté
-                ACLMessage agree = message.createReply();
-                agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                agree.setContent(gson.toJson(volMoinsCher));
-                acceptances.add(agree);
-                System.out.println(myAgent.getLocalName() + "*Compagnie -------- ACCEPT_PROPOSAL Vol sended");
-                getDataStore().put(message.getConversationId() + "vol", volMoinsCher);
+                if ((volMoinsCher == null) ||
+                        (volMoinsCher != null && tmp.getPrix() < volMoinsCher.getPrix())) {
+                    volMoinsCher = tmp;
+                    toRespond = message;
+                }
             }
+            // Réponse avec l'id du vol accepté
+            ACLMessage agree = toRespond.createReply();
+            agree.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+            agree.setContent(gson.toJson(volMoinsCher));
+            acceptances.add(agree);
+            System.out.println(myAgent.getLocalName() + "*Compagnie -------- ACCEPT_PROPOSAL Vol sended");
+            getDataStore().put(toRespond.getConversationId() + "vol", volMoinsCher);
             moreAcceptances(acceptances);
-        }*/
+        }
     }
 
     @Override

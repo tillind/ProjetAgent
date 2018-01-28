@@ -63,6 +63,12 @@ public class LaboBehaviour extends ContractNetInitiator {
         }
 
         System.out.println(myAgent.getLocalName() + "*Labo  --------" + proposeResponse.size() + "propose");
+/*
+
+        Objectif objectif = ((AssosAgent) myAgent).getEnCours();
+        objectif.setDateSouhaitee(new Date());
+        this.done(); */
+
 
         acceptances = choosePropose(proposeResponse);
         moreAcceptances(acceptances);

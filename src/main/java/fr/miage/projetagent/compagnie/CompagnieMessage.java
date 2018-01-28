@@ -23,6 +23,23 @@ public class CompagnieMessage implements Serializable {
         this.date = date;
     }
 
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
+
+    public String getPays() {
+        return pays;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
+    }
+
     @Override
     public String toString() {
         return "CompagnieMessage{" +

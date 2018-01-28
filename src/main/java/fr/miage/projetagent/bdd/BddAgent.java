@@ -18,7 +18,7 @@ public class BddAgent extends Agent {
     static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("agentBdd");
     static EntityManager em = entityManagerFactory.createEntityManager();
 
-    public static String[] lesPays = {"Guinee", "Maraoc", "Tunisie", "Gambie", "Botsawana", "Cameroun", "Senegal"};
+    public static String[] lesPays = {"Guinee", "Tunisie", "Gambie", "Cameroun", "Senegal"};
     //public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
     public static String[] lesAssos = {"MiageSansFrontiere"};
     public static String[] lesMaladies = {"grippe", "bronchite", "rage", "variole", "sida"};
