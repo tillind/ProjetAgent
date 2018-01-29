@@ -14,7 +14,7 @@ public class laboDummy extends Agent {
 
 		EnregistrerService.registerService(this, "labo", "labo");
 
-		 this.addBehaviour(new ReceiverBehaviour(this));
+		 this.addBehaviour(new laboBehaviour(this));
 	 }
 	 
 

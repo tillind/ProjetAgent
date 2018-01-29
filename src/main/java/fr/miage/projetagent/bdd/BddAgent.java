@@ -15,6 +15,7 @@ public class BddAgent extends Agent {
 
     public static String[] lesPays = {"Guinee", "Tunisie", "Gambie", "Cameroun", "Senegal"};
     public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
+    //public static String[] lesAssos = {"GrippeSansFrontiére"};
     public static String[] lesMaladies = {"grippe", "bronchite", "rage", "variole", "sida"};
     public static Map<String, Priority> lesprio = new HashMap<>();
 

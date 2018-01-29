@@ -2,9 +2,9 @@ package fr.miage.projetagent.agent;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import fr.miage.projetagent.labo.CFP;
 import fr.miage.projetagent.compagnie.CompagnieBehaviour;
 import fr.miage.projetagent.compagnie.CompagnieMessage;
+import fr.miage.projetagent.labo.CFP;
 import fr.miage.projetagent.labo.LaboBehaviour;
 import jade.core.AID;
 import jade.core.Agent;
@@ -53,6 +53,13 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         assocAgent.getEnCours().setVolume(assocAgent.getPriority().getVolume());
     }
 
+    @Override
+    public int onEnd() {
+        System.out.println("%%%%%%%%%%**********M%%%%%%%%%%%%%%%%%%%%%%%");
+        reset();
+        myAgent.addBehaviour(new CommunicationBehaviour(myAgent));
+        return super.onEnd();
+    }
 
     /**
      * Renvoie une liste d'ID des labos ou des compagnies
@@ -88,6 +95,14 @@ public class CommunicationBehaviour extends SequentialBehaviour {
      * @return
      */
     public ACLMessage startLabo() {
+        while (getAID(labosType).isEmpty()){
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
         Objectif objectif = assocAgent.getEnCours();
 
@@ -117,6 +132,8 @@ public class CommunicationBehaviour extends SequentialBehaviour {
         ACLMessage message = new ACLMessage(ACLMessage.CFP);
         message.setReplyByDate(new Date(System.currentTimeMillis() + 1000));
         message.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
+        System.out.println("the date is here " +objectif.getDateSouhaitee());
+        System.out.println("volume" +objectif.getVolume());
         CompagnieMessage content = new CompagnieMessage(objectif.getVolume(), objectif.getDateSouhaitee(), objectif.getPays());
         message.setContent(gson.toJson(content));
         for (AID aid : getAID(compagnieType)) {

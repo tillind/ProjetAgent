@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import fr.miage.projetagent.agent.AssosAgent;
 import fr.miage.projetagent.agent.CommunicationBehaviour;
 import fr.miage.projetagent.bdd.BddAgent;
-import fr.miage.projetagent.entity.Pays;
 import fr.miage.projetagent.entity.Vol;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
@@ -83,7 +82,6 @@ public class CompagnieBehaviour extends ContractNetInitiator {
 
         System.out.println(myAgent.getLocalName() + "*Compagnie  --------" + proposeResponse.size() + "propose");
 
-
         if (proposeResponse.size() == 0) {
             // Si pas de réponse des compagnies, renvoie du message avec une nouvelle date ou un nouveau volume
             this.resetBehaviour();
@@ -156,5 +154,8 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         assos.getPrioritiesDone().add(assos.getEnCours());
 
         System.out.println(myAgent.getLocalName() + "*Compagnie -------- DONE");
+
+        //we can start the communication behaviour again
+        done();
     }
 }
