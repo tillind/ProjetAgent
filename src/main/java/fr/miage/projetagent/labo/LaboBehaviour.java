@@ -280,15 +280,8 @@ public class LaboBehaviour extends ContractNetInitiator {
 
         //mise à jour de l'objectif
 
-        System.out.println("from labo init ------ "+objectif.getVolume());
-
-        System.out.println("from labo totla ------ "+volumTotal);
-
         objectif.setVolume(objectif.getVolume() + volumTotal);
         objectif.setNombre(objectif.getNombre() + nbTotal);
-
-
-        System.out.println("from labo  ------ "+objectif.getVolume());
 
         List<Vaccin> vaccins = new ArrayList<>();
         for (Propose propose : list) {
@@ -300,7 +293,7 @@ public class LaboBehaviour extends ContractNetInitiator {
                 vaccin.setAssociation(BddAgent.getAssos(myAgent.getLocalName()));
                 //J'ajoute les vaccins
                 BddAgent.addVaccin(objectif.getVaccin(), vaccin);
-                System.out.println(myAgent.getLocalName() + "*Labo -------- added envoi to DB");
+                System.out.println(myAgent.getLocalName() + "*Labo -------- added vaccin to DB");
             }
         }
 

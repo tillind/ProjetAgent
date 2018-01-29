@@ -1,17 +1,10 @@
 package fr.miage.projetagent.bdd;
 
-import fr.miage.projetagent.entity.Malade;
-import fr.miage.projetagent.entity.Maladie;
-import fr.miage.projetagent.entity.Pays;
-import fr.miage.projetagent.entity.TypeMalade;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import org.hibernate.Session;
 
 import javax.persistence.Query;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
 
 import static fr.miage.projetagent.bdd.HibernateSessionProvider.getSessionFactory;
 

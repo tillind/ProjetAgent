@@ -10,7 +10,7 @@ public class AssosBehaviour extends ParallelBehaviour {
         this.myAgent = a;
 
         //communication avec les labo et les compagnies
-        //this.addSubBehaviour(new CommunicationBehaviour(myAgent));
+        this.addSubBehaviour(new CommunicationBehaviour(myAgent));
 
         //envoi de vaccin
         this.addSubBehaviour(new SendBehaviour());

@@ -151,6 +151,8 @@ public class CompagnieBehaviour extends ContractNetInitiator {
         vol.setAssociation(BddAgent.getAssos(myAgent.getLocalName()));
         BddAgent.addVol(vol, volPropose.getPays());
 
+        System.out.println(myAgent.getLocalName() + "*Compagnie -------- added vol to DB");
+
         AssosAgent assos = (AssosAgent) myAgent;
         assos.getPrioritiesDone().add(assos.getEnCours());
 

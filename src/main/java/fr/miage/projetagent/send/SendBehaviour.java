@@ -69,6 +69,7 @@ public class SendBehaviour extends CyclicBehaviour {
                     for (Vaccin vaccin : toDelete){
                         BddAgent.deleteVaccin(vaccin);
                     }
+                    System.out.println(myAgent.getLocalName() + "*SEND --------  added envoi to DB");
                 }
                 BddAgent.deleteVol(vol);
 
