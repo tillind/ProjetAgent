@@ -3,62 +3,74 @@ package fr.miage.projetagent.send;
 import fr.miage.projetagent.agent.AssosAgent;
 import fr.miage.projetagent.agent.Objectif;
 import fr.miage.projetagent.bdd.BddAgent;
-import fr.miage.projetagent.entity.Envoi;
-import fr.miage.projetagent.entity.Maladie;
-import fr.miage.projetagent.entity.Vaccin;
-import fr.miage.projetagent.entity.Vol;
+import fr.miage.projetagent.entity.*;
 import jade.core.behaviours.CyclicBehaviour;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SendBehaviour extends CyclicBehaviour {
 
     @Override
     public void action() {
-        //TODO get it from  DB
-        List<Vol> vols = BddAgent.allFlight();
+        List<Vol> vols = BddAgent.allFlight(myAgent.getLocalName());
 
         for (Vol vol : vols) {
-            //TODO change condition
-            if (false) {
-                // if (vol.getDate().before(new Date())) {
 
-                int volumeToSend = 0;
+            //if the plane left
+            if (vol.getDate().before(new Date())) {
+
+                double volumeToSend = 0.0;
 
                 //to be sent
                 Envoi envoi = new Envoi();
                 envoi.setDate(vol.getDate());
                 envoi.setPays(vol.getDestination());
-
+                envoi.setAssociation(BddAgent.getAssos(myAgent.getLocalName()));
 
                 List<Maladie> maladiesToCure = getDiseaseToCureSorted(vol.getDestination().getNom());
+
+                List<EnvoiVaccin> envoiVaccinsList = new ArrayList<>();
+                List<Vaccin> toDelete = new ArrayList<>();
 
                 //for each disease to cure, check if vaccine
                 //the list is sorted according to the priority to cure it
                 for (Maladie maladie : maladiesToCure) {
 
                     long sickPeople = BddAgent.getNombre(vol.getDestination().getNom(), maladie.getNom());
-                    List<Vaccin> vaccinsInStock = BddAgent.getVaccins(maladie.getNom());
+                    List<Vaccin> vaccinsInStock = BddAgent.getVaccins(maladie.getNom(), myAgent.getLocalName());
+
+                    //prepare a package for this disease
+                    EnvoiVaccin envoiVaccin = new EnvoiVaccin();
+                    envoiVaccin.setMaladie(maladie.getNom());
+                    envoiVaccin.setNb(0);
+                    envoiVaccin.setEnvoi(envoi);
 
                     for (Vaccin vaccin : vaccinsInStock) {
-                      /*  int nbSendedForThisDease =
-                                envoi.getVaccins().get(vaccin.getNom()) == null ? 0
-                                        : envoi.getVaccins().get(vaccin.getNom());
-                        if (nbSendedForThisDease < sickPeople && volumeToSend + vaccin.getVolume() < vol
-                                .getVolumeMax()) {
-                            EnvoiVaccin tmp = new EnvoiVaccin();
-                            tmp.setNb(nbSendedForThisDease + 1);
-                            tmp.getLesVaccins().add(vaccin);
-                            envoi.getVaccins().add(tmp );
-                            //BddAgent.deleteVaccin(vaccin);
-                        }*/
+
+                        int nbSendedForThisDease = envoiVaccin.getNb();
+
+                        if (nbSendedForThisDease < sickPeople
+                                && volumeToSend + vaccin.getVolume() < vol.getVolumeMax()) {
+                            envoiVaccin.setNb(nbSendedForThisDease + 1);
+                            volumeToSend += vaccin.getVolume();
+                            toDelete.add(vaccin);
+                        }
                     }
+
+                    if (envoiVaccin.getNb()>0){
+                        envoiVaccinsList.add(envoiVaccin);
+                    }
+
                 }
 
-                //BddAgent.deleteVol(vol);
-                BddAgent.addEnvoi(envoi);
+                if (volumeToSend>0){
+                    BddAgent.addEnvoi(envoi, envoiVaccinsList);
+                    for (Vaccin vaccin : toDelete){
+                        BddAgent.deleteVaccin(vaccin);
+                    }
+                }
+                BddAgent.deleteVol(vol);
 
             }
         }
@@ -85,6 +97,11 @@ public class SendBehaviour extends CyclicBehaviour {
                 maladiesToCure.add(maladie);
             }
         }
+
+        System.out.println("disease to cure ----");
+        System.out.println(maladiesToCure.toString());
+        System.out.println("disease to cure ---- DONE");
+
         return maladiesToCure;
     }
 }

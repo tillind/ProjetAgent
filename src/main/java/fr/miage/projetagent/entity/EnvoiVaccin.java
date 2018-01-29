@@ -16,59 +16,33 @@ public class EnvoiVaccin implements Serializable {
 
 
     @Id
-    protected String id = UUID.randomUUID().toString();
+    private String id = UUID.randomUUID().toString();
     @ManyToOne
-    protected Vaccin lesVaccins;
-    @ManyToOne
-    protected Envoi envoi;
-    protected Integer nb ;    
-    public String getId() {
-        return id;
-    }
+    private Envoi envoi;
+    private Integer nb ;
+    private String maladie;
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the lesVaccins
-     */
-    public Vaccin getLesVaccins() {
-        return lesVaccins;
-    }
-
-    /**
-     * @param lesVaccins the lesVaccins to set
-     */
-    public void setLesVaccins(Vaccin lesVaccins) {
-        this.lesVaccins = lesVaccins;
-    }
-
-    /**
-     * @return the envoi
-     */
     public Envoi getEnvoi() {
         return envoi;
     }
 
-    /**
-     * @param envoi the envoi to set
-     */
     public void setEnvoi(Envoi envoi) {
         this.envoi = envoi;
     }
 
-    /**
-     * @return the nb
-     */
     public Integer getNb() {
         return nb;
     }
 
-    /**
-     * @param nb the nb to set
-     */
     public void setNb(Integer nb) {
         this.nb = nb;
+    }
+
+    public String getMaladie() {
+        return maladie;
+    }
+
+    public void setMaladie(String maladie) {
+        this.maladie = maladie;
     }
 }

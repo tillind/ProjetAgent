@@ -1,19 +1,14 @@
 package fr.miage.projetagent.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
 
 @NamedQueries({
         @NamedQuery(
                 name = "Vol.allVol",
-                query = "SELECT v FROM Vol v"),
+                query = "SELECT v FROM Vol v WHERE v.association.nom = :assocName"),
 })
 
 @Entity
@@ -26,6 +21,9 @@ public class Vol implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     private double volumeMax;
+    @ManyToOne
+    private Association association;
+
 
     public Vol() {
     }
@@ -60,5 +58,13 @@ public class Vol implements Serializable {
 
     public void setVolumeMax(double volumeMax) {
         this.volumeMax = volumeMax;
+    }
+
+    public Association getAssociation() {
+        return association;
+    }
+
+    public void setAssociation(Association association) {
+        this.association = association;
     }
 }

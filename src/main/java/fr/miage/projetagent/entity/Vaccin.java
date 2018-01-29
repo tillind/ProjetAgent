@@ -5,21 +5,16 @@
  */
 package fr.miage.projetagent.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 
 @NamedQueries({
 
     @NamedQuery(
         name="Vaccin.getVaccinWhereMaladie",
-        query="SELECT v FROM Vaccin v JOIN v.nom n WHERE n.nom = :nom"),
+        query="SELECT v FROM Vaccin v JOIN v.nom n WHERE n.nom = :nom AND v.association.nom= :assoc"),
 })
 
 @Entity
@@ -34,6 +29,8 @@ public class Vaccin implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateFin;
     private double volume;
+    @ManyToOne
+    private Association association;
 
     public Vaccin() {
     }
@@ -76,5 +73,13 @@ public class Vaccin implements Serializable {
 
     public void setVolume(double volume) {
         this.volume = volume;
+    }
+
+    public Association getAssociation() {
+        return association;
+    }
+
+    public void setAssociation(Association association) {
+        this.association = association;
     }
 }

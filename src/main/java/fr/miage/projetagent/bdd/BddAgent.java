@@ -1,5 +1,6 @@
 package fr.miage.projetagent.bdd;
 
+import com.sun.tools.internal.xjc.outline.Aspect;
 import fr.miage.projetagent.agent.Priority;
 import fr.miage.projetagent.entity.*;
 import jade.core.Agent;
@@ -40,6 +41,19 @@ public class BddAgent extends Agent {
         session.close();
         return tmp;
     }
+
+    public static Association getAssos(String assosName){
+        Session session = getSessionFactory().openSession();
+
+        Association a = (Association) session.createQuery("SELECT a FROM Association  a WHERE a.nom= :assosName")
+                .setParameter("assosName", assosName)
+                .getSingleResult();
+
+        session.close();
+
+        return a;
+    }
+
 
     /**
      * Triggered by interface : set choosen priority
@@ -140,9 +154,9 @@ public class BddAgent extends Agent {
 
             //get number of vaccine we already have and total volume
             Query q2 = session2.createNativeQuery("SELECT COUNT(v.id) AS nb, SUM(v.volume) AS volume, v.nom_nom"
-                    + " FROM  vaccin v WHERE v.nom_nom = :maladie"
+                    + " FROM  vaccin v WHERE v.nom_nom = :maladie AND v.association_nom = :assocName"
                     + " GROUP BY v.nom_nom");
-            q2.setParameter("maladie", p.getMaladie());
+            q2.setParameter("maladie", p.getMaladie()).setParameter("assocName", assosName);
             List<Object[]> vol = q2.getResultList();
             if (vol.size() > 0) {
                 p.setNbVaccin(((BigInteger) vol.get(0)[0]).intValue());
@@ -218,11 +232,11 @@ public class BddAgent extends Agent {
      *
      * @param
      */
-    public static List<Vol> allFlight() {
+    public static List<Vol> allFlight(String assosName) {
 
         Session session = getSessionFactory().openSession();
 
-        Query q = session.createNamedQuery("Vol.allVol", Vol.class);
+        Query q = session.createNamedQuery("Vol.allVol", Vol.class).setParameter("assocName", assosName);
         List<Vol> results = q.getResultList();
 
         session.close();
@@ -333,12 +347,13 @@ public class BddAgent extends Agent {
      * @param maladie
      * @return
      */
-    public static List<Vaccin> getVaccins(String maladie) {
+    public static List<Vaccin> getVaccins(String maladie, String assosName) {
 
         Session session = getSessionFactory().openSession();
 
         Query q = session.createNamedQuery("Vaccin.getVaccinWhereMaladie")
-                .setParameter("nom", maladie);
+                .setParameter("nom", maladie)
+                .setParameter("assoc", assosName);
 
         List<Vaccin> results = q.getResultList();
 
@@ -357,7 +372,7 @@ public class BddAgent extends Agent {
 
         Session session = getSessionFactory().openSession();
 
-        Query q = session.createNamedQuery("Malade.getMaladiesForCountry");
+        Query q = session.createNamedQuery("Malade.getMaladiesForCountry").setParameter("nompays", pays);
 
         List<Maladie> results = q.getResultList();
 
@@ -381,37 +396,6 @@ public class BddAgent extends Agent {
         session.close();
 
         return m;
-    }
-
-    public static void addEnvoi(Envoi envoi) {
-        Session session = getSessionFactory().openSession();
-
-        session.getTransaction().begin();
-        session.persist(envoi);
-        session.getTransaction().commit();
-
-        session.close();
-
-    }
-
-    public static void addEnvoi(Envoi envoi, EnvoiVaccin ev) {
-        Session session = getSessionFactory().openSession();
-
-        session.getTransaction().begin();
-        session.persist(envoi);
-        session.getTransaction().commit();
-
-        session.close();
-
-        Session session2 = getSessionFactory().openSession();
-
-        session2.getTransaction().begin();
-        ev.setEnvoi(envoi);
-        session2.persist(ev);
-        session2.getTransaction().commit();
-
-        session.close();
-
     }
 
     public static void addEnvoi(Envoi envoi, List<EnvoiVaccin> evs) {

@@ -297,6 +297,7 @@ public class LaboBehaviour extends ContractNetInitiator {
                 vaccin.setDateDebut(propose.getDateLivraison());
                 vaccin.setDateFin(propose.getDatePeremption());
                 vaccin.setVolume(propose.getVolume());
+                vaccin.setAssociation(BddAgent.getAssos(myAgent.getLocalName()));
                 //J'ajoute les vaccins
                 BddAgent.addVaccin(objectif.getVaccin(), vaccin);
                 System.out.println(myAgent.getLocalName() + "*Labo -------- added envoi to DB");

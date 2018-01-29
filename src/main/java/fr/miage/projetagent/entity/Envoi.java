@@ -25,6 +25,8 @@ public class Envoi implements Serializable {
     private Pays pays;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
+    @ManyToOne
+    private Association association;
 
     public Envoi() {
         this.id=UUID.randomUUID().toString();
@@ -52,5 +54,13 @@ public class Envoi implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Association getAssociation() {
+        return association;
+    }
+
+    public void setAssociation(Association association) {
+        this.association = association;
     }
 }

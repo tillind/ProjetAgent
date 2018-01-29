@@ -26,11 +26,11 @@ public class Association implements Serializable {
     private String nom;
     @OneToOne
     private Argent tresorerie;
-    @OneToMany
+    @OneToMany (mappedBy = "association")
     private Set<Vaccin> vaccins;
-    @OneToMany
+    @OneToMany (mappedBy = "association")
     private Set<Vol> vols;
-    @OneToMany
+    @OneToMany (mappedBy = "association")
     private Set<Envoi> envois;
     @OneToOne
     private Metrics metrics;

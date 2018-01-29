@@ -55,7 +55,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
 
     @Override
     public int onEnd() {
-        System.out.println("%%%%%%%%%%**********M%%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println("COMMUNICATION BEHAVIOUR IS RESTARTED");
         reset();
         myAgent.addBehaviour(new CommunicationBehaviour(myAgent));
         return super.onEnd();
