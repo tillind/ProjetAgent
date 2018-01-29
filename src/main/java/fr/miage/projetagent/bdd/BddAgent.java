@@ -14,8 +14,8 @@ import static fr.miage.projetagent.bdd.HibernateSessionProvider.getSessionFactor
 public class BddAgent extends Agent {
 
     public static String[] lesPays = {"Guinee", "Tunisie", "Gambie", "Cameroun", "Senegal"};
-    public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
-    //public static String[] lesAssos = {"GrippeSansFrontiére"};
+    //public static String[] lesAssos = {"GrippeSansFrontiére", "Emmaus", "MiageSansFrontiere", "Helpers"};
+    public static String[] lesAssos = {"MiageSansFrontiere", "Helpers"};
     public static String[] lesMaladies = {"grippe", "bronchite", "rage", "variole", "sida"};
     public static Map<String, Priority> lesprio = new HashMap<>();
 
@@ -41,7 +41,7 @@ public class BddAgent extends Agent {
         return tmp;
     }
 
-    public static Association getAssos(String assosName){
+    public static Association getAssos(String assosName) {
         Session session = getSessionFactory().openSession();
 
         Association a = (Association) session.createQuery("SELECT a FROM Association  a WHERE a.nom= :assosName")
@@ -510,7 +510,7 @@ public class BddAgent extends Agent {
         List<Pays> listPays = session.createQuery("SELECT p FROM Pays p").getResultList();
         List<Maladie> listmal = session.createQuery("SELECT p FROM Maladie p").getResultList();
         Random rm = new Random();
-        int nb = rm.nextInt(40) + 80;
+        int nb = rm.nextInt(100) + 400;
         for (int i = 0; i < nb; i++) {
 
             Malade tmp = new Malade();

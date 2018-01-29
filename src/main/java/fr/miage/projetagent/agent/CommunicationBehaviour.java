@@ -97,6 +97,7 @@ public class CommunicationBehaviour extends SequentialBehaviour {
     public ACLMessage startLabo() {
         while (getAID(labosType).isEmpty()){
             try {
+                System.out.println("WAITING FOR LABO");
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -126,6 +127,16 @@ public class CommunicationBehaviour extends SequentialBehaviour {
      * @return
      */
     public ACLMessage startCompagnies() {
+
+        while (getAID(compagnieType).isEmpty()){
+            try {
+                System.out.println("WAITING FOR COMPAGNIE");
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         AssosAgent assocAgent = (AssosAgent) this.myAgent;
         Objectif objectif = assocAgent.getEnCours();
 
