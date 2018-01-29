@@ -1,6 +1,5 @@
 package fr.miage.projetagent.bdd;
 
-import com.sun.tools.internal.xjc.outline.Aspect;
 import fr.miage.projetagent.agent.Priority;
 import fr.miage.projetagent.entity.*;
 import jade.core.Agent;
@@ -204,7 +203,6 @@ public class BddAgent extends Agent {
         Session session = getSessionFactory().openSession();
         session.beginTransaction();
 
-        session.getTransaction().begin();
         session.remove(vaccins);
 
         session.getTransaction().commit();
@@ -220,7 +218,6 @@ public class BddAgent extends Agent {
         Session session = getSessionFactory().openSession();
         session.beginTransaction();
 
-        session.getTransaction().begin();
         session.remove(vol);
 
         session.getTransaction().commit();
