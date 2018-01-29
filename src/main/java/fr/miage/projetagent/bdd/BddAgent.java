@@ -84,6 +84,11 @@ public class BddAgent extends Agent {
 
         Priority p = lesprio.get(assosName);
 
+        if (p == null) {
+            p = new Priority();
+            lesprio.put(assosName, p);
+        }
+
         int indice = 0;
 
         Session session = getSessionFactory().openSession();
@@ -147,9 +152,7 @@ public class BddAgent extends Agent {
                 p.setNombre(nb.intValue());
                 p.setDate((Date) prio.get(0)[1]);
                 people = p.getNombre();
-                System.out.println("yeah --------------------------------------------------" +nb.intValue());
             } else {
-                System.out.println("no prioo ---------------------------------------------------------------------");
                 people = 0;
             }
 
@@ -179,7 +182,7 @@ public class BddAgent extends Agent {
 
         session2.close();
 
-        System.out.println(p.toString());
+        //System.out.println(p.toString());
         return p;
 
     }
@@ -517,7 +520,7 @@ public class BddAgent extends Agent {
         List<Pays> listPays = session.createQuery("SELECT p FROM Pays p").getResultList();
         List<Maladie> listmal = session.createQuery("SELECT p FROM Maladie p").getResultList();
         Random rm = new Random();
-        int nb = rm.nextInt(40) + 80;
+        int nb = rm.nextInt(100) + 200;
         for (int i = 0; i < nb; i++) {
 
             Malade tmp = new Malade();
