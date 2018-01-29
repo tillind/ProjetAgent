@@ -147,7 +147,9 @@ public class BddAgent extends Agent {
                 p.setNombre(nb.intValue());
                 p.setDate((Date) prio.get(0)[1]);
                 people = p.getNombre();
+                System.out.println("yeah --------------------------------------------------" +nb.intValue());
             } else {
+                System.out.println("no prioo ---------------------------------------------------------------------");
                 people = 0;
             }
 
@@ -163,6 +165,8 @@ public class BddAgent extends Agent {
                 vaccine = p.getNbVaccin();
             } else {
                 vaccine = 0;
+                p.setNbVaccin(0);
+                p.setVolume(0);
             }
 
             if (people < vaccine) {
@@ -175,6 +179,7 @@ public class BddAgent extends Agent {
 
         session2.close();
 
+        System.out.println(p.toString());
         return p;
 
     }
@@ -203,7 +208,9 @@ public class BddAgent extends Agent {
         Session session = getSessionFactory().openSession();
         session.beginTransaction();
 
-        session.remove(vaccins);
+        Vaccin v2 = (Vaccin) session.merge(vaccins);
+
+        session.remove(v2);
 
         session.getTransaction().commit();
         session.close();
@@ -510,7 +517,7 @@ public class BddAgent extends Agent {
         List<Pays> listPays = session.createQuery("SELECT p FROM Pays p").getResultList();
         List<Maladie> listmal = session.createQuery("SELECT p FROM Maladie p").getResultList();
         Random rm = new Random();
-        int nb = rm.nextInt(100) + 400;
+        int nb = rm.nextInt(40) + 80;
         for (int i = 0; i < nb; i++) {
 
             Malade tmp = new Malade();
